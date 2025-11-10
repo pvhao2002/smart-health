@@ -1,0 +1,130 @@
+.pharma-product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    font-family: 'Inter', sans-serif;
+}
+
+.pharma-product-form label {
+    font-weight: 600;
+    color: #1e3a8a;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.pharma-product-form input,
+.pharma-product-form select,
+.pharma-product-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+.pharma-product-form input:focus,
+.pharma-product-form select:focus,
+.pharma-product-form textarea:focus {
+    border-color: #00ADEF;
+    outline: none;
+    background: #ffffff;
+}
+
+.pharma-product-form textarea {
+    resize: none;
+    min-height: 80px;
+}
+
+/* Grid layout for form fields */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+/* Image grid */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.image-preview-wrapper {
+    position: relative;
+}
+
+.preview-img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.remove-img {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 22px;
+}
+
+/* Buttons */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.save-btn {
+    background: linear-gradient(90deg, #00ADEF, #009688);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.save-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.cancel-btn {
+    background: #e2e8f0;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    color: #1f2937;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background: #cbd5e1;
+}
+
+.error-text {
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+}

@@ -1,0 +1,37 @@
+package com.health.dto.admin;
+
+import com.health.entity.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+/**
+ * Response DTO for user information in admin context.
+ * Contains user details visible to administrators.
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserResponse {
+    
+    private Long id;
+    private String email;
+    private String fullName;
+    private String phone;
+    private Role role;
+    private Boolean isActive;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    
+    // Address information
+    private String address;
+
+    // Statistics
+    private Long totalOrders;
+    private Double totalSpent;
+    private LocalDateTime lastOrderDate;
+}

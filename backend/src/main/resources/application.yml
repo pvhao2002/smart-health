@@ -1,0 +1,60 @@
+spring:
+  application:
+      name: health-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/health?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        use_sql_comments: true
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 1789
+  address: 0.0.0.0
+  servlet:
+    context-path: /health-service
+
+jwt:
+  secret: qD9JxK2r7M8zP4uT1bV6yL3cN9eH5wR2fG8aS0dX7
+  expiration: 8640000000
+  refresh:
+    expiration: 60480000000
+
+logging:
+  level:
+    com:
+      health: INFO
+  file:
+    name: logs/health.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+  health:
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+  metrics:
+    tags:
+      application: health-backend-api

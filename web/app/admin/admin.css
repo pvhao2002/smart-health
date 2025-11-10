@@ -1,0 +1,166 @@
+/* Layout tổng */
+.smarthealth-admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #F8FAFC;
+    color: #1F2937;
+    font-family: 'Inter', sans-serif;
+}
+
+.smarthealth-admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.smarthealth-admin-content {
+    padding: 2rem;
+    flex: 1;
+}
+
+/* Sidebar */
+.smarthealth-sidebar {
+    width: 200px;
+    background: linear-gradient(180deg, #1ABC9C, #16A085);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.sidebar-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.sidebar-logo .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.sidebar-logo small {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.smarthealth-sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.smarthealth-sidebar li {
+    margin-bottom: 0.5rem;
+}
+
+.menu-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #ECFDF5;
+    background: transparent;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.menu-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+li.active .menu-link {
+    background: #2ECC71;
+    color: #fff;
+    font-weight: 600;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Header */
+.smarthealth-header {
+    background: #fff;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #16A085;
+}
+
+.header-icon {
+    color: #1ABC9C;
+    width: 24px;
+    height: 24px;
+}
+
+.logout-icon {
+    cursor: pointer;
+    color: #E67E22;
+    transition: transform 0.2s ease;
+}
+
+.logout-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Dashboard base style */
+.dashboard-container {
+    padding: 1.5rem;
+    background-color: #F9FAFB;
+    min-height: 100vh;
+}
+
+.dashboard-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1ABC9C;
+}
+
+.dashboard-sub {
+    color: #475569;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    background: #fff;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #1ABC9C;
+    transition: all 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card.alert {
+    border-left-color: #E67E22;
+}
+
+.card.success {
+    border-left-color: #2ECC71;
+}

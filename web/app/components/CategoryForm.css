@@ -1,0 +1,121 @@
+/* ===== Container ===== */
+.pharma-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    font-family: 'Poppins', sans-serif;
+    color: #1f2937;
+}
+
+/* ===== Title ===== */
+.form-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #00ADEF;
+    border-bottom: 2px solid #EAF8FB;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+/* ===== Form Fields ===== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #009688;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background: #F9FAFB;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #00ADEF;
+    box-shadow: 0 0 0 3px rgba(0, 173, 239, 0.15);
+    background: #fff;
+}
+
+.form-group textarea {
+    resize: none;
+    min-height: 80px;
+}
+
+/* ===== Actions ===== */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+/* Cancel Button */
+.cancel-btn {
+    background: #E2E8F0;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 16px;
+    color: #374151;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background: #CBD5E1;
+}
+
+/* Save Button */
+.save-btn {
+    background: linear-gradient(90deg, #00ADEF, #009688);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.save-btn:hover {
+    transform: scale(1.03);
+    background: linear-gradient(90deg, #0090c5, #00796B);
+}
+
+/* Disabled State */
+.save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .pharma-form {
+        padding: 1.25rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}

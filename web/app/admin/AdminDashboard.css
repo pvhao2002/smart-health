@@ -1,0 +1,136 @@
+/* ===== Overall Layout ===== */
+.pharma-dashboard {
+    background: #F9FAFB;
+    min-height: 100vh;
+    padding: 1.5rem 2rem;
+    color: #1F2937;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ===== Header ===== */
+.pharma-header {
+    margin-bottom: 1.5rem;
+}
+.pharma-header h2 {
+    color: #00ADEF;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+.pharma-header p {
+    color: #475569;
+}
+
+/* ===== Main Layout (2-column top, full bottom) ===== */
+.pharma-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.pharma-top {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* ===== KPI Cards ===== */
+.pharma-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.pharma-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #00ADEF;
+    transition: all 0.2s ease;
+}
+
+.pharma-card h4 {
+    font-size: 0.9rem;
+    color: #374151;
+    margin-bottom: 5px;
+}
+
+.pharma-card p {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #009688;
+}
+
+.pharma-card.success {
+    border-left-color: #16A34A;
+}
+.pharma-card.warning {
+    border-left-color: #FBBF24;
+}
+.pharma-card.secondary {
+    border-left-color: #009688;
+}
+
+.pharma-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 173, 239, 0.15);
+}
+
+/* ===== Chart Section ===== */
+.pharma-chart {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.pharma-chart h3 {
+    margin-bottom: 0.75rem;
+    color: #00ADEF;
+    font-weight: 600;
+}
+
+/* ===== Bottom Table Section ===== */
+.pharma-bottom {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.pharma-bottom h3 {
+    margin-bottom: 1rem;
+    color: #009688;
+}
+
+.pharma-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.pharma-table th,
+.pharma-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #E2E8F0;
+    text-align: left;
+}
+.pharma-table th {
+    background: #EAF8FB;
+    color: #009688;
+    font-weight: 600;
+}
+.pharma-table tbody tr:hover {
+    background: #F3F4F6;
+}
+
+.no-data {
+    text-align: center;
+    color: #9CA3AF;
+    font-style: italic;
+    padding: 1rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .pharma-top {
+        grid-template-columns: 1fr;
+    }
+}
