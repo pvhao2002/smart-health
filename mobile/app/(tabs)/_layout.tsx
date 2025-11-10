@@ -75,7 +75,7 @@ export default function TabsLayout() {
                 <Tabs.Screen
                     name="history"
                     options={{
-                        title: 'History',
+                        title: 'Health History',
                         tabBarIcon: ({ color, size }) => (
                             <Ionicons name="time-outline" size={size + 1} color={color} />
                         ),

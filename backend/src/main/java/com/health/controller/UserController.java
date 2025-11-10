@@ -20,16 +20,25 @@ public class UserController {
 
     @GetMapping("/profile")
     public Object getUserProfile(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
         return ResponseEntity.ok(userService.getUserProfile(authentication.getName()));
     }
 
     @PutMapping("/profile")
     public Object updateUserProfile(Authentication authentication, @Valid @RequestBody UpdateUserProfileRequest request) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
         return ResponseEntity.ok(userService.updateUserProfile(authentication.getName(), request));
     }
 
     @PutMapping("/change-password")
     public Object changePassword(Authentication authentication, @Valid @RequestBody ChangePasswordRequest request) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
         return ResponseEntity.ok(userService.changePassword(authentication.getName(), request));
     }
 }

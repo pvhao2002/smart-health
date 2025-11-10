@@ -13,6 +13,7 @@ import com.health.repository.UserProfileRepo;
 import com.health.repository.UserRepository;
 import com.health.security.JwtUtil;
 import com.health.security.UserPrincipal;
+import com.health.util.HealthUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -72,17 +73,13 @@ public class AuthService {
             double weight = request.getWeightKg().doubleValue();
             int age = Period.between(request.getBirthDate(), LocalDate.now()).getYears();
             profile.setAge(age);
-            // BMI = weight / (height_m)^2
-            double bmi = weight / Math.pow(height / 100, 2);
-            profile.setBmi(BigDecimal.valueOf(bmi).setScale(2, RoundingMode.HALF_UP));
+            profile.setBmi(BigDecimal.valueOf(HealthUtil.calculateBMI(weight, height)));
 
             // BMR (Harris-Benedict)
             double bmr = (request.getGender() == Gender.MALE)
                     ? 88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)
                     : 447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age);
             profile.setBmr(BigDecimal.valueOf(bmr).setScale(2, RoundingMode.HALF_UP));
-
-            // TDEE = BMR * hệ số hoạt động
             double factor = request.getActivityLevel() != null ? request.getActivityLevel().getFactor() : 1.2;
             double tdee = bmr * factor;
             profile.setTdee(BigDecimal.valueOf(tdee).setScale(2, RoundingMode.HALF_UP));

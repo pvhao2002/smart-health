@@ -31,7 +31,7 @@ export default function RegisterScreen() {
         fullName: '',
         email: '',
         password: '',
-        gender: 'OTHER' as EnumVal,
+        gender: 'MALE' as EnumVal,
         birthDate: new Date(),
         heightCm: '',
         weightKg: '',

@@ -40,7 +40,7 @@ export default function LoginScreen() {
                               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <ScrollView contentContainerStyle={s.container} showsVerticalScrollIndicator={false}>
                 <View style={s.header}>
-                    <Image source={require('@/assets/images/health-illustration.png')}
+                    <Image source={require('@/assets/images/illu.jpg')}
                            style={s.image} resizeMode="contain"/>
                     <Text style={s.title}>Welcome Back 👋</Text>
                     <Text style={s.subtitle}>Your wellness journey starts here</Text>

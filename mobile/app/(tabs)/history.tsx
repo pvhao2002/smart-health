@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
     View,
     Text,
@@ -8,261 +8,286 @@ import {
     TouchableOpacity,
     RefreshControl,
     Alert,
+    Modal,
+    TextInput,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useAuthStore } from '@/store/authStore';
-import { useRouter } from 'expo-router';
-import { APP_CONFIG } from '@/constants/app-config';
+import {Ionicons} from '@expo/vector-icons';
+import {useAuthStore} from '@/store/authStore';
+import {useRouter} from 'expo-router';
+import {APP_CONFIG} from '@/constants/app-config';
 
-export default function HistoryScreen() {
-    const { user } = useAuthStore();
+export default function HealthHistoryScreen() {
+    const {user, logout} = useAuthStore(); // ✅ thêm logout
     const token = user?.token;
     const router = useRouter();
 
-    const [orders, setOrders] = useState<any[]>([]);
-    const [page, setPage] = useState(0);
-    const [size] = useState(10);
+    const [records, setRecords] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-    const [hasNext, setHasNext] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [newRecord, setNewRecord] = useState({
+        weight: '',
+        heartRate: '',
+        sleepHours: '',
+        note: '',
+    });
 
-    const fetchOrders = useCallback(
-        async (reset = false) => {
-            if (!token) {
+    /** =========================
+     *  FETCH RECORDS
+     *  ========================= */
+    const fetchRecords = useCallback(async () => {
+        if (!token) return;
+        setLoading(true);
+        try {
+            const res = await fetch(`${APP_CONFIG.BASE_URL}/health-records/my`, {
+                headers: {Authorization: `Bearer ${token}`},
+            });
+
+            // ✅ Check token expired
+            if (res.status === 401) {
+                Alert.alert('Session expired', 'Please login again.');
+                logout();
                 router.replace('/login');
                 return;
             }
-            try {
-                if (reset) setPage(0);
-                if (!reset) setLoading(true);
 
-                const res = await fetch(
-                    `${APP_CONFIG.BASE_URL}/orders/my-orders?page=${reset ? 0 : page}&size=${size}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+            const json = await res.json();
+            if (!res.ok || json.success === false)
+                throw new Error(json.error?.message || json.message || 'Failed to load records');
 
-                const json = await res.json();
-                if (!res.ok || json.success === false)
-                    throw new Error(json.error?.message || json.message || 'Failed to load orders');
-
-                const data = json.data ?? json;
-                reset ? setOrders(data.content) : setOrders((prev) => [...prev, ...data.content]);
-                setHasNext(data.hasNext);
-            } catch (err: any) {
-                console.error('❌ Fetch orders error:', err);
-                Alert.alert('Error', err.message || 'Failed to load orders');
-            } finally {
-                setLoading(false);
-                setRefreshing(false);
-            }
-        },
-        [token, router, page, size]
-    );
+            setRecords(json.data ?? json);
+        } catch (err: any) {
+            Alert.alert('Error', err.message);
+        } finally {
+            setLoading(false);
+            setRefreshing(false);
+        }
+    }, [token, logout, router]);
 
     useEffect(() => {
-        fetchOrders(true);
-    }, [fetchOrders]);
-
-    useEffect(() => {
-        if (page > 0) fetchOrders(false);
-    }, [page, fetchOrders]);
+        fetchRecords();
+    }, [fetchRecords]);
 
     const onRefresh = () => {
         setRefreshing(true);
-        fetchOrders(true);
+        fetchRecords();
     };
 
-    const handleCancel = async (orderId: number) => {
-        Alert.alert('Confirm', 'Do you really want to cancel this order?', [
-            { text: 'No' },
-            {
-                text: 'Yes',
-                onPress: async () => {
-                    try {
-                        const res = await fetch(`${APP_CONFIG.BASE_URL}/orders/${orderId}/cancel`, {
-                            method: 'POST',
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                                'Content-Type': 'application/json',
-                            },
-                        });
-                        const json = await res.json();
-                        if (!res.ok || json.success === false)
-                            throw new Error(json.error?.message || json.message || 'Cancel failed');
+    /** =========================
+     *  ADD NEW RECORD
+     *  ========================= */
+    const handleAddRecord = async () => {
+        if (!newRecord.weight) return Alert.alert('⚠️', 'Please enter your weight.');
 
-                        Alert.alert('✅ Success', 'Order has been cancelled.');
-                        fetchOrders(true);
-                    } catch (err: any) {
-                        Alert.alert('❌ Error', err.message || 'Failed to cancel order');
-                    }
+        try {
+            const body = {
+                weight: parseFloat(newRecord.weight),
+                heartRate: newRecord.heartRate ? parseInt(newRecord.heartRate) : null,
+                sleepHours: newRecord.sleepHours ? parseFloat(newRecord.sleepHours) : null,
+                note: newRecord.note,
+            };
+
+            const res = await fetch(`${APP_CONFIG.BASE_URL}/health-records`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
                 },
-            },
-        ]);
+                body: JSON.stringify(body),
+            });
+
+            // ✅ Nếu token hết hạn
+            if (res.status === 401) {
+                Alert.alert('Session expired', 'Please login again.');
+                logout();
+                router.replace('/login');
+                return;
+            }
+
+            const json = await res.json();
+            if (!res.ok || json.success === false)
+                throw new Error(json.error?.message || json.message || 'Failed to save record');
+
+            Alert.alert('✅ Success', 'Health record saved!');
+            setModalVisible(false);
+            setNewRecord({weight: '', heartRate: '', sleepHours: '', note: ''});
+            fetchRecords();
+        } catch (err: any) {
+            Alert.alert('❌ Error', err.message);
+        }
     };
 
-    const renderOrder = ({ item }: { item: any }) => (
-        <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={() => router.push({ pathname: '/order-detail', params: { id: item.id } })}
-        >
-            <View style={s.card}>
-                <View style={s.cardHeader}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                        <Ionicons name="person-circle-outline" size={22} color="#009688" />
-                        <Text style={s.buyer}>{item.userName || 'Customer'}</Text>
-                    </View>
-                    <Text style={[s.status, getStatusStyle(item.status)]}>{item.status}</Text>
-                </View>
-
-                <Text style={s.dateText}>
-                    🗓 {new Date(item.createdAt).toLocaleString('vi-VN')}
-                </Text>
-
-                <View style={s.row}>
-                    <Ionicons name="location-outline" size={18} color="#6b7280" />
-                    <Text numberOfLines={1} style={s.address}>{item.shippingAddress}</Text>
-                </View>
-
-                <View style={s.row}>
-                    <Ionicons name="call-outline" size={18} color="#6b7280" />
-                    <Text style={s.phone}>{item.phone ?? 'N/A'}</Text>
-                </View>
-
-                <View style={s.row}>
-                    <Ionicons name="card-outline" size={18} color="#6b7280" />
-                    <Text style={s.payment}>Payment: {item.paymentMethod} · {item.itemCount} items</Text>
-                </View>
-
-                <View style={s.divider} />
-
-                <View style={s.footer}>
-                    <View>
-                        <Text style={s.totalLabel}>Total Amount</Text>
-                        <Text style={s.totalValue}>{Number(item.total).toLocaleString('vi-VN')} ₫</Text>
-                    </View>
-
-                    {(item.status === 'PENDING' ||
-                        (item.status === 'PROCESSING' && item.paymentMethod !== 'VNPAY')) && (
-                        <TouchableOpacity style={s.cancelBtn} onPress={() => handleCancel(item.id)}>
-                            <Ionicons name="close-circle-outline" size={18} color="#fff" />
-                            <Text style={s.cancelText}>Cancel</Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
+    /** =========================
+     *  RENDER EACH RECORD
+     *  ========================= */
+    const renderRecord = ({item}: { item: any }) => (
+        <View style={s.card}>
+            <View style={s.cardHeader}>
+                <Ionicons name="calendar-outline" size={20} color="#00ADEF"/>
+                <Text style={s.date}>{new Date(item.date).toLocaleDateString('vi-VN')}</Text>
             </View>
-        </TouchableOpacity>
+
+            <View style={s.row}>
+                <Ionicons name="barbell-outline" size={18} color="#16A34A"/>
+                <Text style={s.text}>Weight: {item.weight} kg</Text>
+            </View>
+            <View style={s.row}>
+                <Ionicons name="body-outline" size={18} color="#f97316"/>
+                <Text style={s.text}>BMI: {item.bmi?.toFixed(2) ?? '—'}</Text>
+            </View>
+            <View style={s.row}>
+                <Ionicons name="heart-outline" size={18} color="#DC2626"/>
+                <Text style={s.text}>Heart Rate: {item.heartRate ?? '—'} bpm</Text>
+            </View>
+            <View style={s.row}>
+                <Ionicons name="moon-outline" size={18} color="#3b82f6"/>
+                <Text style={s.text}>Sleep: {item.sleepHours ?? '—'} h</Text>
+            </View>
+
+            {item.note && <Text style={s.note}>📝 {item.note}</Text>}
+        </View>
     );
-
-    const renderFooter = () =>
-        hasNext ? <ActivityIndicator style={{ marginVertical: 20 }} color="#00ADEF" /> : null;
-
-    if (loading && !orders.length) {
-        return (
-            <View style={s.center}>
-                <ActivityIndicator size="large" color="#00ADEF" />
-                <Text style={s.loadingText}>Loading your orders...</Text>
-            </View>
-        );
-    }
 
     return (
         <View style={s.container}>
             <View style={s.header}>
-                <Ionicons name="bag-handle-outline" size={24} color="#00ADEF" />
-                <Text style={s.title}>My Orders</Text>
+                <Ionicons name="pulse-outline" size={26} color="#00ADEF"/>
+                <Text style={s.title}>Health History</Text>
             </View>
 
-            {orders.length === 0 ? (
-                <View style={s.empty}>
-                    <Ionicons name="file-tray-outline" size={60} color="#9ca3af" />
-                    <Text style={s.emptyText}>You have no orders yet</Text>
+            <TouchableOpacity style={s.addBtn} onPress={() => setModalVisible(true)}>
+                <Ionicons name="add-circle-outline" size={22} color="#fff"/>
+                <Text style={s.addText}>Add Today’s Record</Text>
+            </TouchableOpacity>
+
+            {loading ? (
+                <View style={s.center}>
+                    <ActivityIndicator size="large" color="#00ADEF"/>
                 </View>
             ) : (
                 <FlatList
-                    data={orders}
-                    renderItem={renderOrder}
+                    data={records}
+                    renderItem={renderRecord}
                     keyExtractor={(item) => item.id.toString()}
-                    onEndReached={() => setPage((p) => (hasNext ? p + 1 : p))}
-                    onEndReachedThreshold={0.3}
-                    ListFooterComponent={renderFooter}
                     refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#00ADEF" />
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#00ADEF"/>
                     }
-                    contentContainerStyle={{ paddingBottom: 20 }}
+                    contentContainerStyle={{paddingBottom: 30}}
                 />
             )}
+
+            {/* ===== Add Record Modal ===== */}
+            <Modal visible={modalVisible} animationType="slide" transparent>
+                <View style={s.modalOverlay}>
+                    <View style={s.modalContent}>
+                        <Text style={s.modalTitle}>Add Health Record</Text>
+
+                        <TextInput
+                            style={s.input}
+                            placeholder="Weight (kg)"
+                            keyboardType="numeric"
+                            value={newRecord.weight}
+                            onChangeText={(v) => setNewRecord({...newRecord, weight: v})}
+                        />
+                        <TextInput
+                            style={s.input}
+                            placeholder="Heart rate (bpm)"
+                            keyboardType="numeric"
+                            value={newRecord.heartRate}
+                            onChangeText={(v) => setNewRecord({...newRecord, heartRate: v})}
+                        />
+                        <TextInput
+                            style={s.input}
+                            placeholder="Sleep hours"
+                            keyboardType="numeric"
+                            value={newRecord.sleepHours}
+                            onChangeText={(v) => setNewRecord({...newRecord, sleepHours: v})}
+                        />
+                        <TextInput
+                            style={[s.input, {height: 80}]}
+                            placeholder="Note"
+                            multiline
+                            value={newRecord.note}
+                            onChangeText={(v) => setNewRecord({...newRecord, note: v})}
+                        />
+
+                        <View style={s.modalActions}>
+                            <TouchableOpacity style={s.cancelBtn} onPress={() => setModalVisible(false)}>
+                                <Text style={s.cancelText}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={s.saveBtn} onPress={handleAddRecord}>
+                                <Text style={s.saveText}>Save</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
 
-const getStatusStyle = (status: string) => {
-    switch (status) {
-        case 'DELIVERED':
-            return { color: '#16A34A', backgroundColor: '#E7F9ED' };
-        case 'PROCESSING':
-            return { color: '#00ADEF', backgroundColor: '#EAF8FB' };
-        case 'SHIPPED':
-            return { color: '#009688', backgroundColor: '#E0F7F3' };
-        case 'CANCELLED':
-            return { color: '#DC2626', backgroundColor: '#FEE2E2' };
-        case 'PENDING':
-        default:
-            return { color: '#F57C00', backgroundColor: '#FFF3E0' };
-    }
-};
-
 const s = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#F9FAFB', paddingHorizontal: 14 },
-    header: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 14 },
-    title: { fontSize: 20, fontWeight: '700', color: '#1F2937' },
+    container: {flex: 1, backgroundColor: '#F9FAFB', paddingHorizontal: 16},
+    header: {flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 14},
+    title: {fontSize: 20, fontWeight: '700', color: '#1F2937'},
+
+    addBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        backgroundColor: '#00ADEF',
+        paddingVertical: 8,
+        paddingHorizontal: 14,
+        borderRadius: 20,
+        marginBottom: 12,
+    },
+    addText: {color: '#fff', fontWeight: '600', marginLeft: 6},
 
     card: {
         backgroundColor: '#fff',
         borderRadius: 16,
-        marginBottom: 16,
+        marginBottom: 14,
         padding: 16,
-        shadowColor: '#00ADEF',
+        shadowColor: '#000',
         shadowOpacity: 0.05,
         shadowRadius: 4,
         elevation: 2,
     },
-    cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    buyer: { fontSize: 15, fontWeight: '600', color: '#1F2937' },
-    status: {
-        fontWeight: '700',
-        paddingVertical: 4,
-        paddingHorizontal: 10,
-        borderRadius: 20,
-        overflow: 'hidden',
-        textTransform: 'capitalize',
-        fontSize: 13,
-    },
-    dateText: { color: '#6B7280', fontSize: 12, marginVertical: 8 },
+    cardHeader: {flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8},
+    date: {fontWeight: '700', color: '#111827', fontSize: 15},
 
-    row: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 },
-    address: { color: '#374151', fontSize: 13, flex: 1 },
-    phone: { color: '#374151', fontSize: 13 },
-    payment: { color: '#374151', fontSize: 13 },
+    row: {flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4},
+    text: {fontSize: 14, color: '#374151'},
+    note: {fontStyle: 'italic', color: '#6b7280', marginTop: 4, fontSize: 13},
 
-    divider: { height: 1, backgroundColor: '#F3F4F6', marginVertical: 10 },
-    footer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    totalLabel: { fontSize: 13, color: '#6B7280' },
-    totalValue: { fontWeight: '800', color: '#009688', fontSize: 17 },
+    center: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 
-    cancelBtn: {
-        flexDirection: 'row',
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#DC2626',
-        borderRadius: 30,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        gap: 6,
+        padding: 20,
     },
-    cancelText: { color: '#fff', fontWeight: '700', fontSize: 14 },
-
-    center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    loadingText: { marginTop: 10, color: '#6B7280' },
-
-    empty: { alignItems: 'center', marginTop: 100 },
-    emptyText: { marginTop: 10, color: '#9CA3AF', fontSize: 15 },
+    modalContent: {
+        width: '100%',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: 20,
+    },
+    modalTitle: {fontWeight: '700', fontSize: 18, marginBottom: 10},
+    input: {
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
+        borderRadius: 10,
+        padding: 10,
+        marginBottom: 10,
+        fontSize: 14,
+        color: '#111827',
+    },
+    modalActions: {flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 10},
+    cancelBtn: {paddingVertical: 8, paddingHorizontal: 16},
+    cancelText: {color: '#6B7280', fontWeight: '600'},
+    saveBtn: {backgroundColor: '#00ADEF', borderRadius: 8, paddingVertical: 8, paddingHorizontal: 16},
+    saveText: {color: '#fff', fontWeight: '700'},
 });
