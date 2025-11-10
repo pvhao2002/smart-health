@@ -1,34 +1,28 @@
-/* Layout tổng */
-.smarthealth-admin-layout {
+/* ============================= */
+/* 🔥 FITZONE ADMIN LAYOUT STYLE */
+/* ============================= */
+
+.fitzone-admin-layout {
     display: flex;
     min-height: 100vh;
-    background: #F8FAFC;
-    color: #1F2937;
-    font-family: 'Inter', sans-serif;
+    background: #0f0f0f;
+    color: #e5e7eb;
+    font-family: 'Poppins', sans-serif;
 }
 
-.smarthealth-admin-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.smarthealth-admin-content {
-    padding: 2rem;
-    flex: 1;
-}
-
-/* Sidebar */
+/* ----------------------------- */
+/* 🧭 SIDEBAR */
+/* ----------------------------- */
 .smarthealth-sidebar {
-    width: 200px;
-    background: linear-gradient(180deg, #1ABC9C, #16A085);
-    color: #fff;
+    width: 240px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #0b0b0b 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1rem;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
 }
 
 .sidebar-logo {
@@ -37,14 +31,17 @@
 }
 
 .sidebar-logo .logo-text {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ff2c2c;
+    text-transform: uppercase;
 }
 
 .sidebar-logo small {
     display: block;
-    font-size: 0.8rem;
-    opacity: 0.8;
+    font-size: 0.75rem;
+    color: #999;
+    letter-spacing: 0.5px;
 }
 
 .smarthealth-sidebar nav ul {
@@ -54,113 +51,176 @@
 }
 
 .smarthealth-sidebar li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
 }
 
 .menu-link {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
+    gap: 12px;
+    padding: 10px 14px;
     border-radius: 8px;
-    font-size: 0.95rem;
-    color: #ECFDF5;
     background: transparent;
     border: none;
-    transition: all 0.25s ease;
+    color: #ddd;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .menu-link:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 44, 44, 0.15);
+    color: #fff;
 }
 
 li.active .menu-link {
-    background: #2ECC71;
+    background: linear-gradient(90deg, #ff2c2c, #ff4949);
     color: #fff;
     font-weight: 600;
+    box-shadow: 0 0 10px rgba(255, 44, 44, 0.5);
 }
 
 .icon {
     width: 18px;
     height: 18px;
+    color: inherit;
 }
 
-/* Header */
+/* ----------------------------- */
+/* 🧱 MAIN CONTENT AREA */
+/* ----------------------------- */
+.fitzone-admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #121212;
+}
+
+/* ----------------------------- */
+/* 🔝 HEADER */
+/* ----------------------------- */
 .smarthealth-header {
-    background: #fff;
+    background: #1c1c1c;
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid #E5E7EB;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 5;
 }
 
 .header-left {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #16A085;
+    color: #ff2c2c;
+    font-weight: 600;
 }
 
 .header-icon {
-    color: #1ABC9C;
+    color: #ff2c2c;
     width: 24px;
     height: 24px;
 }
 
 .logout-icon {
     cursor: pointer;
-    color: #E67E22;
-    transition: transform 0.2s ease;
+    color: #f87171;
+    transition: all 0.2s ease;
 }
 
 .logout-icon:hover {
-    transform: scale(1.1);
+    color: #fff;
+    transform: scale(1.15);
 }
 
-/* Dashboard base style */
-.dashboard-container {
-    padding: 1.5rem;
-    background-color: #F9FAFB;
-    min-height: 100vh;
+/* ----------------------------- */
+/* 📊 DASHBOARD CONTENT */
+/* ----------------------------- */
+.fitzone-admin-content {
+    padding: 2rem;
+    flex: 1;
+    background: linear-gradient(180deg, #141414 0%, #0f0f0f 100%);
 }
 
 .dashboard-title {
     font-size: 1.8rem;
-    font-weight: 600;
-    color: #1ABC9C;
+    font-weight: 700;
+    color: #ff2c2c;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
 }
 
 .dashboard-sub {
-    color: #475569;
+    color: #9ca3af;
     margin-bottom: 1.5rem;
+    font-size: 0.9rem;
 }
 
+/* ----------------------------- */
+/* 💪 DASHBOARD CARDS */
+/* ----------------------------- */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
 }
 
 .card {
-    background: #fff;
-    padding: 1rem 1.25rem;
+    background: #1b1b1b;
+    padding: 1.2rem;
     border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-    border-left: 5px solid #1ABC9C;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.02);
     transition: all 0.25s ease;
+    position: relative;
 }
 
 .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 0 10px rgba(255, 44, 44, 0.3);
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #aaa;
 }
 
 .card.alert {
-    border-left-color: #E67E22;
+    border-left: 4px solid #f97316;
 }
 
 .card.success {
-    border-left-color: #2ECC71;
+    border-left: 4px solid #22c55e;
+}
+
+.card.danger {
+    border-left: 4px solid #ef4444;
+}
+
+/* ----------------------------- */
+/* 📱 RESPONSIVE */
+/* ----------------------------- */
+@media (max-width: 768px) {
+    .smarthealth-sidebar {
+        width: 200px;
+    }
+
+    .fitzone-admin-content {
+        padding: 1.5rem;
+    }
+
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
 }

@@ -1,0 +1,183 @@
+.meal-table-wrapper {
+    padding: 2rem;
+    background: #f9fafb;
+    min-height: 100vh;
+}
+
+/* Toolbar */
+.meal-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.meal-toolbar h2 {
+    color: #dc2626;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.toolbar-left input {
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    width: 240px;
+
+    /* 👇 Thêm các dòng sau */
+    color: #111827; /* chữ trong ô đậm hơn */
+    background-color: #ffffff; /* đảm bảo nền trắng */
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+/* 👇 placeholder rõ ràng hơn */
+.toolbar-left input::placeholder {
+    color: #6b7280;
+    opacity: 1;
+}
+
+/* 👇 hiệu ứng khi focus */
+.toolbar-left input:focus {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15);
+    outline: none;
+}
+
+
+.add-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
+}
+
+.add-btn:hover {
+    background: #b91c1c;
+}
+
+/* Table */
+.meal-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.meal-table th {
+    background: #111827;
+    color: #fff;
+    padding: 12px;
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.meal-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #1f2937;
+    font-size: 0.9rem;
+}
+
+.meal-table tbody tr:hover {
+    background: #f3f4f6;
+    transition: 0.2s;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+}
+
+.meal-breakfast {
+    background: #0284c7;
+}
+
+.meal-lunch {
+    background: #facc15;
+    color: #111;
+}
+
+.meal-dinner {
+    background: #16a34a;
+}
+
+.meal-snack {
+    background: #f97316;
+}
+
+.goal-lose_weight {
+    background: #ef4444;
+}
+
+.goal-gain_weight {
+    background: #3b82f6;
+}
+
+.goal-maintain {
+    background: #22c55e;
+}
+
+/* Buttons */
+.edit-btn,
+.delete-btn {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: 600;
+}
+
+.edit-btn {
+    background: #2563eb;
+    color: white;
+    margin-right: 6px;
+}
+
+.edit-btn:hover {
+    background: #1e40af;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+.loading,
+.no-data {
+    text-align: center;
+    color: #6b7280;
+    padding: 1rem;
+    font-style: italic;
+}
+
+.desc {
+    max-width: 200px;
+    color: #475569;
+}

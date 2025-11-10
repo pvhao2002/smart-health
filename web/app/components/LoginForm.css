@@ -1,25 +1,41 @@
-.pharma-login-page {
+.gym-login-page {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #e0f7f4, #ffffff);
-    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at 20% 20%, #1e1e1e, #0a0a0a 90%);
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    position: relative;
 }
 
-.pharma-overlay {
+.gym-login-page::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 0, 0, 0.15);
+    border-radius: 50%;
+    top: -100px;
+    right: -150px;
+    filter: blur(100px);
+}
+
+.gym-overlay {
     width: 100%;
     max-width: 420px;
     padding: 2rem;
+    z-index: 2;
 }
 
 .login-card {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(30, 30, 30, 0.85);
     border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
     padding: 2rem;
     animation: fadeIn 0.8s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @keyframes fadeIn {
@@ -29,15 +45,20 @@
 
 .brand {
     text-align: center;
-    color: #16a085;
-    font-weight: 700;
-    font-size: 1.8rem;
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    color: #ff2c2c;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
 }
 
 .subtitle {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #666;
+    color: #bbb;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
 }
 
 .input-group {
@@ -45,51 +66,76 @@
 }
 
 .input-group label {
-    font-size: 0.9rem;
-    color: #444;
+    font-size: 0.85rem;
+    color: #eee;
+    margin-bottom: 5px;
+    display: block;
 }
 
 .input-group input {
     width: 100%;
     padding: 0.8rem;
     border-radius: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
+    background: #111;
+    color: #fff;
     transition: all 0.3s;
+    font-size: 0.95rem;
 }
 
 .input-group input:focus {
-    border-color: #1abc9c;
-    box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.15);
+    border-color: #ff2c2c;
+    box-shadow: 0 0 0 3px rgba(255, 44, 44, 0.2);
     outline: none;
 }
 
 .login-btn {
     width: 100%;
-    background: linear-gradient(135deg, #1abc9c, #16a085);
-    color: white;
+    background: linear-gradient(135deg, #ff2c2c, #e60000);
+    color: #fff;
     border: none;
     border-radius: 12px;
     padding: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(26, 188, 156, 0.3);
+    box-shadow: 0 5px 10px rgba(255, 44, 44, 0.4);
 }
 
 .error {
-    color: #e74c3c;
+    color: #ff6b6b;
     font-size: 0.9rem;
     margin-bottom: 0.8rem;
     text-align: center;
+    font-weight: 500;
 }
 
 .note {
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     margin-top: 1rem;
-    color: #999;
+    color: #777;
+    letter-spacing: 0.5px;
+}
+
+/* 🔥 Responsive */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 1.5rem;
+    }
+
+    .brand {
+        font-size: 1.6rem;
+    }
+
+    .login-btn {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
 }

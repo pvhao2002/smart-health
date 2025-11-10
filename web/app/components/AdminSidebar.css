@@ -1,10 +1,13 @@
 .admin-sidebar {
     width: 250px;
-    background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
+    height: 100vh;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
     color: #e5e7eb;
     display: flex;
     flex-direction: column;
     padding: 1rem;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
 .sidebar-logo {
@@ -13,8 +16,9 @@
 }
 
 .sidebar-logo .logo-text {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
+    color: #38bdf8;
 }
 
 .sidebar-logo small {
@@ -22,46 +26,19 @@
     font-size: 0.8rem;
 }
 
-.admin-sidebar ul {
+.admin-sidebar nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
 .admin-sidebar li {
-    margin-bottom: 12px;
-}
-
-.admin-sidebar a {
-    display: flex;
-    align-items: center;
-    padding: 10px 14px;
-    border-radius: 8px;
-    color: #e5e7eb;
-    text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease;
-}
-
-.admin-sidebar a:hover {
-    background: #2563eb;
-    color: #fff;
-}
-
-.admin-sidebar li.active a {
-    background: #2563eb;
-    color: #fff;
-}
-
-.icon {
-    margin-right: 10px;
-    width: 18px;
-    height: 18px;
+    margin-bottom: 10px;
 }
 
 .menu-link {
     background: none;
     border: none;
-    color: #e5e7eb;
     display: flex;
     align-items: center;
     width: 100%;
@@ -69,7 +46,10 @@
     padding: 10px 14px;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    color: #e5e7eb;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .menu-link:hover {
@@ -77,3 +57,32 @@
     color: #fff;
 }
 
+.admin-sidebar li.active .menu-link {
+    background: #2563eb;
+    color: #fff;
+}
+
+.icon {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Responsive cho mobile/tablet */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 200px;
+        padding: 0.5rem;
+    }
+
+    .menu-link {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+
+    .icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+    }
+}

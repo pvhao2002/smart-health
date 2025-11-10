@@ -1,6 +1,6 @@
 .user-table-container {
-    padding: 1.5rem;
-    background: #f8fafc;
+    padding: 2rem;
+    background: #f9fafb;
     min-height: 100vh;
 }
 
@@ -8,142 +8,113 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
 }
 
 .toolbar h2 {
-    color: #1d4ed8;
-    font-weight: 600;
+    color: #dc2626; /* red sporty tone */
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
-.search-form {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.search-form input {
-    padding: 0.4rem 0.6rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    width: 240px;
-}
-
-.search-form button {
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 0.4rem 0.9rem;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.search-form button:hover {
-    background: #1e40af;
-}
-
-.loading {
-    text-align: center;
-    color: #64748b;
-    font-size: 1rem;
-    margin-top: 2rem;
-}
-
+/* Table core */
 .user-table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
 }
 
-.user-table th,
-.user-table td {
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-}
-
+/* Header */
 .user-table th {
-    background: #f1f5f9;
-    color: #334155;
-    font-weight: 600;
+    background: #111827; /* darker header for strong contrast */
+    color: #f9fafb;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    padding: 12px 14px;
+}
+
+/* Cell text */
+.user-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #1f2937; /* darker text for better readability */
+    font-size: 0.9rem;
 }
 
 .user-table tbody tr:hover {
-    background: #f9fafb;
+    background: #f3f4f6;
+    transition: background 0.25s ease;
 }
 
+/* Emphasize name/email */
+.user-table td:nth-child(2) {
+    font-weight: 600;
+    color: #111827;
+}
+
+.user-table td:nth-child(3) {
+    color: #1e293b;
+}
+
+/* Status + role badges */
 .status-active {
     background: #dcfce7;
-    color: #15803d;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 6px;
+    color: #166534;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    box-shadow: 0 0 4px rgba(22, 101, 52, 0.15);
 }
 
 .status-inactive {
     background: #fee2e2;
     color: #b91c1c;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 6px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    box-shadow: 0 0 4px rgba(185, 28, 28, 0.15);
 }
 
 .role-badge {
     display: inline-block;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
 }
 
 .role-badge.admin {
-    background: #dbeafe;
-    color: #1d4ed8;
+    background: #fef3c7;
+    color: #92400e;
 }
 
 .role-badge.user {
-    background: #e0f2fe;
-    color: #0284c7;
+    background: #dbeafe;
+    color: #1e40af;
 }
 
+/* No data row */
 .no-data {
     text-align: center;
-    color: #9ca3af;
+    color: #6b7280;
     padding: 1rem;
     font-style: italic;
 }
 
-.pagination {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.page-btn {
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 0.4rem 0.8rem;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.page-btn:hover:not(:disabled) {
-    background: #1e3a8a;
-}
-
-.page-btn:disabled {
-    background: #cbd5e1;
-    cursor: not-allowed;
-}
-
-.page-info {
-    color: #334155;
-    font-weight: 500;
+/* Loading text */
+.loading {
+    text-align: center;
+    color: #475569;
+    font-size: 1rem;
+    margin-top: 2rem;
 }

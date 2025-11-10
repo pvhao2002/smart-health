@@ -11,9 +11,9 @@ export const API_ENDPOINTS = {
         BASE: `${API_BASE_URL}/products/categories`,
         ADMIN: `${API_BASE_URL}/admin/categories`
     },
-    PRODUCTS: {
-        BASE: `${API_BASE_URL}/products`,
-        ADMIN: `${API_BASE_URL}/admin/products`
+    MEALS: {
+        BASE: `${API_BASE_URL}/meals`,
+        ADMIN: `${API_BASE_URL}/admin/meals`
     },
     USERS: {
         BASE: `${API_BASE_URL}/admin/users`,

@@ -3,28 +3,30 @@ package com.health.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "workout_plans")
+@Table(name = "workout_type")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WorkoutPlan {
+public class WorkoutType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Enumerated(EnumType.STRING)
-    private Goal goal;
+    private Double caloriesPerMinute;
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    @Column(columnDefinition = "TEXT")
+    private String url;
+
     @Enumerated(EnumType.STRING)
     private Level level = Level.BEGINNER;
-    @Lob
-    private String description;
-    @OneToMany(mappedBy = "workoutPlan", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WorkoutPlanExercise> items = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Goal goal = Goal.LOSE_WEIGHT;
+
+    private Boolean isActive = true;
 }

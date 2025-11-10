@@ -1,11 +1,11 @@
 'use client';
-import { ReactNode, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { AdminSidebar, AdminHeader } from '../components';
+import {ReactNode, useEffect} from 'react';
+import {useRouter} from 'next/navigation';
+import {AdminSidebar, AdminHeader} from '../components';
 import '../globals.css';
 import './admin.css';
 
-export default function SmartHealthAdminLayout({ children }: { children: ReactNode }) {
+export default function SmartHealthAdminLayout({children}: { children: ReactNode }) {
     const router = useRouter();
 
     useEffect(() => {
@@ -14,11 +14,11 @@ export default function SmartHealthAdminLayout({ children }: { children: ReactNo
     }, [router]);
 
     return (
-        <div className="smarthealth-admin-layout">
-            <AdminSidebar />
-            <div className="smarthealth-admin-main">
-                <AdminHeader />
-                <div className="smarthealth-admin-content">{children}</div>
+        <div className="fitzone-admin-layout">
+            <AdminSidebar/>
+            <div className="fitzone-admin-main">
+                <AdminHeader/>
+                <div className="fitzone-admin-content">{children}</div>
             </div>
         </div>
     );

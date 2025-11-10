@@ -1,9 +1,9 @@
-import ProductTable from '@/app/components/ProductTable';
+import MealTable from "@/app/components/MealTable";
 
 export default function ProductPage() {
     return (
         <div>
-            <ProductTable />
+            <MealTable/>
         </div>
     );
 }

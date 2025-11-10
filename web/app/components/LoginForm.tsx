@@ -1,9 +1,9 @@
 'use client';
-import {useState} from 'react';
-import {useRouter} from 'next/navigation';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import './LoginForm.css';
 import apiClient from "@/api/apiClient";
-import {API_ENDPOINTS} from "@/constants/api";
+import { API_ENDPOINTS } from "@/constants/api";
 import Spinner from "@/app/components/Spinner";
 
 export default function LoginForm() {
@@ -19,8 +19,8 @@ export default function LoginForm() {
         setLoading(true);
 
         try {
-            const res = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, {email, password});
-            const {token, refreshToken, email: userEmail, role} = res.data;
+            const res = await apiClient.post(API_ENDPOINTS.AUTH.LOGIN, { email, password });
+            const { token, refreshToken, email: userEmail, role } = res.data;
 
             localStorage.setItem('auth_token', token);
             localStorage.setItem('refresh_token', refreshToken);
@@ -32,8 +32,8 @@ export default function LoginForm() {
             console.error('Login failed:', err);
             setError(
                 err.response?.status === 401
-                    ? 'Invalid email or password.'
-                    : 'System error, please try again later.'
+                    ? 'Sai email hoặc mật khẩu.'
+                    : 'Lỗi hệ thống, vui lòng thử lại sau.'
             );
         } finally {
             setLoading(false);
@@ -43,18 +43,18 @@ export default function LoginForm() {
     return (
         <>
             {loading && <Spinner />}
-            <div className="pharma-login-page">
-                <div className="pharma-overlay">
+            <div className="gym-login-page">
+                <div className="gym-overlay">
                     <div className="login-card">
-                        <h1 className="brand">Smart Health Admin</h1>
-                        <p className="subtitle">Access your health management dashboard securely 🩺</p>
+                        <h1 className="brand">FITZONE ADMIN</h1>
+                        <p className="subtitle">Train Hard · Stay Strong · Manage Smart 💪</p>
 
                         <form onSubmit={handleLogin}>
                             <div className="input-group">
                                 <label>Email</label>
                                 <input
                                     type="email"
-                                    placeholder="admin@smarthealth.com"
+                                    placeholder="coach@fitzone.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
@@ -78,7 +78,7 @@ export default function LoginForm() {
                                 {loading ? 'Signing in...' : 'Login'}
                             </button>
 
-                            <p className="note">Smart Health Management System 🌿</p>
+                            <p className="note">© 2025 FitZone Fitness System</p>
                         </form>
                     </div>
                 </div>

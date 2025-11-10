@@ -71,7 +71,7 @@ public class AuthService {
             double height = request.getHeightCm().doubleValue();
             double weight = request.getWeightKg().doubleValue();
             int age = Period.between(request.getBirthDate(), LocalDate.now()).getYears();
-
+            profile.setAge(age);
             // BMI = weight / (height_m)^2
             double bmi = weight / Math.pow(height / 100, 2);
             profile.setBmi(BigDecimal.valueOf(bmi).setScale(2, RoundingMode.HALF_UP));

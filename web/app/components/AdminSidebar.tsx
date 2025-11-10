@@ -1,16 +1,15 @@
 'use client';
 import {usePathname, useRouter} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import {Activity, CalendarDays, ClipboardList, Home, Users} from 'lucide-react';
+import {Home, Users, UtensilsCrossed, Dumbbell} from 'lucide-react';
 import './AdminSidebar.css';
 import PageLoader from './PageLoader';
 
 const menuItems = [
-    { href: '/admin', label: 'Dashboard', icon: Home },
-    { href: '/admin/users', label: 'Users', icon: Users },
-    { href: '/admin/appointments', label: 'Appointments', icon: CalendarDays },
-    { href: '/admin/reports', label: 'Reports', icon: ClipboardList },
-    { href: '/admin/analytics', label: 'Analytics', icon: Activity },
+    {href: '/admin', label: 'Dashboard', icon: Home},
+    {href: '/admin/users', label: 'Quản lý người dùng', icon: Users},
+    {href: '/admin/meals', label: 'Quản lý món ăn', icon: UtensilsCrossed},
+    {href: '/admin/workouts', label: 'Quản lý bài tập', icon: Dumbbell},
 ];
 
 export default function AdminSidebar() {
@@ -19,7 +18,7 @@ export default function AdminSidebar() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const timeout = setTimeout(() => setLoading(false), 50);
+        const timeout = setTimeout(() => setLoading(false), 100);
         return () => clearTimeout(timeout);
     }, [pathname]);
 
@@ -32,8 +31,8 @@ export default function AdminSidebar() {
 
     return (
         <>
-            {loading && <PageLoader />}
-            <aside className="smarthealth-sidebar">
+            {loading && <PageLoader/>}
+            <aside className="admin-sidebar">
                 <div className="sidebar-logo">
                     <span className="logo-text">SmartHealth</span>
                     <small>Admin Panel</small>
@@ -41,10 +40,13 @@ export default function AdminSidebar() {
 
                 <nav>
                     <ul>
-                        {menuItems.map(({ href, label, icon: Icon }) => (
+                        {menuItems.map(({href, label, icon: Icon}) => (
                             <li key={href} className={pathname === href ? 'active' : ''}>
-                                <button className="menu-link" onClick={() => handleNavigate(href)}>
-                                    <Icon className="icon" />
+                                <button
+                                    className="menu-link"
+                                    onClick={() => handleNavigate(href)}
+                                >
+                                    <Icon className="icon"/>
                                     <span>{label}</span>
                                 </button>
                             </li>

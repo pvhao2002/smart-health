@@ -20,11 +20,14 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
+
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.OTHER;
+    private Integer age;
     private LocalDate birthDate;
     private BigDecimal bmi;
     private BigDecimal bmr;  // Basal Metabolic Rate
