@@ -2,7 +2,6 @@ package com.health.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.context.annotation.Description;
 
 @Entity
 @Table(name = "workout_type")

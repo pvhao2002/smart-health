@@ -7,7 +7,8 @@ import './WorkoutScheduleTable.css';
 interface WorkoutType {
     id: number;
     name: string;
-    level: string;
+    level?: string;
+    caloriesPerMinute?: number;
 }
 
 interface WorkoutSchedule {
@@ -15,11 +16,15 @@ interface WorkoutSchedule {
     name: string;
     goal: 'LOSE_WEIGHT' | 'GAIN_WEIGHT' | 'MAINTAIN';
     dayOfWeek: string;
-    workout?: WorkoutType;
+    workouts?: WorkoutType;
     isRestDay?: boolean;
+    totalCalories?: number;
 }
 
-const DAYS = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
+const DAYS = [
+    'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY',
+    'FRIDAY', 'SATURDAY', 'SUNDAY'
+];
 
 export default function WorkoutScheduleTable() {
     const [schedules, setSchedules] = useState<WorkoutSchedule[]>([]);
@@ -37,12 +42,12 @@ export default function WorkoutScheduleTable() {
     const loadData = async () => {
         setLoading(true);
         try {
-            const [workoutRes, schedRes] = await Promise.all([
+            const [workoutRes, planRes] = await Promise.all([
                 apiClient.get(API_ENDPOINTS.WORKOUTS.ADMIN),
                 apiClient.get('/admin/plans/workouts'),
             ]);
             setWorkouts(workoutRes.data);
-            setSchedules(schedRes.data);
+            setSchedules(planRes.data);
         } catch (e) {
             console.error('Error loading workout schedules', e);
         } finally {
@@ -54,10 +59,10 @@ export default function WorkoutScheduleTable() {
         loadData();
     }, []);
 
-    const openModal = (s?: WorkoutSchedule) => {
-        if (s) {
-            setEditingSchedule(s);
-            setForm(s);
+    const openModal = (p?: WorkoutSchedule) => {
+        if (p) {
+            setEditingSchedule(p);
+            setForm({...p, workouts: p.workouts});
         } else {
             setEditingSchedule(null);
             setForm({name: '', goal: 'LOSE_WEIGHT', dayOfWeek: 'MONDAY', isRestDay: false});
@@ -72,21 +77,25 @@ export default function WorkoutScheduleTable() {
 
     const handleSubmit = async () => {
         try {
-            const payload = {...form, workoutId: form.workout?.id};
-            if (editingSchedule) {
+            const payload = {
+                ...form,
+                workoutIds: form.workouts?.id,
+            };
+            if (editingSchedule?.id) {
                 await apiClient.patch(`/admin/plans/workouts/${editingSchedule.id}`, payload);
             } else {
                 await apiClient.post('/admin/plans/workouts', payload);
             }
             await loadData();
             closeModal();
-        } catch (e) {
-            console.error('Error saving', e);
+        } catch (err) {
+            console.error('Save failed', err);
+            alert('Failed to save workout plan');
         }
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm('Delete this schedule?')) return;
+        if (!confirm('Delete this workout plan?')) return;
         await apiClient.delete(`/admin/plans/workouts/${id}`);
         await loadData();
     };
@@ -94,9 +103,9 @@ export default function WorkoutScheduleTable() {
     return (
         <div className="workoutplan-wrapper">
             <div className="workoutplan-toolbar">
-                <h2>🏋️ 7-Day Workout Schedule</h2>
+                <h2>🏋️ 7-Day Workout Plans</h2>
                 <button className="add-btn" onClick={() => openModal()}>
-                    + Add Schedule
+                    + Add Workout Plan
                 </button>
             </div>
 
@@ -108,31 +117,76 @@ export default function WorkoutScheduleTable() {
                     <tr>
                         <th>#</th>
                         <th>Day</th>
-                        <th>Workout</th>
-                        <th>Rest Day</th>
+                        <th>Workout Plans</th>
                         <th>Goal</th>
+                        <th>Total Calories (est.)</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     {DAYS.map((day, i) => {
-                        const s = schedules.find((x) => x.dayOfWeek === day);
+                        const dailyPlans = schedules.filter(p => p.dayOfWeek === day);
+                        const totalCalories = dailyPlans.reduce((sum, p) => sum + (p.workouts?.caloriesPerMinute ?? 0), 0);
+
                         return (
                             <tr key={day}>
                                 <td>{i + 1}</td>
                                 <td>{day}</td>
-                                <td>{s?.workout?.name ?? '—'}</td>
-                                <td>{s?.isRestDay ? '✅ Yes' : '❌ No'}</td>
-                                <td>{s?.goal ?? '—'}</td>
                                 <td>
-                                    <button className="edit-btn" onClick={() => openModal(s)}>
-                                        Edit
-                                    </button>
-                                    {s && (
-                                        <button className="delete-btn" onClick={() => handleDelete(s.id!)}>
-                                            Delete
-                                        </button>
+                                    {dailyPlans.length === 0 ? (
+                                        <span className="no-data">— No workout plans —</span>
+                                    ) : (
+                                        <div className="plan-list">
+                                            {dailyPlans.map((p) => (
+                                                <div key={p.id} className="plan-item">
+                                                    <div className="plan-name">{p.name}</div>
+                                                    {p.isRestDay ? (
+                                                        <div className="plan-rest">💤 Rest Day</div>
+                                                    ) : (
+                                                        <>
+                                                            <div className="plan-workouts">
+                                                                {p.workouts
+                                                                    ?
+                                                                    <span key={p.workouts.id} className="workout-chip">
+                                                                            {p.workouts.name}
+                                                                        </span>
+                                                                    : <span>—</span>}
+                                                            </div>
+                                                            <div className="plan-totals">
+                                                                <strong>{Math.round(p?.workouts?.caloriesPerMinute ?? 0)} kcal</strong>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                    <div className="plan-actions-inline">
+                                                        <button className="edit-btn" onClick={() => openModal(p)}>Edit
+                                                        </button>
+                                                        <button className="delete-btn"
+                                                                onClick={() => handleDelete(p.id!)}>Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     )}
+                                </td>
+                                <td>
+                                    {dailyPlans.length > 0
+                                        ? [...new Set(dailyPlans.map(p => p.goal))].join(', ')
+                                        : '—'}
+                                </td>
+                                <td>{dailyPlans.length > 0 ? `${Math.round(totalCalories)} kcal` : '—'}</td>
+                                <td>
+                                    <button
+                                        className="add-btn small"
+                                        onClick={() => openModal({
+                                            dayOfWeek: day,
+                                            name: '',
+                                            goal: 'LOSE_WEIGHT',
+                                            isRestDay: false
+                                        })}
+                                    >
+                                        + Add
+                                    </button>
                                 </td>
                             </tr>
                         );
@@ -144,7 +198,7 @@ export default function WorkoutScheduleTable() {
             {showModal && (
                 <div className="modal-backdrop" onClick={closeModal}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <h3>{editingSchedule ? '✏️ Edit Schedule' : '➕ Add Schedule'}</h3>
+                        <h3>{editingSchedule?.id ? '✏️ Edit Workout Plan' : '➕ Add Workout Plan'}</h3>
 
                         <div className="form-group">
                             <label>Name</label>
@@ -178,23 +232,6 @@ export default function WorkoutScheduleTable() {
                             </select>
                         </div>
 
-                        <div className="form-group">
-                            <label>Workout</label>
-                            <select
-                                value={form.workout?.id ?? ''}
-                                onChange={(e) => {
-                                    const w = workouts.find((x) => x.id === Number(e.target.value));
-                                    setForm({...form, workout: w});
-                                }}
-                                disabled={form.isRestDay}
-                            >
-                                <option value="">— Select —</option>
-                                {workouts.map((w) => (
-                                    <option key={w.id} value={w.id}>{w.name}</option>
-                                ))}
-                            </select>
-                        </div>
-
                         <div className="form-group checkbox">
                             <label>
                                 <input
@@ -204,6 +241,28 @@ export default function WorkoutScheduleTable() {
                                 /> Rest Day
                             </label>
                         </div>
+
+                        {!form.isRestDay && (
+                            <div className="form-group">
+                                <label>Workouts (multiple)</label>
+                                <select
+                                    multiple
+                                    value={form.workouts?.id} // ✅ ép sang string[]
+                                    onChange={(e) => {
+                                        const selected = Array.from(e.target.selectedOptions).map((o) => Number(o.value)); // chuyển ngược về number[]
+                                        const selectedWorkouts = workouts.find((w) => selected.includes(w.id));
+                                        setForm({...form, workouts: selectedWorkouts});
+                                    }}
+                                >
+                                    {workouts.map((w) => (
+                                        <option key={w.id} value={String(w.id)}> {/* ✅ value nên là string */}
+                                            {w.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+
 
                         <div className="modal-actions">
                             <button onClick={handleSubmit} className="save-btn">
