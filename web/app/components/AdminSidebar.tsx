@@ -1,7 +1,10 @@
 'use client';
 import {usePathname, useRouter} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import {Home, Users, UtensilsCrossed, Dumbbell} from 'lucide-react';
+import {
+    Home, Users, UtensilsCrossed, Dumbbell, CalendarDays,
+    ListChecks
+} from 'lucide-react';
 import './AdminSidebar.css';
 import PageLoader from './PageLoader';
 
@@ -10,6 +13,8 @@ const menuItems = [
     {href: '/admin/users', label: 'Quản lý người dùng', icon: Users},
     {href: '/admin/meals', label: 'Quản lý món ăn', icon: UtensilsCrossed},
     {href: '/admin/workouts', label: 'Quản lý bài tập', icon: Dumbbell},
+    {href: '/admin/meal-plan', label: 'Quản lý thực đơn', icon: ListChecks},
+    {href: '/admin/workout-plan', label: 'Quản lý lịch tập', icon: CalendarDays},
 ];
 
 export default function AdminSidebar() {

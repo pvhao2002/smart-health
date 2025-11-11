@@ -7,9 +7,8 @@ export const API_ENDPOINTS = {
         REGISTER: `${API_BASE_URL}/auth/register`,
         PROFILE: `${API_BASE_URL}/auth/profile`,
     },
-    CATEGORIES: {
-        BASE: `${API_BASE_URL}/products/categories`,
-        ADMIN: `${API_BASE_URL}/admin/categories`
+    WORKOUTS: {
+        ADMIN: `${API_BASE_URL}/admin/workouts`
     },
     MEALS: {
         BASE: `${API_BASE_URL}/meals`,
@@ -17,9 +16,6 @@ export const API_ENDPOINTS = {
     },
     USERS: {
         BASE: `${API_BASE_URL}/admin/users`,
-    },
-    ORDERS: {
-        BASE: `${API_BASE_URL}/admin/orders`,
     },
     STATISTICS: {
         DASHBOARD: `${API_BASE_URL}/statistics/dashboard`,

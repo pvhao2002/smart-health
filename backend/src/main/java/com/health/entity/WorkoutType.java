@@ -2,6 +2,7 @@ package com.health.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.context.annotation.Description;
 
 @Entity
 @Table(name = "workout_type")
@@ -19,8 +20,9 @@ public class WorkoutType {
     private Double caloriesPerMinute;
     @Column(columnDefinition = "TEXT")
     private String description;
+
     @Column(columnDefinition = "TEXT")
-    private String url;
+    private String url; // url of youtube video demo
 
     @Enumerated(EnumType.STRING)
     private Level level = Level.BEGINNER;

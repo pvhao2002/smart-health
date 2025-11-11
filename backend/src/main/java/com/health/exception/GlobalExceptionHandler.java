@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
@@ -146,8 +147,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(
             Exception ex, WebRequest request) {
-        log.error("Unexpected error occurred on request to {}: {}",
-                request.getDescription(false), ex.getMessage(), ex);
+        HttpServletRequest httpRequest = ((ServletWebRequest) request).getRequest();
+
+        log.error("Unexpected error occurred on request to {} [{}]: {}",
+                httpRequest.getRequestURI(), httpRequest.getMethod(), ex.getMessage(), ex);
+
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .error("INTERNAL_SERVER_ERROR")
