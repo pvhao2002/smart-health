@@ -7,8 +7,10 @@ import com.health.dto.admin.WorkoutTypeDTO;
 import com.health.dto.common.ApiResponse;
 import com.health.entity.MealPlan;
 import com.health.entity.WorkoutSchedule;
+import com.health.entity.WorkoutType;
 import com.health.repository.MealPlanRepository;
 import com.health.repository.WorkoutScheduleRepository;
+import com.health.repository.WorkoutTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +21,9 @@ import java.util.Optional;
 @RequestMapping("/admin/plans")
 @RequiredArgsConstructor
 public class AdminPlanController {
-
     private final MealPlanRepository mealPlanRepository;
     private final WorkoutScheduleRepository workoutScheduleRepository;
+    private final WorkoutTypeRepository workoutTypeRepository;
 
     // --- Meal Plans ---
     @GetMapping("/meals")
@@ -135,13 +137,17 @@ public class AdminPlanController {
         if (schedule.getDayOfWeek() != null) {
             existing.setDayOfWeek(schedule.getDayOfWeek());
         }
-
         if (schedule.getIsRestDay() != null) {
             existing.setIsRestDay(schedule.getIsRestDay());
         }
         if (schedule.getIsActive() != null) {
             existing.setIsActive(schedule.getIsActive());
         }
+
+        Optional.ofNullable(schedule.getWorkout())
+                .map(WorkoutType::getId)
+                .flatMap(workoutTypeRepository::findById)
+                .ifPresent(existing::setWorkout);
 
         workoutScheduleRepository.save(existing);
         return ApiResponse.success("Workout schedule updated successfully");

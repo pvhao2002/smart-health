@@ -10,7 +10,7 @@ export default function TabsLayout() {
             <Tabs
                 screenOptions={{
                     headerShown: false,
-                    tabBarActiveTintColor: '#00ADEF',
+                    tabBarActiveTintColor: '#3EB489', // mint green
                     tabBarInactiveTintColor: '#9CA3AF',
                     tabBarLabelStyle: {
                         fontSize: 12,
@@ -35,6 +35,7 @@ export default function TabsLayout() {
                     },
                 }}
             >
+                {/* 🏠 Home */}
                 <Tabs.Screen
                     name="index"
                     options={{
@@ -45,26 +46,27 @@ export default function TabsLayout() {
                     }}
                 />
 
+                {/* 🏃‍♂️ Record */}
                 <Tabs.Screen
-                    name="medicine"
+                    name="record"
                     options={{
-                        title: 'Medicines',
+                        title: 'Record',
                         tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="medkit-outline" size={size + 1} color={color} />
+                            <Ionicons name="create-outline" size={size + 1} color={color} />
                         ),
                     }}
                 />
 
-                {/* 🌟 Middle "Cart" tab – standout design */}
+                {/* 🌟 Middle button – Activity */}
                 <Tabs.Screen
-                    name="cart"
+                    name="activity"
                     options={{
                         title: '',
-                        tabBarIcon: ({ color, size, focused }) => (
-                            <View style={styles.cartButton}>
+                        tabBarIcon: ({ focused }) => (
+                            <View style={styles.centerButton}>
                                 <Ionicons
-                                    name="cart-outline"
-                                    size={28}
+                                    name="pulse-outline"
+                                    size={30}
                                     color={focused ? '#fff' : '#fff'}
                                 />
                             </View>
@@ -72,16 +74,18 @@ export default function TabsLayout() {
                     }}
                 />
 
+                {/* 🍽️ Diet */}
                 <Tabs.Screen
-                    name="history"
+                    name="diet"
                     options={{
-                        title: 'Health History',
+                        title: 'Diet',
                         tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="time-outline" size={size + 1} color={color} />
+                            <Ionicons name="restaurant-outline" size={size + 1} color={color} />
                         ),
                     }}
                 />
 
+                {/* 👤 Profile */}
                 <Tabs.Screen
                     name="profile"
                     options={{
@@ -99,17 +103,17 @@ export default function TabsLayout() {
 const styles = StyleSheet.create({
     safeArea: { flex: 1, backgroundColor: '#F9FAFB' },
 
-    cartButton: {
-        width: 64,
-        height: 64,
-        borderRadius: 32,
-        backgroundColor: '#F57C00',
+    centerButton: {
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: '#FFB74D', // orange accent
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#F57C00',
-        shadowOpacity: 0.3,
+        shadowColor: '#FFB74D',
+        shadowOpacity: 0.4,
         shadowRadius: 8,
         elevation: 6,
-        marginBottom: 24,
+        marginBottom: 26,
     },
 });

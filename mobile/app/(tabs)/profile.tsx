@@ -32,6 +32,7 @@ export default function ProfileScreen() {
     ];
 
     useEffect(() => {
+        console.log(token)
         const fetchProfile = async () => {
             if (!token) {
                 router.replace('/login');
@@ -40,6 +41,7 @@ export default function ProfileScreen() {
 
             try {
                 setLoading(true);
+                console.log(token)
                 const res = await fetch(`${APP_CONFIG.BASE_URL}${APP_CONFIG.API.AUTH.PROFILE}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });

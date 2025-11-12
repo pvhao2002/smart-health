@@ -228,7 +228,7 @@ export default function WorkoutTable() {
                                 onChange={(e) => setForm({...form, goal: e.target.value as WorkoutType['goal']})}
                             >
                                 <option value="LOSE_WEIGHT">Lose Weight</option>
-                                <option value="GAIN_WEIGHT">Gain Weight</option>
+                                <option value="GAIN_MUSCLE">Gain Muscle</option>
                                 <option value="MAINTAIN">Maintain</option>
                             </select>
                         </div>

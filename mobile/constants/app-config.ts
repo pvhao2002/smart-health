@@ -15,12 +15,11 @@ export const ENV = {
     }
 };
 
-const currentEnv = ENV.development;
+// const currentEnv = ENV.development;
 
 export const APP_CONFIG = {
-    ...currentEnv,
-
-    // ✅ Endpoint nhóm theo domain logic
+    // ...currentEnv,
+    BASE_URL: `http://localhost:1789/health-service`,
     API: {
         AUTH: {
             LOGIN: '/auth/login',

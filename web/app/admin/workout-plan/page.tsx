@@ -79,7 +79,7 @@ export default function WorkoutScheduleTable() {
         try {
             const payload = {
                 ...form,
-                workoutIds: form.workouts?.id,
+                workout: form.workouts,
             };
             if (editingSchedule?.id) {
                 await apiClient.patch(`/admin/plans/workouts/${editingSchedule.id}`, payload);
@@ -227,7 +227,7 @@ export default function WorkoutScheduleTable() {
                                 onChange={(e) => setForm({...form, goal: e.target.value as WorkoutSchedule['goal']})}
                             >
                                 <option value="LOSE_WEIGHT">Lose Weight</option>
-                                <option value="GAIN_WEIGHT">Gain Weight</option>
+                                <option value="GAIN_MUSCLE">Gain Muscle</option>
                                 <option value="MAINTAIN">Maintain</option>
                             </select>
                         </div>
@@ -244,25 +244,24 @@ export default function WorkoutScheduleTable() {
 
                         {!form.isRestDay && (
                             <div className="form-group">
-                                <label>Workouts (multiple)</label>
+                                <label>Workout</label>
                                 <select
-                                    multiple
-                                    value={form.workouts?.id} // ✅ ép sang string[]
+                                    value={form.workouts?.id ? String(form.workouts.id) : ''}
                                     onChange={(e) => {
-                                        const selected = Array.from(e.target.selectedOptions).map((o) => Number(o.value)); // chuyển ngược về number[]
-                                        const selectedWorkouts = workouts.find((w) => selected.includes(w.id));
-                                        setForm({...form, workouts: selectedWorkouts});
+                                        const selectedId = Number(e.target.value);
+                                        const selectedWorkout = workouts.find((w) => w.id === selectedId);
+                                        setForm({...form, workouts: selectedWorkout});
                                     }}
                                 >
+                                    <option value="">— Select —</option>
                                     {workouts.map((w) => (
-                                        <option key={w.id} value={String(w.id)}> {/* ✅ value nên là string */}
+                                        <option key={w.id} value={String(w.id)}>
                                             {w.name}
                                         </option>
                                     ))}
                                 </select>
                             </div>
                         )}
-
 
                         <div className="modal-actions">
                             <button onClick={handleSubmit} className="save-btn">
