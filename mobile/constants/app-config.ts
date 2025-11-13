@@ -7,19 +7,14 @@ import Constants from 'expo-constants';
 
 const localhost =
     Constants.expoConfig?.hostUri?.split(':').shift() || 'localhost';
-console.log(localhost)
 export const ENV = {
     BASE_URL: `http://${localhost}:1789/health-service`,
     development: {
         BASE_URL: `http://${localhost}:1789/health-service`,
     }
 };
-
-// const currentEnv = ENV.development;
-
 export const APP_CONFIG = {
-    // ...currentEnv,
-    BASE_URL: `http://localhost:1789/health-service`,
+    BASE_URL: `http://${localhost}:1789/health-service`,
     API: {
         AUTH: {
             LOGIN: '/auth/login',

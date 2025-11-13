@@ -34,9 +34,13 @@ public class MealLog {
     @JoinColumn(name = "meal_id", nullable = false)
     private Meal meal;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "meal_type", nullable = false, length = 20)
+    private MealType mealType;
+
     // Ngày ăn
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDateTime date;
 
     // Số lượng khẩu phần
     @Column(nullable = false)

@@ -1,7 +1,7 @@
-import { Tabs } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { Platform, View, StyleSheet } from 'react-native';
+import {Tabs} from 'expo-router';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Ionicons} from '@expo/vector-icons';
+import {Platform, View, StyleSheet} from 'react-native';
 import React from 'react';
 
 export default function TabsLayout() {
@@ -28,20 +28,20 @@ export default function TabsLayout() {
                         shadowColor: '#000',
                         shadowOpacity: 0.08,
                         shadowRadius: 8,
-                        shadowOffset: { width: 0, height: 3 },
+                        shadowOffset: {width: 0, height: 3},
                         elevation: 5,
                         borderTopWidth: 0,
                         paddingTop: 4,
                     },
                 }}
             >
-                {/* 🏠 Home */}
+                {/* 🏠 Home Dashboard */}
                 <Tabs.Screen
                     name="index"
                     options={{
                         title: 'Home',
-                        tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="home-outline" size={size + 1} color={color} />
+                        tabBarIcon: ({color, size}) => (
+                            <Ionicons name="home-outline" size={size + 1} color={color}/>
                         ),
                     }}
                 />
@@ -51,18 +51,18 @@ export default function TabsLayout() {
                     name="record"
                     options={{
                         title: 'Record',
-                        tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="create-outline" size={size + 1} color={color} />
+                        tabBarIcon: ({color, size}) => (
+                            <Ionicons name="create-outline" size={size + 1} color={color}/>
                         ),
                     }}
                 />
 
-                {/* 🌟 Middle button – Activity */}
+                {/* ❤️ Activity (center button) */}
                 <Tabs.Screen
                     name="activity"
                     options={{
                         title: '',
-                        tabBarIcon: ({ focused }) => (
+                        tabBarIcon: ({focused}) => (
                             <View style={styles.centerButton}>
                                 <Ionicons
                                     name="pulse-outline"
@@ -76,11 +76,11 @@ export default function TabsLayout() {
 
                 {/* 🍽️ Diet */}
                 <Tabs.Screen
-                    name="diet"
+                    name="plan"
                     options={{
-                        title: 'Diet',
-                        tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="restaurant-outline" size={size + 1} color={color} />
+                        title: 'plan',
+                        tabBarIcon: ({color, size}) => (
+                            <Ionicons name="restaurant-outline" size={size + 1} color={color}/>
                         ),
                     }}
                 />
@@ -90,8 +90,8 @@ export default function TabsLayout() {
                     name="profile"
                     options={{
                         title: 'Profile',
-                        tabBarIcon: ({ color, size }) => (
-                            <Ionicons name="person-circle-outline" size={size + 1} color={color} />
+                        tabBarIcon: ({color, size}) => (
+                            <Ionicons name="person-circle-outline" size={size + 1} color={color}/>
                         ),
                     }}
                 />
@@ -101,8 +101,7 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: '#F9FAFB' },
-
+    safeArea: {flex: 1, backgroundColor: '#F9FAFB'},
     centerButton: {
         width: 70,
         height: 70,

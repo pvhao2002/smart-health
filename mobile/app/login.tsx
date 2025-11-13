@@ -29,6 +29,7 @@ export default function LoginScreen() {
             Alert.alert('Success', 'Welcome back!');
             router.replace('/(tabs)/profile');
         } catch (err: any) {
+            console.log(err)
             Alert.alert('Login failed', err.response?.data?.message || 'Please check your credentials');
         } finally {
             setLoading(false);

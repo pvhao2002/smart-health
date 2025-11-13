@@ -10,6 +10,7 @@ import com.health.dto.user.UserProfileResponse;
 import com.health.entity.User;
 import com.health.exception.ResourceNotFoundException;
 import com.health.exception.ValidationException;
+import com.health.repository.UserProfileRepo;
 import com.health.repository.UserRepository;
 import com.health.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +34,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 public class UserServiceImpl implements UserService {
-
+    private final UserProfileRepo userProfileRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -98,16 +103,58 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileResponse updateUserProfile(String userEmail, UpdateUserProfileRequest request) {
+    public UserProfileResponse updateUserProfile(String userEmail, UpdateUserProfileRequest req) {
         var user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (StringUtils.hasText(request.getFullName())) {
-            user.setFullName(request.getFullName());
+        var profile = userProfileRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("User profile not found"));
+
+        if (StringUtils.hasText(req.getFullName())) user.setFullName(req.getFullName());
+        if (req.getBirthDate() != null) {
+            int age = Period.between(req.getBirthDate(), LocalDate.now()).getYears();
+            profile.setAge(age);
+            profile.setBirthDate(req.getBirthDate());
+        }
+        if (req.getHeightCm() != null) profile.setHeightCm(req.getHeightCm());
+        if (req.getWeightKg() != null) profile.setWeightKg(req.getWeightKg());
+        if (req.getTargetWeightKg() != null) profile.setTargetWeightKg(req.getTargetWeightKg());
+        if (req.getGoal() != null) profile.setGoal(req.getGoal());
+        if (req.getActivityLevel() != null) profile.setActivityLevel(req.getActivityLevel());
+
+        if (profile.getHeightCm() != null && profile.getWeightKg() != null) {
+            BigDecimal heightM = profile.getHeightCm().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
+            BigDecimal bmi = profile.getWeightKg().divide(heightM.pow(2), 2, RoundingMode.HALF_UP);
+            profile.setBmi(bmi);
         }
 
-        var savedUser = userRepository.save(user);
-        return mapToUserProfileResponse(savedUser);
+        if (profile.getWeightKg() != null &&
+                profile.getHeightCm() != null &&
+                profile.getAge() != null &&
+                profile.getGender() != null) {
+
+            double weight = profile.getWeightKg().doubleValue();
+            double height = profile.getHeightCm().doubleValue();
+            int age = profile.getAge();
+
+            double bmr;
+            if (profile.getGender().name().equals("MALE")) {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+
+            profile.setBmr(BigDecimal.valueOf(bmr));
+        }
+
+        if (profile.getBmr() != null && profile.getActivityLevel() != null) {
+            double tdee = profile.getBmr().doubleValue() * profile.getActivityLevel().getFactor();
+            profile.setTdee(BigDecimal.valueOf(tdee));
+        }
+
+        userRepository.save(user);
+        userProfileRepository.save(profile);
+        return UserProfileResponse.builder().build();
     }
 
     @Override
@@ -156,6 +203,16 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .role(user.getRole())
+                .age(user.getProfile().getAge())
+                .birthDate(user.getProfile().getBirthDate())
+                .bmi(user.getProfile().getBmi())
+                .bmr(user.getProfile().getBmr())
+                .tdee(user.getProfile().getTdee())
+                .heightCm(user.getProfile().getHeightCm())
+                .weightKg(user.getProfile().getWeightKg())
+                .goal(user.getProfile().getGoal())
+                .targetWeightKg(user.getProfile().getTargetWeightKg())
+                .activityLevel(user.getProfile().getActivityLevel())
                 .isActive(user.getIsActive())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt());
