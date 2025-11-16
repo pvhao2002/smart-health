@@ -3,6 +3,7 @@ package com.health.dto.admin;
 import com.health.entity.Goal;
 import com.health.entity.Level;
 import com.health.entity.WorkoutType;
+import com.health.util.NetworkUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class WorkoutTypeDTO {
     @Builder.Default
     private Goal goal = Goal.LOSE_WEIGHT;
     private Boolean isActive = true;
+    private String ytbUrl;
 
     public WorkoutTypeDTO(WorkoutType workoutType) {
         this.id = workoutType.getId();
@@ -33,5 +35,10 @@ public class WorkoutTypeDTO {
         this.level = workoutType.getLevel();
         this.goal = workoutType.getGoal();
         this.isActive = workoutType.getIsActive();
+        this.ytbUrl = "http://" + NetworkUtils.getLocalIpAddress() + ":3000/video?videoId=" + getVideoId(workoutType.getUrl());
+    }
+
+    public String getVideoId(String url) {
+        return url.substring(url.lastIndexOf("/") + 1);
     }
 }

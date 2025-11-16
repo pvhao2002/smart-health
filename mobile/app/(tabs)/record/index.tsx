@@ -51,6 +51,9 @@ export default function HealthHistoryScreen() {
         bmi: "",
         heartRate: "",
         sleepHours: "",
+        steps: "",
+        distance: "",
+        caloriesBurned: "",
         note: "",
     });
 
@@ -183,10 +186,17 @@ export default function HealthHistoryScreen() {
             const body = {
                 date: newRecord.date.toISOString().split("T")[0],
                 weight: parseFloat(newRecord.weight),
+
                 heartRate: newRecord.heartRate ? parseInt(newRecord.heartRate) : null,
                 sleepHours: newRecord.sleepHours ? parseFloat(newRecord.sleepHours) : null,
+
+                steps: newRecord.steps ? parseInt(newRecord.steps) : null,
+                distance: newRecord.distance ? parseFloat(newRecord.distance) : null,
+                caloriesBurned: newRecord.caloriesBurned ? parseInt(newRecord.caloriesBurned) : null,
+
                 note: newRecord.note,
             };
+
 
             const res = await fetch(`${APP_CONFIG.BASE_URL}/health-records`, {
                 method: "POST",
@@ -203,7 +213,17 @@ export default function HealthHistoryScreen() {
             Alert.alert("✅ Saved!");
 
             setModalHealth(false);
-            setNewRecord({date: new Date(), weight: "", bmi: "", heartRate: "", sleepHours: "", note: ""});
+            setNewRecord({
+                date: new Date(),
+                weight: "",
+                bmi: "",
+                heartRate: "",
+                sleepHours: "",
+                steps: "",
+                distance: "",
+                caloriesBurned: "",
+                note: "",
+            });
 
             fetchHealthRecords();
         } catch (err: any) {
@@ -274,6 +294,27 @@ export default function HealthHistoryScreen() {
                 <Ionicons name="moon-outline" size={20} color="#6C63FF"/>
                 <Text style={s.metricText}>Sleep: {item.sleepHours ?? "—"} h</Text>
             </View>
+
+            {item.steps && (
+                <View style={s.metric}>
+                    <Ionicons name="walk-outline" size={20} color="#3EB489"/>
+                    <Text style={s.metricText}>Steps: {item.steps}</Text>
+                </View>
+            )}
+
+            {item.distance && (
+                <View style={s.metric}>
+                    <Ionicons name="footsteps-outline" size={20} color="#6C63FF"/>
+                    <Text style={s.metricText}>Distance: {item.distance} km</Text>
+                </View>
+            )}
+
+            {item.caloriesBurned && (
+                <View style={s.metric}>
+                    <Ionicons name="flame-outline" size={20} color="#FF6F61"/>
+                    <Text style={s.metricText}>Calories Burned: {item.caloriesBurned}</Text>
+                </View>
+            )}
 
             {item.note && <Text style={s.note}>💬 {item.note}</Text>}
         </View>
@@ -451,6 +492,42 @@ export default function HealthHistoryScreen() {
                                     keyboardType="numeric"
                                     value={newRecord.sleepHours}
                                     onChangeText={(v) => setNewRecord({...newRecord, sleepHours: v})}
+                                />
+                            </View>
+
+                            {/* Steps */}
+                            <View style={s.input}>
+                                <Ionicons name="walk-outline" size={19} color="#3EB489"/>
+                                <TextInput
+                                    style={s.inputText}
+                                    placeholder="Steps"
+                                    keyboardType="numeric"
+                                    value={newRecord.steps}
+                                    onChangeText={(v) => setNewRecord({...newRecord, steps: v})}
+                                />
+                            </View>
+
+                            {/* Distance */}
+                            <View style={s.input}>
+                                <Ionicons name="footsteps-outline" size={19} color="#6C63FF"/>
+                                <TextInput
+                                    style={s.inputText}
+                                    placeholder="Distance (km)"
+                                    keyboardType="numeric"
+                                    value={newRecord.distance}
+                                    onChangeText={(v) => setNewRecord({...newRecord, distance: v})}
+                                />
+                            </View>
+
+                            {/* Calories Burned */}
+                            <View style={s.input}>
+                                <Ionicons name="flame-outline" size={19} color="#FF6F61"/>
+                                <TextInput
+                                    style={s.inputText}
+                                    placeholder="Calories Burned"
+                                    keyboardType="numeric"
+                                    value={newRecord.caloriesBurned}
+                                    onChangeText={(v) => setNewRecord({...newRecord, caloriesBurned: v})}
                                 />
                             </View>
 

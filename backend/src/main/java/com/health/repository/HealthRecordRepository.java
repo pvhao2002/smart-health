@@ -13,4 +13,5 @@ public interface HealthRecordRepository extends JpaRepository<HealthRecord, Long
     List<HealthRecord> findByUserOrderByDateDesc(User user);
 
     Optional<HealthRecord> findByUserAndDate(User user, LocalDate date);
+    List<HealthRecord> findAllByUserAndDateIn(User user, List<LocalDate> dates);
 }

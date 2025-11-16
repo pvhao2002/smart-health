@@ -10,5 +10,8 @@ public class HealthRecordRequestDTO {
     private Double weight;
     private Integer heartRate;
     private Double sleepHours;
+    private Integer steps;
+    private Double distance;
+    private Integer caloriesBurned;
     private String note;
 }

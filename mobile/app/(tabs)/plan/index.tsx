@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import {Ionicons} from "@expo/vector-icons";
 import {APP_CONFIG} from "@/constants/app-config";
+import {WebView} from "react-native-webview";
 
 const {width} = Dimensions.get("window");
 
@@ -28,12 +29,18 @@ interface WorkoutScheduleDTO {
         sets?: number;
         duration?: number;
         url?: string;
+        ytbUrl?: string;
     } | null;
 }
 
 interface MealDTO {
     id: number;
     name: string;
+    url: string;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
 }
 
 interface MealPlanDTO {
@@ -154,12 +161,24 @@ function WorkoutContent({data}: { data: any[] }) {
                             <Text style={styles.exerciseTitle}>Workout:</Text>
                             <Text style={styles.exerciseItem}>• {item.workouts?.name}</Text>
 
-                            {item.workouts?.reps && (
-                                <Text style={styles.exerciseItem}>- Reps: {item.workouts.reps}</Text>
+                            {item.workouts?.caloriesPerMinute && (
+                                <Text style={styles.exerciseItem}>- Calories: {item.workouts.caloriesPerMinute}</Text>
                             )}
 
-                            {item.workouts?.duration && (
-                                <Text style={styles.exerciseItem}>- Duration: {item.workouts.duration} min</Text>
+                            {item.workouts?.level && (
+                                <Text style={styles.exerciseItem}>- Level: {item.workouts.level}</Text>
+                            )}
+
+                            {/* VIDEO YOUTUBE */}
+                            {item.workouts?.url && (
+                                <View style={{marginTop: 12, height: 200, borderRadius: 10, overflow: "hidden"}}>
+                                    <WebView
+                                        source={{uri: item.workouts.ytbUrl}}
+                                        style={{flex: 1}}
+                                        javaScriptEnabled
+                                        domStorageEnabled
+                                    />
+                                </View>
                             )}
                         </View>
                     )}
@@ -217,15 +236,33 @@ function MealContent({data}: { data: any[] }) {
 }
 
 /* Render row for 1 meal type */
+
+/* Render row for 1 meal type */
 function renderMealRow(label: string, meal: any) {
     return (
         <View style={styles.mealRow}>
             <Text style={styles.mealLabel}>{label}</Text>
 
             {meal ? (
-                <View style={{flex: 1}}>
-                    <Text style={styles.mealName}>{meal.name}</Text>
-                    <Text style={styles.mealCalories}>{meal.calories} kcal</Text>
+                <View style={{flexDirection: "row", marginTop: 6}}>
+
+                    {/* Image */}
+                    <Image
+                        source={{uri: meal.url}}
+                        style={styles.mealImage}
+                    />
+
+                    {/* Meal Info */}
+                    <View style={{flex: 1, marginLeft: 10}}>
+                        <Text style={styles.mealName}>{meal.name}</Text>
+                        <Text style={styles.mealCalories}>🔥 {meal.calories} kcal</Text>
+
+                        <View style={{marginTop: 4}}>
+                            <Text style={styles.macroText}>🥩 Protein: {meal.protein} g</Text>
+                            <Text style={styles.macroText}>🍚 Carbs: {meal.carbs} g</Text>
+                            <Text style={styles.macroText}>🧈 Fat: {meal.fat} g</Text>
+                        </View>
+                    </View>
                 </View>
             ) : (
                 <Text style={styles.mealEmpty}>—</Text>
@@ -233,7 +270,6 @@ function renderMealRow(label: string, meal: any) {
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -390,5 +426,17 @@ const styles = StyleSheet.create({
         marginTop: 12,
         fontSize: 16,
         color: "#9CA3AF",
+    },
+    mealImage: {
+        width: 70,
+        height: 70,
+        borderRadius: 10,
+        backgroundColor: "#E5E7EB",
+    },
+
+    macroText: {
+        fontSize: 12,
+        color: "#6B7280",
+        marginTop: 1,
     },
 });

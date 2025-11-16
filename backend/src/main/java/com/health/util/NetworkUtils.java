@@ -11,19 +11,30 @@ public class NetworkUtils {
     public static String getLocalIpAddress() {
         try {
             var interfaces = NetworkInterface.getNetworkInterfaces();
+
             while (interfaces.hasMoreElements()) {
-                var iface = interfaces.nextElement();
-                if (iface.isLoopback() || !iface.isUp()) continue;
+                NetworkInterface iface = interfaces.nextElement();
+
+                String name = iface.getDisplayName().toLowerCase();
+
+                if (
+                        !iface.isUp() ||
+                                iface.isLoopback() ||
+                                iface.isVirtual() ||
+                                !(name.contains("wi-fi") || name.contains("wlan") || name.contains("wireless"))
+                ) continue;
+
                 var addresses = iface.getInetAddresses();
                 while (addresses.hasMoreElements()) {
                     var addr = addresses.nextElement();
-                    if (addr.isSiteLocalAddress()) {
+
+                    if (!addr.isLoopbackAddress() && addr.isSiteLocalAddress()) {
                         return addr.getHostAddress();
                     }
                 }
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, e.getMessage(), e);
+            e.printStackTrace();
         }
         return "127.0.0.1";
     }

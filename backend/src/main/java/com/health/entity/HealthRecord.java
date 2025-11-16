@@ -27,6 +27,10 @@ public class HealthRecord {
     @Column(nullable = false)
     private LocalDate date;
 
+    private Integer steps;
+    private Double distance;
+    private Integer caloriesBurned;
+
     // Cân nặng (kg)
     @Column(nullable = false)
     private Double weight;

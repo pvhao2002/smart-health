@@ -22,7 +22,9 @@ public class HealthRecordResponse {
     private Double bmi;          // calculated BMI
     private Integer heartRate;   // bpm
     private Double sleepHours;   // hours
-
+    private Integer steps;
+    private Double distance;
+    private Integer caloriesBurned;
     private String note;         // optional note
 
     private LocalDateTime createdAt; // timestamp
@@ -31,6 +33,9 @@ public class HealthRecordResponse {
         return HealthRecordResponse.builder()
                 .id(r.getId())
                 .date(r.getDate())
+                .steps(r.getSteps())
+                .distance(r.getDistance())
+                .caloriesBurned(r.getCaloriesBurned())
                 .weight(r.getWeight())
                 .bmi(r.getBmi())
                 .heartRate(r.getHeartRate())

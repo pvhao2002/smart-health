@@ -1,158 +1,463 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Image} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
-import {LinearGradient} from 'expo-linear-gradient';
+import React, {useEffect, useState} from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    TouchableOpacity,
+    Image,
+    ActivityIndicator,
+} from "react-native";
+import {Ionicons} from "@expo/vector-icons";
+import {LinearGradient} from "expo-linear-gradient";
+import {APP_CONFIG} from "@/constants/app-config";
+import {useAuthStore} from "@/store/authStore";
+
+interface HealthRecordResponse {
+    id: number;
+    date: string;
+    weight: number | null;
+    bmi: number | null;
+    heartRate: number | null;
+    sleepHours: number | null;
+    steps: number | null;
+    distance: number | null;
+    caloriesBurned: number | null;
+    note: string | null;
+    createdAt: string;
+}
+
+interface WorkoutTypeDTO {
+    id: number;
+    name: string;
+    caloriesPerMinute: number;
+    description: string;
+    url: string;
+    level: string;
+    goal: string;
+    isActive: boolean;
+    ytbUrl: string;
+}
+
+interface MealDTO {
+    id: number;
+    name: string;
+    url: string;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+}
+
+interface HomeUserDTO {
+    yesterdaysHealthRecord: HealthRecordResponse | null;
+    todayHealthRecord: HealthRecordResponse | null;
+    weeklyHealthRecords: HealthRecordResponse[];
+    recommendedWorkouts: WorkoutTypeDTO[];
+    recommendedMeals: MealDTO[];
+}
 
 export default function SmartHealthHome() {
-    const [stats, setStats] = useState({steps: 7200, calories: 520, workouts: 2});
+    const {user} = useAuthStore();
+    const token = user?.token;
+    const [profile, setProfile] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    const [home, setHome] = useState<HomeUserDTO>({
+        yesterdaysHealthRecord: null,
+        todayHealthRecord: null,
+        weeklyHealthRecords: [],
+        recommendedWorkouts: [],
+        recommendedMeals: [],
+    });
+
+    useEffect(() => {
+        loadHomeData();
+    }, []);
+
+    const loadHomeData = async () => {
+        try {
+            setLoading(true);
+
+            const requests = [
+                fetch(`${APP_CONFIG.BASE_URL}${APP_CONFIG.API.AUTH.PROFILE}`, {
+                    headers: {Authorization: `Bearer ${token}`}
+                }),
+                fetch(`${APP_CONFIG.BASE_URL}/users/my`, {
+                    headers: {Authorization: `Bearer ${token}`}
+                }),
+            ];
+
+            const [profileRes, homeRes] = await Promise.all(requests);
+
+            const [profileJson, homeJson] = await Promise.all([
+                profileRes.json(),
+                homeRes.json()
+            ]);
+
+            if (!profileRes.ok) throw new Error(profileJson.message);
+            if (!homeRes.ok) throw new Error(homeJson.message);
+
+            setProfile(profileJson.data ?? profileJson);
+            setHome(homeJson.data ?? homeJson);
+
+        } catch (err) {
+            console.log("Home error:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const formatDay = (dateStr: string) => {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString("en-US", { weekday: "short" });
+    };
+
+    const formatDate = (dateStr: string) => {
+        const d = new Date(dateStr);
+        return d.getDate();
+    };
+
+
+    const today = new Date();
+
+    if (loading)
+        return (
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <ActivityIndicator size="large" color="#3EB489"/>
+            </View>
+        );
+
+    const todayRec = home.todayHealthRecord;
 
     return (
-        <ScrollView style={s.container} showsVerticalScrollIndicator={false}>
-            {/* Header */}
+        <ScrollView
+            style={s.container}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom: 140}}
+        >
+            {/* HEADER */}
             <View style={s.header}>
-                <Text style={s.greeting}>Good Morning,</Text>
-                <Text style={s.username}>Kira 🌿</Text>
-                <Text style={s.date}>Wednesday, 12 Nov 2025</Text>
+                <View>
+                    <Text style={s.greeting}>Good Morning,</Text>
+                    <Text style={s.username}>{profile?.fullName ?? "User"} 🌿</Text>
+                    <Text style={s.date}>{today.toLocaleDateString()}</Text>
+                </View>
+                <TouchableOpacity style={s.avatarBtn}>
+                    <Image
+                        source={require("@/assets/images/avatar.jpg")}
+                        style={s.avatar}
+                    />
+                </TouchableOpacity>
             </View>
 
-            {/* Progress Circle (fake sample) */}
-            <View style={s.progressBox}>
-                <LinearGradient colors={['#3EB489', '#6C63FF']} style={s.circle}>
-                    <Text style={s.circleValue}>{stats.steps}</Text>
-                    <Text style={s.circleLabel}>steps</Text>
-                </LinearGradient>
+            {/* RINGS */}
+            <View style={s.activityContainer}>
+                <View style={s.activityRing}>
+                    <LinearGradient colors={["#FF6F61", "#FFB74D"]} style={s.ring1}/>
+                    <LinearGradient colors={["#3EB489", "#6C63FF"]} style={s.ring2}/>
+                    <LinearGradient colors={["#6C63FF", "#3EB489"]} style={s.ring3}/>
+
+                    <View style={s.ringCenter}>
+                        <Text style={s.ringNumber}>
+                            {todayRec?.steps ?? 0}
+                        </Text>
+                        <Text style={s.ringLabel}>steps</Text>
+                    </View>
+                </View>
             </View>
 
-            {/* Stats */}
+            {/* QUICK STATS */}
             <View style={s.statsRow}>
-                <View style={[s.statCard, {backgroundColor: '#EAFBF6'}]}>
+                <View style={[s.statCard, {backgroundColor: "#EAFBF6"}]}>
                     <Ionicons name="flame-outline" size={22} color="#3EB489"/>
-                    <Text style={s.statValue}>{stats.calories}</Text>
+                    <Text style={s.statValue}>{todayRec?.caloriesBurned ?? 0}</Text>
                     <Text style={s.statLabel}>Calories</Text>
                 </View>
-                <View style={[s.statCard, {backgroundColor: '#EDEAFF'}]}>
+
+                <View style={[s.statCard, {backgroundColor: "#EDEAFF"}]}>
                     <Ionicons name="barbell-outline" size={22} color="#6C63FF"/>
-                    <Text style={s.statValue}>{stats.workouts}</Text>
+                    <Text style={s.statValue}>
+                        {home?.recommendedWorkouts?.length ?? 0}
+                    </Text>
                     <Text style={s.statLabel}>Workouts</Text>
                 </View>
-                <View style={[s.statCard, {backgroundColor: '#FFF5E6'}]}>
-                    <Ionicons name="walk-outline" size={22} color="#FFB74D"/>
-                    <Text style={s.statValue}>{stats.steps}</Text>
-                    <Text style={s.statLabel}>Steps</Text>
+
+                <View style={[s.statCard, {backgroundColor: "#FFF5E6"}]}>
+                    <Ionicons name="water-outline" size={22} color="#FFB74D"/>
+                    <Text style={s.statValue}>
+                        {(todayRec?.sleepHours ?? 0).toFixed(1)}h
+                    </Text>
+                    <Text style={s.statLabel}>Sleep</Text>
                 </View>
             </View>
 
-            {/* Recommended Workouts */}
+            {/* DAILY SUMMARY */}
+            <View style={s.section}>
+                <Text style={s.sectionTitle}>📊 Daily Summary</Text>
+
+                <View style={s.summaryCard}>
+
+                    <View style={s.summaryRow}>
+                        <Ionicons name="walk-outline" size={22} color="#3EB489"/>
+                        <Text style={s.summaryLabel}>Steps</Text>
+                        <Text style={s.summaryValue}>{todayRec?.steps ?? 0}</Text>
+                    </View>
+
+                    <View style={s.summaryRow}>
+                        <Ionicons name="map-outline" size={22} color="#6C63FF"/>
+                        <Text style={s.summaryLabel}>Distance</Text>
+                        <Text style={s.summaryValue}>
+                            {(todayRec?.distance ?? 0) + " km"}
+                        </Text>
+                    </View>
+
+                    <View style={s.summaryRow}>
+                        <Ionicons name="flame-outline" size={22} color="#FF6F61"/>
+                        <Text style={s.summaryLabel}>Calories</Text>
+                        <Text style={s.summaryValue}>
+                            {(todayRec?.caloriesBurned ?? 0) + " kcal"}
+                        </Text>
+                    </View>
+
+                    <View style={s.summaryRow}>
+                        <Ionicons name="moon-outline" size={22} color="#6C63FF"/>
+                        <Text style={s.summaryLabel}>Sleep</Text>
+                        <Text style={s.summaryValue}>
+                            {(todayRec?.sleepHours ?? 0) + " h"}
+                        </Text>
+                    </View>
+
+                    <View style={s.summaryRow}>
+                        <Ionicons name="heart-outline" size={22} color="#EF4444"/>
+                        <Text style={s.summaryLabel}>Heart Rate</Text>
+                        <Text style={s.summaryValue}>
+                            {(todayRec?.heartRate ?? "-") + " bpm"}
+                        </Text>
+                    </View>
+
+                    <View style={s.summaryRow}>
+                        <Ionicons name="barbell-outline" size={22} color="#3EB489"/>
+                        <Text style={s.summaryLabel}>Weight</Text>
+                        <Text style={s.summaryValue}>
+                            {(todayRec?.weight ?? "-") + " kg"}
+                        </Text>
+                    </View>
+
+                    <View style={s.summaryRow}>
+                        <Ionicons name="body-outline" size={22} color="#FFB74D"/>
+                        <Text style={s.summaryLabel}>BMI</Text>
+                        <Text style={s.summaryValue}>
+                            {(todayRec?.bmi ?? "-")}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+
+            {/* RECOMMENDED WORKOUTS (DYNAMIC) */}
             <View style={s.section}>
                 <Text style={s.sectionTitle}>🏋️ Recommended Workouts</Text>
+
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {['Yoga Flow', 'HIIT Burn', 'Core Strength', 'Morning Run'].map((item, idx) => (
+                    {home.recommendedWorkouts.map((w, idx) => (
                         <TouchableOpacity key={idx} style={s.workoutCard} activeOpacity={0.8}>
                             <Image
-                                source={require('@/assets/images/workout-sample.jpg')}
+                                source={require("@/assets/images/workout-sample.jpg")}
                                 style={s.workoutImage}
                             />
-                            <Text style={s.workoutName}>{item}</Text>
+                            <Text style={s.workoutName}>{w.name}</Text>
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
             </View>
 
-            {/* Diet Menu */}
+            {/* TODAY’S MENU */}
             <View style={s.section}>
-                <Text style={s.sectionTitle}>🥗 Today&#39;s Menu</Text>
-                <View style={s.dietCard}>
-                    <Image source={require('@/assets/images/salad.jpg')} style={s.dietImg}/>
-                    <View style={{flex: 1, marginLeft: 12}}>
-                        <Text style={s.dietTitle}>Avocado Chicken Salad</Text>
-                        <Text style={s.dietDesc}>Healthy protein boost lunch</Text>
+                <Text style={s.sectionTitle}>🥗 Today’s Menu</Text>
+
+                {home.recommendedMeals.length === 0 ? (
+                    <Text style={{color: "#6B7280"}}>No recommended meals yet.</Text>
+                ) : (
+                    <View style={s.dietCard}>
+                        <Image
+                            source={require("@/assets/images/salad.jpg")}
+                            style={s.dietImg}
+                        />
+                        <View style={{flex: 1, marginLeft: 12}}>
+                            <Text style={s.dietTitle}>{home.recommendedMeals[0].name}</Text>
+                            <Text style={s.dietDesc}>
+                                {home.recommendedMeals[0].calories} kcal
+                            </Text>
+                        </View>
+                        <Ionicons name="chevron-forward-outline" size={20} color="#9CA3AF"/>
                     </View>
-                    <Ionicons name="chevron-forward-outline" size={20} color="#9CA3AF"/>
-                </View>
+                )}
             </View>
 
-            {/* Tip / Motivation */}
+            {/* WEEKLY RECORDS */}
+            <View style={s.section}>
+                <Text style={s.sectionTitle}>📆 Weekly Trend</Text>
+
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    {home.weeklyHealthRecords.map((r, idx) => (
+                        <View key={idx} style={s.weekBox}>
+
+                            {/* Top Date */}
+                            <Text style={s.weekDay}>{formatDay(r.date)}</Text>
+                            <Text style={s.weekDate}>{formatDate(r.date)}</Text>
+
+                            {/* Steps */}
+                            <View style={s.weekMetricRow}>
+                                <Ionicons name="walk-outline" size={16} color="#3EB489" />
+                                <Text style={s.weekMetric}>{r.steps ?? 0}</Text>
+                            </View>
+
+                            {/* Distance */}
+                            <View style={s.weekMetricRow}>
+                                <Ionicons name="map-outline" size={16} color="#6C63FF" />
+                                <Text style={s.weekMetric}>{r.distance ?? 0} km</Text>
+                            </View>
+
+                            {/* Calories */}
+                            <View style={s.weekMetricRow}>
+                                <Ionicons name="flame-outline" size={16} color="#FF6F61" />
+                                <Text style={s.weekMetric}>{r.caloriesBurned ?? 0} kcal</Text>
+                            </View>
+
+                            {/* Sleep */}
+                            <View style={s.weekMetricRow}>
+                                <Ionicons name="moon-outline" size={16} color="#FFB74D" />
+                                <Text style={s.weekMetric}>{r.sleepHours ?? 0} h</Text>
+                            </View>
+
+                        </View>
+                    ))}
+                </ScrollView>
+            </View>
+
+            {/* MOTIVATION */}
             <View style={s.tipBox}>
-                <Ionicons name="heart-outline" size={22} color="#3EB489"/>
+                <Ionicons name="heart-outline" size={24} color="#3EB489"/>
                 <Text style={s.tipText}>
-                    💡 Remember to stay hydrated! Drink 2L of water today.
+                    💡 “Small progress is still progress. Keep going!”
                 </Text>
             </View>
         </ScrollView>
     );
 }
 
+/* ===================== STYLES ===================== */
+
 const s = StyleSheet.create({
-    container: {flex: 1, backgroundColor: '#F9FAFB', padding: 16},
-    header: {marginTop: 20},
-    greeting: {fontSize: 18, color: '#6B7280'},
-    username: {fontSize: 26, fontWeight: '800', color: '#1F2937'},
-    date: {color: '#9CA3AF', marginTop: 4},
+    container: {flex: 1, backgroundColor: "#F9FAFB", padding: 16},
 
-    progressBox: {alignItems: 'center', marginVertical: 24},
-    circle: {
-        width: 160,
-        height: 160,
-        borderRadius: 80,
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#3EB489',
-        shadowOpacity: 0.3,
-        shadowOffset: {width: 0, height: 3},
-        shadowRadius: 6,
+    header: {
+        marginTop: 10,
+        marginBottom: 20,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
-    circleValue: {color: '#fff', fontSize: 32, fontWeight: '800'},
-    circleLabel: {color: '#fff', fontSize: 14, marginTop: 4},
+    greeting: {fontSize: 18, color: "#6B7280"},
+    username: {fontSize: 26, fontWeight: "800", color: "#1F2937"},
+    date: {color: "#9CA3AF", marginTop: 4},
 
-    statsRow: {flexDirection: 'row', justifyContent: 'space-between', marginBottom: 24},
+    avatarBtn: {padding: 4, borderRadius: 50, backgroundColor: "#E5E7EB"},
+    avatar: {width: 46, height: 46, borderRadius: 23},
+
+    /* RINGS */
+    activityContainer: {alignItems: "center", marginBottom: 30},
+    activityRing: {
+        width: 200, height: 200,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    ring1: {
+        position: "absolute",
+        width: 200, height: 200, borderRadius: 100,
+    },
+    ring2: {position: "absolute", width: 160, height: 160, borderRadius: 80},
+    ring3: {position: "absolute", width: 120, height: 120, borderRadius: 60},
+    ringCenter: {
+        backgroundColor: "#fff",
+        width: 90, height: 90, borderRadius: 45,
+        justifyContent: "center",
+        alignItems: "center",
+        elevation: 3,
+    },
+    ringNumber: {fontSize: 30, fontWeight: "800", color: "#1F2937"},
+    ringLabel: {fontSize: 13, color: "#6B7280"},
+
+    /* Quick stats */
+    statsRow: {flexDirection: "row", justifyContent: "space-between", marginBottom: 24},
     statCard: {
-        width: '31%',
+        width: "31%",
         borderRadius: 16,
         paddingVertical: 16,
-        alignItems: 'center',
+        alignItems: "center",
     },
-    statValue: {fontSize: 18, fontWeight: '700', color: '#1F2937', marginTop: 4},
-    statLabel: {color: '#6B7280', fontSize: 13},
+    statValue: {fontSize: 18, fontWeight: "700", color: "#1F2937", marginTop: 4},
+    statLabel: {color: "#6B7280", fontSize: 13},
 
-    section: {marginBottom: 24},
-    sectionTitle: {fontSize: 18, fontWeight: '700', color: '#1F2937', marginBottom: 10},
+    /* Sections */
+    section: {marginBottom: 26},
+    sectionTitle: {fontSize: 18, fontWeight: "700", color: "#1F2937", marginBottom: 10},
+
+    summaryCard: {
+        backgroundColor: "#FFFFFF",
+        borderRadius: 16,
+        padding: 16,
+        elevation: 2,
+    },
+    summaryRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingVertical: 6,
+    },
+    summaryLabel: {fontSize: 15, color: "#374151"},
+    summaryValue: {fontSize: 15, fontWeight: "700", color: "#111827"},
 
     workoutCard: {
         marginRight: 12,
         borderRadius: 16,
-        overflow: 'hidden',
+        overflow: "hidden",
         width: 140,
-        backgroundColor: '#fff',
-        shadowColor: '#000',
-        shadowOpacity: 0.05,
-        shadowRadius: 3,
+        backgroundColor: "#fff",
         elevation: 2,
     },
-    workoutImage: {width: '100%', height: 90},
-    workoutName: {padding: 8, fontWeight: '600', color: '#1F2937'},
+    workoutImage: {width: "100%", height: 90},
+    workoutName: {padding: 8, fontWeight: "600", color: "#1F2937"},
 
     dietCard: {
-        backgroundColor: '#fff',
+        backgroundColor: "#fff",
         borderRadius: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         padding: 12,
-        shadowColor: '#000',
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
         elevation: 2,
     },
     dietImg: {width: 60, height: 60, borderRadius: 12},
-    dietTitle: {fontWeight: '700', color: '#1F2937'},
-    dietDesc: {fontSize: 13, color: '#6B7280', marginTop: 4},
+    dietTitle: {fontWeight: "700", color: "#1F2937"},
+    dietDesc: {fontSize: 13, color: "#6B7280", marginTop: 4},
+
+    weekBox: {
+        backgroundColor: "#fff",
+        padding: 12,
+        borderRadius: 14,
+        marginRight: 10,
+        elevation: 2,
+        alignItems: "center",
+    },
+    weekDate: {fontWeight: "700", color: "#374151"},
+    weekValue: {marginTop: 4, color: "#6B7280"},
 
     tipBox: {
-        flexDirection: 'row',
-        backgroundColor: '#EAFBF6',
+        flexDirection: "row",
+        backgroundColor: "#EAFBF6",
         padding: 14,
         borderRadius: 16,
-        alignItems: 'center',
+        alignItems: "center",
         marginBottom: 20,
     },
-    tipText: {flex: 1, marginLeft: 8, color: '#1F2937', lineHeight: 18},
+    tipText: {flex: 1, marginLeft: 8, color: "#1F2937", lineHeight: 18},
 });

@@ -48,16 +48,10 @@ public class HealthRecordController {
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(401).body("Unauthorized");
         }
-
         var user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UnauthorizedException("User not found"));
-
-        // Nếu không gửi ngày → lấy ngày hôm nay
         LocalDate date = record.getDate() != null ? record.getDate() : LocalDate.now();
-
-        // Tìm xem ngày đó đã có record chưa
         var existingOpt = healthRecordRepository.findByUserAndDate(user, date);
-
         HealthRecord target;
         boolean isUpdate = false;
 
@@ -66,6 +60,9 @@ public class HealthRecordController {
             target = existingOpt.get();
             isUpdate = true;
 
+            target.setCaloriesBurned(record.getCaloriesBurned());
+            target.setDistance(record.getDistance());
+            target.setSteps(record.getSteps());
             target.setWeight(record.getWeight());
             target.setHeartRate(record.getHeartRate());
             target.setSleepHours(record.getSleepHours());
@@ -78,6 +75,9 @@ public class HealthRecordController {
             target.setWeight(record.getWeight());
             target.setHeartRate(record.getHeartRate());
             target.setSleepHours(record.getSleepHours());
+            target.setCaloriesBurned(record.getCaloriesBurned());
+            target.setDistance(record.getDistance());
+            target.setSteps(record.getSteps());
             target.setNote(record.getNote());
         }
 
