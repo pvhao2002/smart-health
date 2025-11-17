@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -70,11 +71,11 @@ public class MealLogController {
                 .orElseThrow(() -> new UnauthorizedException("User not found"));
 
         // === Parse date ===
-        LocalDateTime date;
+        LocalDate date;
         try {
             date = (dto.getDate() != null)
-                    ? LocalDateTime.parse(dto.getDate())
-                    : LocalDateTime.now();
+                    ? LocalDate.parse(dto.getDate())
+                    : LocalDate.now();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body("Invalid date (must be yyyy-MM-dd)");
         }

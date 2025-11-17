@@ -1,14 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
-    Image,
-    TouchableOpacity,
-    ActivityIndicator,
-    Dimensions
-} from "react-native";
+import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import axios from "axios";
 import {Ionicons} from "@expo/vector-icons";
 import {APP_CONFIG} from "@/constants/app-config";

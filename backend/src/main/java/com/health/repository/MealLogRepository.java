@@ -6,6 +6,7 @@ import com.health.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public interface MealLogRepository extends JpaRepository<MealLog, Long>, JpaSpecificationExecutor<MealLog> {
     List<MealLog> findByUserOrderByDateDesc(User user);
 
-    List<MealLog> findByUserAndDateOrderByMealType(User user, LocalDateTime date);
+    List<MealLog> findByUserAndDateOrderByMealType(User user, LocalDate date);
 
-    Optional<MealLog> findByUserAndDateAndMealType(User user, LocalDateTime date, MealType mealType);
+    Optional<MealLog> findByUserAndDateAndMealType(User user, LocalDate date, MealType mealType);
 }

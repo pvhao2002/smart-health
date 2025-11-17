@@ -6,12 +6,13 @@ import {
     ScrollView,
     TouchableOpacity,
     Image,
-    ActivityIndicator,
+    ActivityIndicator, RefreshControl,
 } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {LinearGradient} from "expo-linear-gradient";
 import {APP_CONFIG} from "@/constants/app-config";
 import {useAuthStore} from "@/store/authStore";
+import {useLocalSearchParams} from "expo-router";
 
 interface HealthRecordResponse {
     id: number;
@@ -62,6 +63,7 @@ export default function SmartHealthHome() {
     const token = user?.token;
     const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     const [home, setHome] = useState<HomeUserDTO>({
         yesterdaysHealthRecord: null,
@@ -74,6 +76,13 @@ export default function SmartHealthHome() {
     useEffect(() => {
         loadHomeData();
     }, []);
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await loadHomeData();        // gọi lại API home
+        setRefreshing(false);
+    };
+
 
     const loadHomeData = async () => {
         try {
@@ -110,7 +119,7 @@ export default function SmartHealthHome() {
 
     const formatDay = (dateStr: string) => {
         const d = new Date(dateStr);
-        return d.toLocaleDateString("en-US", { weekday: "short" });
+        return d.toLocaleDateString("en-US", {weekday: "short"});
     };
 
     const formatDate = (dateStr: string) => {
@@ -135,6 +144,14 @@ export default function SmartHealthHome() {
             style={s.container}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 140}}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    colors={["#3EB489"]}           // Android
+                    tintColor="#3EB489"            // iOS
+                />
+            }
         >
             {/* HEADER */}
             <View style={s.header}>
@@ -308,25 +325,25 @@ export default function SmartHealthHome() {
 
                             {/* Steps */}
                             <View style={s.weekMetricRow}>
-                                <Ionicons name="walk-outline" size={16} color="#3EB489" />
+                                <Ionicons name="walk-outline" size={16} color="#3EB489"/>
                                 <Text style={s.weekMetric}>{r.steps ?? 0}</Text>
                             </View>
 
                             {/* Distance */}
                             <View style={s.weekMetricRow}>
-                                <Ionicons name="map-outline" size={16} color="#6C63FF" />
+                                <Ionicons name="map-outline" size={16} color="#6C63FF"/>
                                 <Text style={s.weekMetric}>{r.distance ?? 0} km</Text>
                             </View>
 
                             {/* Calories */}
                             <View style={s.weekMetricRow}>
-                                <Ionicons name="flame-outline" size={16} color="#FF6F61" />
+                                <Ionicons name="flame-outline" size={16} color="#FF6F61"/>
                                 <Text style={s.weekMetric}>{r.caloriesBurned ?? 0} kcal</Text>
                             </View>
 
                             {/* Sleep */}
                             <View style={s.weekMetricRow}>
-                                <Ionicons name="moon-outline" size={16} color="#FFB74D" />
+                                <Ionicons name="moon-outline" size={16} color="#FFB74D"/>
                                 <Text style={s.weekMetric}>{r.sleepHours ?? 0} h</Text>
                             </View>
 
@@ -440,15 +457,6 @@ const s = StyleSheet.create({
     dietTitle: {fontWeight: "700", color: "#1F2937"},
     dietDesc: {fontSize: 13, color: "#6B7280", marginTop: 4},
 
-    weekBox: {
-        backgroundColor: "#fff",
-        padding: 12,
-        borderRadius: 14,
-        marginRight: 10,
-        elevation: 2,
-        alignItems: "center",
-    },
-    weekDate: {fontWeight: "700", color: "#374151"},
     weekValue: {marginTop: 4, color: "#6B7280"},
 
     tipBox: {
@@ -460,4 +468,38 @@ const s = StyleSheet.create({
         marginBottom: 20,
     },
     tipText: {flex: 1, marginLeft: 8, color: "#1F2937", lineHeight: 18},
+    weekBox: {
+        backgroundColor: "#fff",
+        padding: 14,
+        borderRadius: 16,
+        marginRight: 12,
+        width: 110,
+        alignItems: "center",
+        elevation: 2,
+    },
+
+    weekDay: {
+        fontSize: 14,
+        color: "#6B7280",
+        fontWeight: "500",
+    },
+
+    weekDate: {
+        fontSize: 22,
+        fontWeight: "800",
+        color: "#1F2937",
+        marginBottom: 10,
+    },
+
+    weekMetricRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 4,
+    },
+
+    weekMetric: {
+        marginLeft: 6,
+        fontSize: 14,
+        color: "#374151",
+    },
 });

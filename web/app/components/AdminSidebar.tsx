@@ -9,7 +9,6 @@ import './AdminSidebar.css';
 import PageLoader from './PageLoader';
 
 const menuItems = [
-    {href: '/admin', label: 'Dashboard', icon: Home},
     {href: '/admin/users', label: 'Quản lý người dùng', icon: Users},
     {href: '/admin/meals', label: 'Quản lý món ăn', icon: UtensilsCrossed},
     {href: '/admin/workouts', label: 'Quản lý bài tập', icon: Dumbbell},

@@ -40,7 +40,7 @@ public class MealLog {
 
     // Ngày ăn
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDate date;
 
     // Số lượng khẩu phần
     @Column(nullable = false)

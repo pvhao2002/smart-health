@@ -1,16 +1,26 @@
-import {Tabs} from 'expo-router';
+import {Tabs, useRouter} from 'expo-router';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import {Platform, View, StyleSheet} from 'react-native';
 import React from 'react';
 
 export default function TabsLayout() {
+    const router = useRouter();
+
+    const refreshTab = (routeName: string) => ({
+        tabPress: (e: any) => {
+            e.preventDefault();
+            // @ts-ignore
+            router.replace(`/(tabs)/${routeName}`);
+        }
+    });
+
     return (
         <SafeAreaView style={styles.safeArea} edges={['top']}>
             <Tabs
                 screenOptions={{
                     headerShown: false,
-                    tabBarActiveTintColor: '#3EB489', // mint green
+                    tabBarActiveTintColor: '#3EB489',
                     tabBarInactiveTintColor: '#9CA3AF',
                     tabBarLabelStyle: {
                         fontSize: 12,
@@ -35,7 +45,7 @@ export default function TabsLayout() {
                     },
                 }}
             >
-                {/* 🏠 Home Dashboard */}
+
                 <Tabs.Screen
                     name="index"
                     options={{
@@ -44,9 +54,9 @@ export default function TabsLayout() {
                             <Ionicons name="home-outline" size={size + 1} color={color}/>
                         ),
                     }}
+                    listeners={refreshTab('')}
                 />
 
-                {/* 🏃‍♂️ Record */}
                 <Tabs.Screen
                     name="record"
                     options={{
@@ -55,37 +65,33 @@ export default function TabsLayout() {
                             <Ionicons name="create-outline" size={size + 1} color={color}/>
                         ),
                     }}
+                    listeners={refreshTab('record')}
                 />
 
-                {/* ❤️ Activity (center button) */}
                 <Tabs.Screen
                     name="activity"
                     options={{
                         title: '',
                         tabBarIcon: ({focused}) => (
                             <View style={styles.centerButton}>
-                                <Ionicons
-                                    name="pulse-outline"
-                                    size={30}
-                                    color={focused ? '#fff' : '#fff'}
-                                />
+                                <Ionicons name="pulse-outline" size={30} color="#fff"/>
                             </View>
                         ),
                     }}
+                    listeners={refreshTab('activity')}
                 />
 
-                {/* 🍽️ Diet */}
                 <Tabs.Screen
                     name="plan"
                     options={{
-                        title: 'plan',
+                        title: 'Plan',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="restaurant-outline" size={size + 1} color={color}/>
                         ),
                     }}
+                    listeners={refreshTab('plan')}
                 />
 
-                {/* 👤 Profile */}
                 <Tabs.Screen
                     name="profile"
                     options={{
@@ -94,7 +100,9 @@ export default function TabsLayout() {
                             <Ionicons name="person-circle-outline" size={size + 1} color={color}/>
                         ),
                     }}
+                    listeners={refreshTab('profile')}
                 />
+
             </Tabs>
         </SafeAreaView>
     );

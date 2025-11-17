@@ -29,9 +29,9 @@ server:
 
 jwt:
   secret: qD9JxK2r7M8zP4uT1bV6yL3cN9eH5wR2fG8aS0dX7
-  expiration: 8640000000
+  expiration: 864000000000
   refresh:
-    expiration: 60480000000
+    expiration: 6048000000000
 
 logging:
   level:

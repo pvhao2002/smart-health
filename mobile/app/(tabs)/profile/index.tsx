@@ -26,10 +26,9 @@ export default function ProfileScreen() {
     const menuItems = [
         {icon: 'person-outline', label: 'Edit Profile', action: () => router.push('/profile/update-profile')},
         {icon: 'lock-closed-outline', label: 'Change Password', action: () => router.push('/profile/change-password')},
-        {icon: 'fitness-outline', label: 'Health Goals', action: () => router.push('/profile/goals')},
-        {icon: 'walk-outline', label: 'Activity Level', action: () => router.push('/profile/activity-level')},
-        {icon: 'restaurant-outline', label: 'Meal Preferences', action: () => router.push('/profile/meals')},
-        {icon: 'barbell-outline', label: 'Workout Preferences', action: () => router.push('/profile/workouts')},
+        {icon: 'fitness-outline', label: 'Health Goals', action: () => router.push('/activity')},
+        {icon: 'restaurant-outline', label: 'Meal Preferences', action: () => router.push('/plan')},
+        {icon: 'barbell-outline', label: 'Workout Preferences', action: () => router.push('/plan')},
         {icon: 'information-circle-outline', label: 'About App', action: () => router.push('/profile/about')},
         {icon: 'chatbubbles-outline', label: 'Support Center', action: () => router.push('/profile/support')},
     ];

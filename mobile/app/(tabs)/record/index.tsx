@@ -1,17 +1,17 @@
-import React, {useEffect, useState, useCallback} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
-    FlatList,
     ActivityIndicator,
-    TouchableOpacity,
-    RefreshControl,
     Alert,
-    Modal,
-    TextInput,
+    FlatList,
     KeyboardAvoidingView,
-    Platform
+    Modal,
+    Platform,
+    RefreshControl,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -20,7 +20,6 @@ import {useRouter} from "expo-router";
 import {APP_CONFIG} from "@/constants/app-config";
 
 export default function HealthHistoryScreen() {
-
     const {user} = useAuthStore();
     const token = user?.token;
     const router = useRouter();
@@ -41,9 +40,6 @@ export default function HealthHistoryScreen() {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     const [userHeightCm, setUserHeightCm] = useState<number | null>(null);
-    const [mealList, setMealList] = useState<any[]>([]);
-    const [loadingMealsList, setLoadingMealsList] = useState(true);
-
 
     const [newRecord, setNewRecord] = useState({
         date: new Date(),
@@ -64,7 +60,11 @@ export default function HealthHistoryScreen() {
     const [loadingMeal, setLoadingMeal] = useState(true);
     const [refreshingMeal, setRefreshingMeal] = useState(false);
     const [modalMeal, setModalMeal] = useState(false);
+
+    const [mealList, setMealList] = useState<any[]>([]);
+    const [loadingMealsList, setLoadingMealsList] = useState(true);
     const [showMealPicker, setShowMealPicker] = useState(false);
+    const [showMealDatePicker, setShowMealDatePicker] = useState(false);
 
     const [newMeal, setNewMeal] = useState({
         date: new Date(),
@@ -133,25 +133,32 @@ export default function HealthHistoryScreen() {
         }
     }, [token]);
 
-    useEffect(() => {
-        fetchHealthRecords();
-        fetchMealLogs();
-        fetchMealList();
-    }, []);
-
+    /** =========================
+     * FETCH MEAL LIST (for dropdown)
+     ========================= */
     const fetchMealList = useCallback(async () => {
         try {
             const res = await fetch(`${APP_CONFIG.BASE_URL}/admin/meals`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
             const json = await res.json();
-            setMealList(json);
+            // FIX: backend thường trả { data: [...] }
+            setMealList(json.data ?? json);
         } catch (e) {
-            console.log(e);
+            console.log("fetchMealList error:", e);
         } finally {
             setLoadingMealsList(false);
         }
     }, [token]);
+
+    /** =========================
+     * INITIAL LOAD
+     ========================= */
+    useEffect(() => {
+        fetchHealthRecords();
+        fetchMealLogs();
+        fetchMealList();
+    }, [fetchHealthRecords, fetchMealLogs, fetchMealList]);
 
     /** =========================
      * REFRESH HANDLERS
@@ -197,7 +204,6 @@ export default function HealthHistoryScreen() {
                 note: newRecord.note,
             };
 
-
             const res = await fetch(`${APP_CONFIG.BASE_URL}/health-records`, {
                 method: "POST",
                 headers: {
@@ -235,6 +241,10 @@ export default function HealthHistoryScreen() {
      * ADD MEAL LOG
      ========================= */
     const handleAddMeal = async () => {
+        if (!newMeal.mealId) {
+            return Alert.alert("Missing", "Please choose a meal first.");
+        }
+
         try {
             const body = {
                 date: newMeal.date.toISOString().split("T")[0],
@@ -252,12 +262,19 @@ export default function HealthHistoryScreen() {
                 },
                 body: JSON.stringify(body),
             });
-
             const json = await res.json();
             if (!res.ok) throw new Error(json.message);
 
+            Alert.alert("✅ Saved!");
+
             setModalMeal(false);
-            setNewMeal({date: new Date(), mealId: "", mealType: "BREAKFAST", quantity: "", note: ""});
+            setNewMeal({
+                date: new Date(),
+                mealId: "",
+                mealType: "BREAKFAST",
+                quantity: "",
+                note: "",
+            });
 
             fetchMealLogs();
         } catch (err: any) {
@@ -320,345 +337,457 @@ export default function HealthHistoryScreen() {
         </View>
     );
 
-    const renderMeal = ({item}: { item: any }) => (
-        <View style={s.card}>
-            <Text style={s.date}>{item.date}</Text>
-            <Text style={s.metricText}>{item.mealType} - {item.mealName}</Text>
-            <Text style={s.metricText}>Qty: {item.quantity}</Text>
-            <Text style={s.metricText}>Calories: {item.totalCalories} kcal</Text>
-            {item.note && <Text style={s.note}>💬 {item.note}</Text>}
+    const renderMeal = ({ item }: { item: any }) => (
+        <View style={s.mealCard}>
+            {/* Header Row */}
+            <View style={s.mealHeader}>
+                <View style={s.mealHeaderLeft}>
+                    <Ionicons name="fast-food-outline" size={20} color="#F59E0B" />
+                    <Text style={s.mealDate}>
+                        {new Date(item.date).toLocaleDateString("vi-VN")}
+                    </Text>
+                </View>
+
+                <View style={s.mealTypeBadge}>
+                    <Text style={s.mealTypeText}>{item.mealType}</Text>
+                </View>
+            </View>
+
+            {/* Meal Name */}
+            <Text style={s.mealName}>{item.mealName}</Text>
+
+            {/* Stats */}
+            <View style={s.mealStatsRow}>
+                <View style={s.mealStatItem}>
+                    <Ionicons name="list-outline" size={16} color="#6B7280" />
+                    <Text style={s.mealStatText}>Qty: {item.quantity ?? "—"}</Text>
+                </View>
+
+                <View style={s.mealStatItem}>
+                    <Ionicons name="flame-outline" size={16} color="#EF4444" />
+                    <Text style={s.mealStatText}>
+                        {item.totalCalories ?? "—"} kcal
+                    </Text>
+                </View>
+            </View>
+
+            {/* Note */}
+            {item.note && (
+                <Text style={s.mealNote}>💬 {item.note}</Text>
+            )}
         </View>
     );
 
+
+    // LẤY tên món đã chọn để hiển thị
+    const selectedMealName = useMemo(() => {
+        if (!newMeal.mealId) return "";
+        const found = mealList.find(m => m.id == newMeal.mealId); // MAGIC FIX
+        return found?.name ?? "";
+    }, [mealList, newMeal.mealId]);
+
+
     return (
-        <View style={s.container}>
+        <>
+            <View style={s.container}>
 
-            {/* HEADER */}
-            <View style={s.header}>
-                <Ionicons name="pulse-outline" size={28} color="#3EB489"/>
-                <Text style={s.headerTitle}>Records</Text>
-            </View>
+                {/* HEADER */}
+                <View style={s.header}>
+                    <Ionicons name="pulse-outline" size={28} color="#3EB489"/>
+                    <Text style={s.headerTitle}>Records</Text>
+                </View>
 
-            {/* TOP TABS */}
-            <View style={s.tabs}>
-                <TouchableOpacity
-                    style={[s.tabItem, activeTab === "health" && s.tabActive]}
-                    onPress={() => setActiveTab("health")}
-                >
-                    <Text style={[s.tabText, activeTab === "health" && s.tabTextActive]}>
-                        Health
-                    </Text>
-                </TouchableOpacity>
+                {/* TOP TABS */}
+                <View style={s.tabs}>
+                    <TouchableOpacity
+                        style={[s.tabItem, activeTab === "health" && s.tabActive]}
+                        onPress={() => setActiveTab("health")}
+                    >
+                        <Text style={[s.tabText, activeTab === "health" && s.tabTextActive]}>
+                            Health
+                        </Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={[s.tabItem, activeTab === "meal" && s.tabActive]}
-                    onPress={() => setActiveTab("meal")}
-                >
-                    <Text style={[s.tabText, activeTab === "meal" && s.tabTextActive]}>
-                        Meals
-                    </Text>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        style={[s.tabItem, activeTab === "meal" && s.tabActive]}
+                        onPress={() => setActiveTab("meal")}
+                    >
+                        <Text style={[s.tabText, activeTab === "meal" && s.tabTextActive]}>
+                            Meals
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
-            {/* CONTENT */}
-            {activeTab === "health" ? (
-                loadingHealth ? (
-                    <View style={s.center}>
-                        <ActivityIndicator size="large" color="#6C63FF"/>
-                    </View>
-                ) : (
-                    <FlatList
-                        data={records}
-                        renderItem={renderRecord}
-                        keyExtractor={(item) => item.id?.toString?.() ?? Math.random().toString()}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshingHealth}
-                                onRefresh={handleRefreshHealth}
-                                tintColor="#3EB489"
-                                colors={["#3EB489"]}
-                            />
-                        }
-                        ListEmptyComponent={
-                            <View style={{flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 100}}>
-                                <Ionicons name="fitness-outline" size={60} color="#D1D5DB"/>
-                                <Text style={{marginTop: 14, fontSize: 16, color: "#9CA3AF"}}>
-                                    No records yet. Pull to refresh.
-                                </Text>
-                            </View>
-                        }
-                        contentContainerStyle={{flexGrow: 1, paddingBottom: 150}}
-                    />
-                )
-            ) : (
-                loadingMeal ? (
-                    <View style={s.center}>
-                        <ActivityIndicator size="large" color="#FF9800"/>
-                    </View>
-                ) : (
-                    <FlatList
-                        data={mealLogs}
-                        renderItem={renderMeal}
-                        keyExtractor={(item) => item.id?.toString?.() ?? Math.random().toString()}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshingMeal}
-                                onRefresh={handleRefreshMeal}
-                                tintColor="#FF9800"
-                                colors={["#FF9800"]}
-                            />
-                        }
-                        ListEmptyComponent={
-                            <View style={{flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 100}}>
-                                <Ionicons name="fast-food-outline" size={60} color="#D1D5DB"/>
-                                <Text style={{marginTop: 14, fontSize: 16, color: "#9CA3AF"}}>
-                                    No meal logs yet. Pull to refresh.
-                                </Text>
-                            </View>
-                        }
-                        contentContainerStyle={{flexGrow: 1, paddingBottom: 150}}
-                    />
-                )
-            )}
-
-            {/* FAB */}
-            {activeTab === "health" ? (
-                <TouchableOpacity style={s.fabHealth} onPress={() => setModalHealth(true)}>
-                    <Ionicons name="add" size={32} color="#fff"/>
-                </TouchableOpacity>
-            ) : (
-                <TouchableOpacity style={s.fabMeal} onPress={() => setModalMeal(true)}>
-                    <Ionicons name="add" size={32} color="#fff"/>
-                </TouchableOpacity>
-            )}
-
-            {/* MODAL ADD HEALTH */}
-            <Modal visible={modalHealth} animationType="slide" transparent>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={{flex: 1}}
-                >
-                    <View style={s.modalOverlay}>
-                        <View style={s.modalBox}>
-                            <Text style={s.modalTitle}>Add Daily Record</Text>
-
-                            <TouchableOpacity style={s.input} onPress={() => setShowDatePicker(true)}>
-                                <Ionicons name="calendar-outline" size={19} color="#6C63FF"/>
-                                <Text style={s.inputText}>
-                                    {newRecord.date.toISOString().split("T")[0]}
-                                </Text>
-                            </TouchableOpacity>
-
-                            {showDatePicker && (
-                                <DateTimePicker
-                                    value={newRecord.date}
-                                    mode="date"
-                                    onChange={(e, selected) => {
-                                        setShowDatePicker(false);
-                                        if (selected) setNewRecord({...newRecord, date: selected});
-                                    }}
-                                />
-                            )}
-
-                            <View style={s.input}>
-                                <Ionicons name="barbell-outline" size={19} color="#3EB489"/>
-                                <TextInput
-                                    style={s.inputText}
-                                    placeholder="Weight (kg)"
-                                    keyboardType="numeric"
-                                    value={newRecord.weight}
-                                    onChangeText={(v) =>
-                                        setNewRecord({...newRecord, weight: v, bmi: calculateBMI(v)})
-                                    }
-                                />
-                            </View>
-
-                            <View style={s.input}>
-                                <Ionicons name="heart-outline" size={19} color="#EF4444"/>
-                                <TextInput
-                                    style={s.inputText}
-                                    placeholder="Heart Rate (bpm)"
-                                    keyboardType="numeric"
-                                    value={newRecord.heartRate}
-                                    onChangeText={(v) => setNewRecord({...newRecord, heartRate: v})}
-                                />
-                            </View>
-
-                            <View style={s.input}>
-                                <Ionicons name="moon-outline" size={19} color="#6C63FF"/>
-                                <TextInput
-                                    style={s.inputText}
-                                    placeholder="Sleep Hours"
-                                    keyboardType="numeric"
-                                    value={newRecord.sleepHours}
-                                    onChangeText={(v) => setNewRecord({...newRecord, sleepHours: v})}
-                                />
-                            </View>
-
-                            {/* Steps */}
-                            <View style={s.input}>
-                                <Ionicons name="walk-outline" size={19} color="#3EB489"/>
-                                <TextInput
-                                    style={s.inputText}
-                                    placeholder="Steps"
-                                    keyboardType="numeric"
-                                    value={newRecord.steps}
-                                    onChangeText={(v) => setNewRecord({...newRecord, steps: v})}
-                                />
-                            </View>
-
-                            {/* Distance */}
-                            <View style={s.input}>
-                                <Ionicons name="footsteps-outline" size={19} color="#6C63FF"/>
-                                <TextInput
-                                    style={s.inputText}
-                                    placeholder="Distance (km)"
-                                    keyboardType="numeric"
-                                    value={newRecord.distance}
-                                    onChangeText={(v) => setNewRecord({...newRecord, distance: v})}
-                                />
-                            </View>
-
-                            {/* Calories Burned */}
-                            <View style={s.input}>
-                                <Ionicons name="flame-outline" size={19} color="#FF6F61"/>
-                                <TextInput
-                                    style={s.inputText}
-                                    placeholder="Calories Burned"
-                                    keyboardType="numeric"
-                                    value={newRecord.caloriesBurned}
-                                    onChangeText={(v) => setNewRecord({...newRecord, caloriesBurned: v})}
-                                />
-                            </View>
-
-                            <View style={[s.input, {height: 90}]}>
-                                <Ionicons name="create-outline" size={19} color="#FFB74D"/>
-                                <TextInput
-                                    style={[s.inputText, {height: 80, textAlignVertical: "top"}]}
-                                    placeholder="Notes..."
-                                    multiline
-                                    value={newRecord.note}
-                                    onChangeText={(v) => setNewRecord({...newRecord, note: v})}
-                                />
-                            </View>
-
-                            <View style={s.modalActions}>
-                                <TouchableOpacity style={s.cancelBtn} onPress={() => setModalHealth(false)}>
-                                    <Text style={s.cancelText}>Cancel</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity style={s.saveBtn} onPress={handleAddRecord}>
-                                    <Text style={s.saveText}>Save</Text>
-                                </TouchableOpacity>
-                            </View>
+                {/* CONTENT */}
+                {activeTab === "health" ? (
+                    loadingHealth ? (
+                        <View style={s.center}>
+                            <ActivityIndicator size="large" color="#6C63FF"/>
                         </View>
-                    </View>
-                </KeyboardAvoidingView>
-            </Modal>
+                    ) : (
+                        <FlatList
+                            data={records}
+                            renderItem={renderRecord}
+                            keyExtractor={(item) => item.id?.toString?.() ?? Math.random().toString()}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshingHealth}
+                                    onRefresh={handleRefreshHealth}
+                                    tintColor="#3EB489"
+                                    colors={["#3EB489"]}
+                                />
+                            }
+                            ListEmptyComponent={
+                                <View
+                                    style={{flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 100}}>
+                                    <Ionicons name="fitness-outline" size={60} color="#D1D5DB"/>
+                                    <Text style={{marginTop: 14, fontSize: 16, color: "#9CA3AF"}}>
+                                        No records yet. Pull to refresh.
+                                    </Text>
+                                </View>
+                            }
+                            contentContainerStyle={{flexGrow: 1, paddingBottom: 150}}
+                        />
+                    )
+                ) : (
+                    loadingMeal ? (
+                        <View style={s.center}>
+                            <ActivityIndicator size="large" color="#FF9800"/>
+                        </View>
+                    ) : (
+                        <FlatList
+                            data={mealLogs}
+                            renderItem={renderMeal}
+                            keyExtractor={(item) => item.id?.toString?.() ?? Math.random().toString()}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshingMeal}
+                                    onRefresh={handleRefreshMeal}
+                                    tintColor="#FF9800"
+                                    colors={["#FF9800"]}
+                                />
+                            }
+                            ListEmptyComponent={
+                                <View
+                                    style={{flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 100}}>
+                                    <Ionicons name="fast-food-outline" size={60} color="#D1D5DB"/>
+                                    <Text style={{marginTop: 14, fontSize: 16, color: "#9CA3AF"}}>
+                                        No meal logs yet. Pull to refresh.
+                                    </Text>
+                                </View>
+                            }
+                            contentContainerStyle={{flexGrow: 1, paddingBottom: 150}}
+                        />
+                    )
+                )}
 
-            {/* MODAL ADD MEAL */}
-            <Modal visible={modalMeal} animationType="slide" transparent>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={{flex: 1}}
-                >
-                    <View style={s.modalOverlay}>
-                        <View style={s.modalBox}>
-                            <Text style={s.modalTitle}>Add Meal Log</Text>
+                {/* FAB */}
+                {activeTab === "health" ? (
+                    <TouchableOpacity style={s.fabHealth} onPress={() => setModalHealth(true)}>
+                        <Ionicons name="add" size={32} color="#fff"/>
+                    </TouchableOpacity>
+                ) : (
+                    <TouchableOpacity style={s.fabMeal} onPress={() => setModalMeal(true)}>
+                        <Ionicons name="add" size={32} color="#fff"/>
+                    </TouchableOpacity>
+                )}
 
-                            <TouchableOpacity style={s.input} onPress={() => setShowDatePicker(true)}>
-                                <Ionicons name="calendar-outline" size={19} color="#FF9800"/>
-                                <Text style={s.inputText}>
-                                    {newMeal.date.toISOString().split("T")[0]}
-                                </Text>
-                            </TouchableOpacity>
+                {/* MODAL ADD HEALTH */}
+                <Modal visible={modalHealth} animationType="slide" transparent>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        style={{flex: 1}}
+                    >
+                        <View style={s.modalOverlay}>
+                            <View style={s.modalBox}>
+                                <Text style={s.modalTitle}>Add Daily Record</Text>
 
-                            <View style={[s.input, {flexDirection: "column", alignItems: "flex-start"}]}>
-                                <Text style={{fontWeight: "600", marginBottom: 6}}>Select Meal</Text>
+                                <TouchableOpacity style={s.input} onPress={() => setShowDatePicker(true)}>
+                                    <Ionicons name="calendar-outline" size={19} color="#6C63FF"/>
+                                    <Text style={s.inputText}>
+                                        {newRecord.date.toISOString().split("T")[0]}
+                                    </Text>
+                                </TouchableOpacity>
 
-                                {loadingMealsList ? (
-                                    <ActivityIndicator size="small" color="#FF9800"/>
-                                ) : (
-                                    <TouchableOpacity
-                                        style={s.mealSelectBox}
-                                        onPress={() => setShowMealPicker(true)}
-                                    >
-                                        <Text style={s.inputText}>
-                                            {newMeal.mealId
-                                                ? mealList.find(m => m.id === Number(newMeal.mealId))?.name
-                                                : "Choose a meal..."}
-                                        </Text>
-                                    </TouchableOpacity>
+                                {showDatePicker && (
+                                    <DateTimePicker
+                                        value={newRecord.date}
+                                        mode="date"
+                                        onChange={(e, selected) => {
+                                            setShowDatePicker(false);
+                                            if (selected) setNewRecord({...newRecord, date: selected});
+                                        }}
+                                    />
                                 )}
-                            </View>
 
-                            <View style={s.input}>
-                                <Ionicons name="list-outline" size={19} color="#FF9800"/>
-                                <TextInput
-                                    style={s.inputText}
-                                    placeholder="Quantity"
-                                    keyboardType="numeric"
-                                    value={newMeal.quantity}
-                                    onChangeText={(v) => setNewMeal({...newMeal, quantity: v})}
-                                />
-                            </View>
+                                <View style={s.input}>
+                                    <Ionicons name="barbell-outline" size={19} color="#3EB489"/>
+                                    <TextInput
+                                        style={s.inputText}
+                                        placeholder="Weight (kg)"
+                                        keyboardType="numeric"
+                                        value={newRecord.weight}
+                                        onChangeText={(v) =>
+                                            setNewRecord({...newRecord, weight: v, bmi: calculateBMI(v)})
+                                        }
+                                    />
+                                </View>
 
-                            <View style={[s.input, {height: 90}]}>
-                                <Ionicons name="create-outline" size={19} color="#FFB74D"/>
-                                <TextInput
-                                    style={[s.inputText, {height: 80, textAlignVertical: "top"}]}
-                                    placeholder="Notes..."
-                                    multiline
-                                    value={newMeal.note}
-                                    onChangeText={(v) => setNewMeal({...newMeal, note: v})}
-                                />
-                            </View>
+                                <View style={s.input}>
+                                    <Ionicons name="heart-outline" size={19} color="#EF4444"/>
+                                    <TextInput
+                                        style={s.inputText}
+                                        placeholder="Heart Rate (bpm)"
+                                        keyboardType="numeric"
+                                        value={newRecord.heartRate}
+                                        onChangeText={(v) => setNewRecord({...newRecord, heartRate: v})}
+                                    />
+                                </View>
 
-                            <View style={s.modalActions}>
-                                <TouchableOpacity style={s.cancelBtn} onPress={() => setModalMeal(false)}>
-                                    <Text style={s.cancelText}>Cancel</Text>
-                                </TouchableOpacity>
+                                <View style={s.input}>
+                                    <Ionicons name="moon-outline" size={19} color="#6C63FF"/>
+                                    <TextInput
+                                        style={s.inputText}
+                                        placeholder="Sleep Hours"
+                                        keyboardType="numeric"
+                                        value={newRecord.sleepHours}
+                                        onChangeText={(v) => setNewRecord({...newRecord, sleepHours: v})}
+                                    />
+                                </View>
 
-                                <TouchableOpacity style={s.saveBtnMeal} onPress={handleAddMeal}>
-                                    <Text style={s.saveText}>Save</Text>
-                                </TouchableOpacity>
+                                {/* Steps */}
+                                <View style={s.input}>
+                                    <Ionicons name="walk-outline" size={19} color="#3EB489"/>
+                                    <TextInput
+                                        style={s.inputText}
+                                        placeholder="Steps"
+                                        keyboardType="numeric"
+                                        value={newRecord.steps}
+                                        onChangeText={(v) => setNewRecord({...newRecord, steps: v})}
+                                    />
+                                </View>
+
+                                {/* Distance */}
+                                <View style={s.input}>
+                                    <Ionicons name="footsteps-outline" size={19} color="#6C63FF"/>
+                                    <TextInput
+                                        style={s.inputText}
+                                        placeholder="Distance (km)"
+                                        keyboardType="numeric"
+                                        value={newRecord.distance}
+                                        onChangeText={(v) => setNewRecord({...newRecord, distance: v})}
+                                    />
+                                </View>
+
+                                {/* Calories Burned */}
+                                <View style={s.input}>
+                                    <Ionicons name="flame-outline" size={19} color="#FF6F61"/>
+                                    <TextInput
+                                        style={s.inputText}
+                                        placeholder="Calories Burned"
+                                        keyboardType="numeric"
+                                        value={newRecord.caloriesBurned}
+                                        onChangeText={(v) => setNewRecord({...newRecord, caloriesBurned: v})}
+                                    />
+                                </View>
+
+                                <View style={[s.input, {height: 90}]}>
+                                    <Ionicons name="create-outline" size={19} color="#FFB74D"/>
+                                    <TextInput
+                                        style={[s.inputText, {height: 80, textAlignVertical: "top"}]}
+                                        placeholder="Notes..."
+                                        multiline
+                                        value={newRecord.note}
+                                        onChangeText={(v) => setNewRecord({...newRecord, note: v})}
+                                    />
+                                </View>
+
+                                <View style={s.modalActions}>
+                                    <TouchableOpacity style={s.cancelBtn} onPress={() => setModalHealth(false)}>
+                                        <Text style={s.cancelText}>Cancel</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity style={s.saveBtn} onPress={handleAddRecord}>
+                                        <Text style={s.saveText}>Save</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                </KeyboardAvoidingView>
-            </Modal>
+                    </KeyboardAvoidingView>
+                </Modal>
 
+                {/* MODAL ADD MEAL */}
+                <Modal visible={modalMeal} animationType="slide" transparent>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        style={{flex: 1}}
+                    >
+                        <View style={s.modalOverlay}>
+                            <View style={s.modalBox}>
+                                <Text style={s.modalTitle}>Add Meal Log</Text>
+
+                                {/* Meal date */}
+                                <TouchableOpacity style={s.input} onPress={() => setShowMealDatePicker(true)}>
+                                    <Ionicons name="calendar-outline" size={19} color="#FF9800"/>
+                                    <Text style={s.inputText}>
+                                        {newMeal.date.toISOString().split("T")[0]}
+                                    </Text>
+                                </TouchableOpacity>
+
+                                {showMealDatePicker && (
+                                    <DateTimePicker
+                                        value={newMeal.date}
+                                        mode="date"
+                                        onChange={(e, selected) => {
+                                            setShowMealDatePicker(false);
+                                            if (selected) {
+                                                setNewMeal({...newMeal, date: selected});
+                                            }
+                                        }}
+                                    />
+                                )}
+
+                                {/* Select Meal */}
+                                <View style={s.formGroup}>
+                                    <Text style={s.label}>Select Meal</Text>
+
+                                    <TouchableOpacity
+                                        style={s.selectBox}
+                                        onPress={() => {
+                                            setModalMeal(false);
+                                            setTimeout(() => setShowMealPicker(true), 50);
+                                        }}
+                                    >
+                                        <View style={s.selectRow}>
+                                            <Text style={[s.selectText, !selectedMealName && s.placeholderText]}>
+                                                {selectedMealName || "Choose a meal"}
+                                            </Text>
+
+                                            <Ionicons
+                                                name="chevron-down"
+                                                size={20}
+                                                color="#9CA3AF"
+                                                style={{marginLeft: 6}}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View style={s.input}>
+                                    <Ionicons name="list-outline" size={19} color="#FF9800"/>
+                                    <TextInput
+                                        style={s.inputText}
+                                        placeholder="Quantity"
+                                        keyboardType="numeric"
+                                        value={newMeal.quantity}
+                                        onChangeText={(v) => setNewMeal({...newMeal, quantity: v})}
+                                    />
+                                </View>
+                                {/* Meal Type */}
+                                <View style={s.formGroup}>
+                                    <Text style={s.label}>Meal Type</Text>
+
+                                    <View style={s.chipRow}>
+                                        {[
+                                            { key: "BREAKFAST", label: "Breakfast" },
+                                            { key: "LUNCH",     label: "Lunch" },
+                                            { key: "DINNER",    label: "Dinner" },
+                                            { key: "SNACK",     label: "Snack" },
+                                        ].map((type) => {
+                                            const isActive = newMeal.mealType === type.key;
+                                            return (
+                                                <TouchableOpacity
+                                                    key={type.key}
+                                                    style={[
+                                                        s.chip,
+                                                        isActive && s.chipActive,
+                                                    ]}
+                                                    onPress={() =>
+                                                        setNewMeal(prev => ({ ...prev, mealType: type.key }))
+                                                    }
+                                                >
+                                                    <Text
+                                                        style={[
+                                                            s.chipText,
+                                                            isActive && s.chipTextActive,
+                                                        ]}
+                                                    >
+                                                        {type.label}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            );
+                                        })}
+                                    </View>
+                                </View>
+
+                                <View style={[s.input, {height: 90}]}>
+                                    <Ionicons name="create-outline" size={19} color="#FFB74D"/>
+                                    <TextInput
+                                        style={[s.inputText, {height: 80, textAlignVertical: "top"}]}
+                                        placeholder="Notes..."
+                                        multiline
+                                        value={newMeal.note}
+                                        onChangeText={(v) => setNewMeal({...newMeal, note: v})}
+                                    />
+                                </View>
+
+                                <View style={s.modalActions}>
+                                    <TouchableOpacity style={s.cancelBtn} onPress={() => setModalMeal(false)}>
+                                        <Text style={s.cancelText}>Cancel</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity style={s.saveBtnMeal} onPress={handleAddMeal}>
+                                        <Text style={s.saveText}>Save</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </KeyboardAvoidingView>
+                </Modal>
+            </View>
+
+            {/* MODAL MEAL PICKER – để NGOÀI container */}
             <Modal visible={showMealPicker} transparent animationType="fade">
                 <View style={s.pickerOverlay}>
-                    <View style={s.pickerBox}>
-                        <Text style={s.modalTitle}>Choose a meal</Text>
+                    <View style={s.pickerBoxModern}>
 
+                        {/* Header */}
+                        <View style={s.pickerHeader}>
+                            <Text style={s.pickerTitle}>Choose a meal</Text>
+
+                            <TouchableOpacity onPress={() => setShowMealPicker(false)}>
+                                <Ionicons name="close" size={24} color="#6B7280"/>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* List */}
                         <FlatList
                             data={mealList}
                             keyExtractor={(item) => item.id.toString()}
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{paddingBottom: 12}}
                             renderItem={({item}) => (
                                 <TouchableOpacity
-                                    style={s.mealItem}
+                                    style={s.mealItemModern}
                                     onPress={() => {
                                         setNewMeal({...newMeal, mealId: item.id.toString()});
                                         setShowMealPicker(false);
+                                        setTimeout(() => setModalMeal(true), 50);
                                     }}
                                 >
-                                    <Text style={s.mealName}>{item.name}</Text>
-                                    <Text style={s.mealCal}>{item.calories} kcal</Text>
+                                    <View>
+                                        <Text style={s.mealNameModern}>{item.name}</Text>
+                                        <Text style={s.mealCalModern}>{item.calories} kcal</Text>
+                                    </View>
+
+                                    <Ionicons name="chevron-forward" size={20} color="#9CA3AF"/>
                                 </TouchableOpacity>
                             )}
                         />
-
-                        <TouchableOpacity onPress={() => setShowMealPicker(false)}>
-                            <Text style={s.cancelText}>Close</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
-
-
-        </View>
+        </>
     );
 }
 
@@ -868,7 +997,9 @@ const s = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.4)",
         justifyContent: "center",
         alignItems: "center",
-        padding: 20
+        padding: 20,
+        zIndex: 9999,
+        elevation: 9999
     },
 
     pickerBox: {
@@ -885,13 +1016,200 @@ const s = StyleSheet.create({
         borderColor: "#eee"
     },
 
-    mealName: {
-        fontSize: 16,
-        fontWeight: "600"
-    },
-
     mealCal: {
         fontSize: 14,
         color: "#666"
-    }
+    },
+    pickerBoxModern: {
+        width: "90%",
+        backgroundColor: "#ffffff",
+        borderRadius: 20,
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        maxHeight: "75%",
+        shadowColor: "#000",
+        shadowOffset: {width: 0, height: 4},
+        shadowOpacity: 0.15,
+        shadowRadius: 10,
+        elevation: 10,
+        transform: [{scale: 1}],
+    },
+
+    pickerHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 12,
+        paddingHorizontal: 4,
+    },
+
+    pickerTitle: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: "#1F2937",
+    },
+
+    mealItemModern: {
+        paddingVertical: 14,
+        borderBottomWidth: 1,
+        borderColor: "#F3F4F6",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+
+    mealNameModern: {
+        fontSize: 16,
+        fontWeight: "600",
+        color: "#111827",
+    },
+
+    mealCalModern: {
+        fontSize: 13,
+        color: "#6B7280",
+        marginTop: 3,
+    },
+    /* ---------- MEAL CARD NEW UI ---------- */
+    mealCard: {
+        backgroundColor: "#FFFFFF",
+        padding: 16,
+        borderRadius: 18,
+        marginBottom: 16,
+        shadowColor: "#000",
+        shadowOpacity: 0.06,
+        shadowRadius: 6,
+        elevation: 2,
+    },
+
+    mealHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+
+    mealHeaderLeft: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 8,
+    },
+
+    mealDate: {
+        fontSize: 15,
+        fontWeight: "600",
+        color: "#374151",
+    },
+
+    mealTypeBadge: {
+        backgroundColor: "#FEF3C7",
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+    },
+
+    mealTypeText: {
+        fontSize: 12,
+        fontWeight: "700",
+        color: "#D97706",
+        textTransform: "capitalize",
+    },
+
+    mealName: {
+        marginTop: 8,
+        fontSize: 17,
+        fontWeight: "700",
+        color: "#1F2937",
+    },
+
+    mealStatsRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 12,
+        gap: 18,
+    },
+
+    mealStatItem: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 6,
+    },
+
+    mealStatText: {
+        fontSize: 14,
+        color: "#4B5563",
+    },
+
+    mealNote: {
+        marginTop: 10,
+        fontStyle: "italic",
+        color: "#6B7280",
+        fontSize: 14,
+    },
+    /* ----------- FORM GROUP ----------- */
+    formGroup: {
+        width: "100%",
+        marginBottom: 12,
+    },
+
+    label: {
+        fontSize: 14,
+        fontWeight: "600",
+        color: "#374151",
+        marginBottom: 6,
+    },
+
+    /* ----------- SELECT BOX ----------- */
+    selectBox: {
+        borderWidth: 1,
+        borderColor: "#D1D5DB",
+        backgroundColor: "#FFFFFF",
+        borderRadius: 12,
+        paddingHorizontal: 14,
+        paddingVertical: 14,
+    },
+
+    selectRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+
+    selectText: {
+        fontSize: 15,
+        color: "#1F2937",
+        flex: 1,
+    },
+
+    placeholderText: {
+        color: "#9CA3AF",
+    },
+    chipRow: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 8,
+        marginTop: 4,
+    },
+
+    chip: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 999,
+        borderWidth: 1,
+        borderColor: "#D1D5DB",
+        backgroundColor: "#F9FAFB",
+    },
+
+    chipActive: {
+        backgroundColor: "#FFEDD5",
+        borderColor: "#FB923C",
+    },
+
+    chipText: {
+        fontSize: 13,
+        color: "#4B5563",
+    },
+
+    chipTextActive: {
+        color: "#C2410C",
+        fontWeight: "600",
+    },
 });
