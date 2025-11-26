@@ -5,13 +5,13 @@ export default function ProfileLayout() {
     return (
         <Stack
             screenOptions={{
-                headerShown: true,               // ⭐ bật header cho tất cả mặc định
+                headerShown: true,               // ⭐ bật header mặc định cho tất cả màn hình
                 headerBackTitle: "",            // ⭐ Fix: không hiện chữ "index"
                 headerBackButtonDisplayMode: "minimal",
                 headerTitleAlign: "center",
-                headerTintColor: "#3EB489",     // icon màu mint green
+                headerTintColor: "#3EB489",     // màu icon: xanh mint
                 headerStyle: {
-                    backgroundColor: "#ebf1f6", // màu nền sáng
+                    backgroundColor: "#ebf1f6", // màu nền header
                 },
                 headerTitleStyle: {
                     fontSize: 18,
@@ -24,7 +24,7 @@ export default function ProfileLayout() {
                 }),
             }}
         >
-            {/* ⭐ Profile index — hide header */}
+            {/* ⭐ Màn hình Profile index — ẩn header */}
             <Stack.Screen
                 name="index"
                 options={{
@@ -32,32 +32,32 @@ export default function ProfileLayout() {
                 }}
             />
 
-            {/* Các file khác tự động dùng header đẹp */}
+            {/* Các màn hình khác tự động dùng header đẹp */}
             <Stack.Screen
                 name="update-profile"
                 options={{
-                    title: "Edit Profile",
+                    title: "Chỉnh sửa hồ sơ",
                 }}
             />
 
             <Stack.Screen
                 name="support"
                 options={{
-                    title: "Support Center",
+                    title: "Trung tâm hỗ trợ",
                 }}
             />
 
             <Stack.Screen
                 name="about"
                 options={{
-                    title: "About App",
+                    title: "Giới thiệu ứng dụng",
                 }}
             />
 
             <Stack.Screen
                 name="change-password"
                 options={{
-                    title: "Change Password",
+                    title: "Đổi mật khẩu",
                 }}
             />
         </Stack>

@@ -30,7 +30,7 @@ export default function ActivityScreen() {
     const [data, setData] = useState<any>(null);
 
     /** =========================
-     * LOAD ACTIVITY DATA
+     * TẢI DỮ LIỆU HOẠT ĐỘNG
      ========================= */
     const loadActivity = async () => {
         try {
@@ -42,7 +42,7 @@ export default function ActivityScreen() {
             const json = await res.json();
             setData(json.data ?? json);
         } catch (e) {
-            console.log("Activity load error:", e);
+            console.log("Lỗi tải dữ liệu hoạt động:", e);
         } finally {
             setLoading(false);
         }
@@ -53,7 +53,7 @@ export default function ActivityScreen() {
     }, []);
 
     /** =========================
-     * HOOKS – Must stay BEFORE any return
+     * HOOKS
      ========================= */
     const today: HealthRecord | null = data?.todayHealthRecord ?? null;
     const weeklyRaw: HealthRecord[] = data?.weeklyHealthRecords ?? [];
@@ -76,21 +76,21 @@ export default function ActivityScreen() {
 
     const getDayLabel = (dateStr: string) => {
         const d = new Date(dateStr);
-        return d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+        return d.toLocaleDateString("vi-VN", { weekday: "short" }).toUpperCase();
     };
 
     const getHeatColor = (steps?: number) => {
         const ratio = (steps ?? 0) / stepsGoal;
 
-        if (ratio >= 1) return "#22c55e"; // excellent
-        if (ratio >= 0.7) return "#4ade80"; // active
-        if (ratio >= 0.4) return "#a3e635"; // medium
-        if (ratio > 0) return "#facc15"; // low
-        return "#e5e7eb"; // rest
+        if (ratio >= 1) return "#22c55e";
+        if (ratio >= 0.7) return "#4ade80";
+        if (ratio >= 0.4) return "#a3e635";
+        if (ratio > 0) return "#facc15";
+        return "#e5e7eb";
     };
 
     /** =========================
-     * SHOW LOADING
+     * LOADING
      ========================= */
     if (loading) {
         return (
@@ -101,13 +101,13 @@ export default function ActivityScreen() {
     }
 
     /** =========================
-     * UI CONTENT
+     * UI
      ========================= */
     return (
         <ScrollView style={s.container} contentContainerStyle={{ paddingBottom: 80 }}>
-            <Text style={s.header}>Today&#39;s Activity</Text>
+            <Text style={s.header}>Hoạt động hôm nay</Text>
 
-            {/* ===== RINGS ===== */}
+            {/* ===== VÒNG HOẠT ĐỘNG ===== */}
             <View style={s.ringContainer}>
                 <View style={s.ringWrapper}>
                     <LinearGradient colors={["#FF6F61", "#FFB74D"]} style={s.ring1} />
@@ -116,44 +116,44 @@ export default function ActivityScreen() {
 
                     <View style={s.ringCenter}>
                         <Text style={s.ringNumber}>{todaySteps}</Text>
-                        <Text style={s.ringLabel}>steps</Text>
+                        <Text style={s.ringLabel}>bước</Text>
                     </View>
                 </View>
             </View>
 
-            {/* ===== QUICK STATS ===== */}
-            <Text style={s.sectionTitle}>Quick Stats</Text>
+            {/* ===== THỐNG KÊ NHANH ===== */}
+            <Text style={s.sectionTitle}>Thống kê nhanh</Text>
             <View style={s.statsRow}>
                 <View style={s.statCard}>
                     <Ionicons name="walk-outline" size={26} color="#3EB489" />
                     <Text style={s.statValue}>{today?.distance ?? 0} km</Text>
-                    <Text style={s.statLabel}>Distance</Text>
+                    <Text style={s.statLabel}>Quãng đường</Text>
                 </View>
 
                 <View style={s.statCard}>
                     <Ionicons name="flame-outline" size={26} color="#FF6F61" />
                     <Text style={s.statValue}>{today?.caloriesBurned ?? 0}</Text>
-                    <Text style={s.statLabel}>Calories</Text>
+                    <Text style={s.statLabel}>Calo</Text>
                 </View>
 
                 <View style={s.statCard}>
                     <Ionicons name="moon-outline" size={26} color="#6C63FF" />
                     <Text style={s.statValue}>{today?.sleepHours ?? 0}h</Text>
-                    <Text style={s.statLabel}>Sleep</Text>
+                    <Text style={s.statLabel}>Giấc ngủ</Text>
                 </View>
 
                 <View style={s.statCard}>
                     <Ionicons name="heart-outline" size={26} color="#EF4444" />
                     <Text style={s.statValue}>{today?.heartRate ?? "--"}</Text>
-                    <Text style={s.statLabel}>Heart</Text>
+                    <Text style={s.statLabel}>Nhịp tim</Text>
                 </View>
             </View>
 
-            {/* ===== ACTIVITY CHART ===== */}
-            <Text style={s.sectionTitle}>Activity Chart</Text>
+            {/* ===== BIỂU ĐỒ ===== */}
+            <Text style={s.sectionTitle}>Biểu đồ hoạt động</Text>
 
             {weekly.length === 0 ? (
-                <Text style={s.emptyText}>No weekly data yet.</Text>
+                <Text style={s.emptyText}>Chưa có dữ liệu trong tuần.</Text>
             ) : (
                 <View style={s.chartBox}>
                     <View style={s.chartBarsRow}>
@@ -185,10 +185,10 @@ export default function ActivityScreen() {
             )}
 
             {/* ===== AI HEATMAP ===== */}
-            <Text style={s.sectionTitle}>AI Activity Heatmap</Text>
+            <Text style={s.sectionTitle}>Bản đồ mức độ vận động (AI)</Text>
 
             {weekly.length === 0 ? (
-                <Text style={s.emptyText}>No activity to analyze yet.</Text>
+                <Text style={s.emptyText}>Chưa có dữ liệu để phân tích.</Text>
             ) : (
                 <>
                     <View style={s.heatRow}>
@@ -209,9 +209,9 @@ export default function ActivityScreen() {
                     <View style={s.aiBox}>
                         <Ionicons name="sparkles-outline" size={24} color="#6C63FF" />
                         <View style={{ flex: 1, marginLeft: 10 }}>
-                            <Text style={s.aiTitle}>Smart Insight</Text>
+                            <Text style={s.aiTitle}>AI gợi ý</Text>
                             <Text style={s.aiText}>
-                                Your most active day is{" "}
+                                Ngày hoạt động nhiều nhất của bạn là{" "}
                                 <Text style={{ fontWeight: "700" }}>
                                     {
                                         getDayLabel(
@@ -221,40 +221,40 @@ export default function ActivityScreen() {
                                         )
                                     }
                                 </Text>{" "}
-                                with{" "}
+                                với{" "}
                                 {
                                     weekly.reduce((max, cur) =>
                                         (cur.steps ?? 0) > (max.steps ?? 0) ? cur : max
                                     ).steps
                                 }{" "}
-                                steps.
+                                bước.
                             </Text>
                         </View>
                     </View>
                 </>
             )}
 
-            {/* GOALS */}
-            <Text style={s.sectionTitle}>Today’s Goals</Text>
+            {/* ===== MỤC TIÊU ===== */}
+            <Text style={s.sectionTitle}>Mục tiêu hôm nay</Text>
             <View style={s.goalBox}>
                 <Ionicons name="checkmark-circle-outline" size={26} color="#3EB489" />
-                <Text style={s.goalText}>Stay hydrated — drink 2 liters of water</Text>
+                <Text style={s.goalText}>Uống đủ 2 lít nước</Text>
             </View>
 
             <View style={s.goalBox}>
                 <Ionicons name="checkmark-circle-outline" size={26} color="#6C63FF" />
-                <Text style={s.goalText}>Walk at least 6,000 steps</Text>
+                <Text style={s.goalText}>Đi bộ ít nhất 6.000 bước</Text>
             </View>
 
             <View style={s.goalBox}>
                 <Ionicons name="checkmark-circle-outline" size={26} color="#FFB74D" />
-                <Text style={s.goalText}>Sleep 7–8 hours</Text>
+                <Text style={s.goalText}>Ngủ từ 7–8 tiếng</Text>
             </View>
 
-            {/* TIP */}
+            {/* ===== MẸO ===== */}
             <View style={s.tipBox}>
                 <Ionicons name="sparkles-outline" size={28} color="#FF6F61" />
-                <Text style={s.tipText}>✨ Even 5 extra minutes of walking matters.</Text>
+                <Text style={s.tipText}>✨ Chỉ cần thêm 5 phút đi bộ cũng tạo sự khác biệt.</Text>
             </View>
         </ScrollView>
     );

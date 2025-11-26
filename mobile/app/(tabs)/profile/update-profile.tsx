@@ -38,7 +38,7 @@ export default function UpdateProfileScreen() {
         activityLevel: "SEDENTARY",
     });
 
-    // Load profile
+    // Tải thông tin hồ sơ
     useEffect(() => {
         const load = async () => {
             try {
@@ -63,7 +63,7 @@ export default function UpdateProfileScreen() {
                     activityLevel: p.activityLevel || "SEDENTARY",
                 });
             } catch (e: any) {
-                Alert.alert("Error", e.message);
+                Alert.alert("Lỗi", e.message);
             } finally {
                 setLoading(false);
             }
@@ -98,14 +98,14 @@ export default function UpdateProfileScreen() {
             const json = await res.json();
             if (!res.ok) throw new Error(json.message);
 
-            Alert.alert('Success', 'Profile updated successfully!', [
+            Alert.alert('Thành công', 'Cập nhật hồ sơ thành công!', [
                 {
                     text: 'OK',
                     onPress: () => router.push('/profile?refresh=1'),
                 },
             ]);
         } catch (e: any) {
-            Alert.alert("Error", e.message);
+            Alert.alert("Lỗi", e.message);
         } finally {
             setSaving(false);
         }
@@ -115,7 +115,7 @@ export default function UpdateProfileScreen() {
         return (
             <View style={s.loadingWrap}>
                 <ActivityIndicator size="large" color="#3EB489"/>
-                <Text style={s.loadingText}>Loading profile…</Text>
+                <Text style={s.loadingText}>Đang tải hồ sơ…</Text>
             </View>
         );
     }
@@ -126,19 +126,19 @@ export default function UpdateProfileScreen() {
             behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
             <ScrollView contentContainerStyle={s.container}>
-                <Text style={s.title}>Update Profile</Text>
-                <Text style={s.subtitle}>Keep your health info up to date 💚</Text>
+                <Text style={s.title}>Cập nhật hồ sơ</Text>
+                <Text style={s.subtitle}>Giữ thông tin sức khỏe của bạn luôn chính xác 💚</Text>
 
-                {/* CARD */}
+                {/* THÔNG TIN */}
                 <View style={s.card}>
                     <LabelInput
                         icon="person-outline"
-                        placeholder="Full Name"
+                        placeholder="Họ và tên"
                         value={form.fullName}
                         onChange={(fullName: string) => setForm({...form, fullName})}
                     />
 
-                    {/* Birthdate Picker */}
+                    {/* Ngày sinh */}
                     <TouchableOpacity
                         onPress={() => setShowDatePicker(true)}
                         activeOpacity={0.8}
@@ -147,7 +147,7 @@ export default function UpdateProfileScreen() {
                             <Ionicons name="calendar-outline" size={20} color="#3EB489" style={s.icon}/>
 
                             <Text style={[s.input, {paddingTop: 10}]}>
-                                {form.birthDate ? form.birthDate : "Birth Date (yyyy-MM-dd)"}
+                                {form.birthDate ? form.birthDate : "Ngày sinh (yyyy-MM-dd)"}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -173,7 +173,7 @@ export default function UpdateProfileScreen() {
 
                     <LabelInput
                         icon="fitness-outline"
-                        placeholder="Age"
+                        placeholder="Tuổi"
                         keyboard="number-pad"
                         value={form.age}
                         onChange={(age: string) => setForm({...form, age})}
@@ -181,7 +181,7 @@ export default function UpdateProfileScreen() {
 
                     <LabelInput
                         icon="barcode-outline"
-                        placeholder="Height (cm)"
+                        placeholder="Chiều cao (cm)"
                         keyboard="number-pad"
                         value={form.heightCm}
                         onChange={(heightCm: string) => setForm({...form, heightCm})}
@@ -189,7 +189,7 @@ export default function UpdateProfileScreen() {
 
                     <LabelInput
                         icon="barbell-outline"
-                        placeholder="Weight (kg)"
+                        placeholder="Cân nặng (kg)"
                         keyboard="number-pad"
                         value={form.weightKg}
                         onChange={(weightKg: string) => setForm({...form, weightKg})}
@@ -197,41 +197,41 @@ export default function UpdateProfileScreen() {
 
                     <LabelInput
                         icon="flag-outline"
-                        placeholder="Target Weight (kg)"
+                        placeholder="Cân nặng mục tiêu (kg)"
                         keyboard="number-pad"
                         value={form.targetWeightKg}
                         onChange={(targetWeightKg: string) => setForm({...form, targetWeightKg})}
                     />
 
-                    {/* ACTIVITY LEVEL */}
+                    {/* MỨC ĐỘ HOẠT ĐỘNG */}
                     <View style={s.pickerBox}>
-                        <Text style={s.pickerLabel}>Activity Level</Text>
+                        <Text style={s.pickerLabel}>Mức độ hoạt động</Text>
                         <Picker
                             selectedValue={form.activityLevel}
                             onValueChange={(v) => setForm({...form, activityLevel: v})}
                         >
-                            <Picker.Item label="Sedentary" value="SEDENTARY"/>
-                            <Picker.Item label="Light" value="LIGHT"/>
-                            <Picker.Item label="Moderate" value="MODERATE"/>
-                            <Picker.Item label="Active" value="ACTIVE"/>
-                            <Picker.Item label="Very Active" value="VERY_ACTIVE"/>
+                            <Picker.Item label="Ít vận động" value="SEDENTARY"/>
+                            <Picker.Item label="Nhẹ nhàng" value="LIGHT"/>
+                            <Picker.Item label="Trung bình" value="MODERATE"/>
+                            <Picker.Item label="Năng động" value="ACTIVE"/>
+                            <Picker.Item label="Rất năng động" value="VERY_ACTIVE"/>
                         </Picker>
                     </View>
 
-                    {/* GOAL */}
+                    {/* MỤC TIÊU */}
                     <View style={s.pickerBox}>
-                        <Text style={s.pickerLabel}>Goal</Text>
+                        <Text style={s.pickerLabel}>Mục tiêu</Text>
                         <Picker
                             selectedValue={form.goal}
                             onValueChange={(v) => setForm({...form, goal: v})}
                         >
-                            <Picker.Item label="Maintain Weight" value="MAINTAIN"/>
-                            <Picker.Item label="Lose Weight" value="LOSE_WEIGHT"/>
-                            <Picker.Item label="Gain Muscle" value="GAIN_MUSCLE"/>
+                            <Picker.Item label="Giữ cân" value="MAINTAIN"/>
+                            <Picker.Item label="Giảm cân" value="LOSE_WEIGHT"/>
+                            <Picker.Item label="Tăng cơ" value="GAIN_MUSCLE"/>
                         </Picker>
                     </View>
 
-                    {/* SAVE BUTTON */}
+                    {/* LƯU */}
                     <TouchableOpacity
                         style={s.saveBtn}
                         disabled={saving}
@@ -242,7 +242,7 @@ export default function UpdateProfileScreen() {
                         ) : (
                             <>
                                 <Ionicons name="save-outline" size={20} color="#fff"/>
-                                <Text style={s.saveText}>Save Changes</Text>
+                                <Text style={s.saveText}>Lưu thay đổi</Text>
                             </>
                         )}
                     </TouchableOpacity>
@@ -252,8 +252,7 @@ export default function UpdateProfileScreen() {
     );
 }
 
-/* ─────────────────────────────────────────────── */
-
+/* Component Input chung */
 function LabelInput({icon, value, placeholder, onChange, keyboard}: any) {
     return (
         <View style={s.inputBox}>
@@ -269,12 +268,12 @@ function LabelInput({icon, value, placeholder, onChange, keyboard}: any) {
     );
 }
 
-/* ─────────────────────────────────────────────── */
-
+/* STYLES */
 const s = StyleSheet.create({
     container: {padding: 20, paddingBottom: 60},
     title: {fontSize: 22, fontWeight: "800", color: "#3EB489", textAlign: "center"},
     subtitle: {color: "#6b7280", textAlign: "center", marginBottom: 20},
+
     card: {
         backgroundColor: "#fff",
         borderRadius: 18,
@@ -284,6 +283,7 @@ const s = StyleSheet.create({
         shadowRadius: 6,
         elevation: 2,
     },
+
     inputBox: {
         flexDirection: "row",
         borderWidth: 1,
@@ -295,7 +295,9 @@ const s = StyleSheet.create({
         marginBottom: 14,
         alignItems: "center",
     },
+
     input: {flex: 1, fontSize: 15},
+
     pickerBox: {
         borderWidth: 1,
         borderColor: "#d1d5db",
@@ -310,6 +312,7 @@ const s = StyleSheet.create({
         marginLeft: 10,
         fontWeight: "600",
     },
+
     saveBtn: {
         backgroundColor: "#3EB489",
         flexDirection: "row",
@@ -321,7 +324,9 @@ const s = StyleSheet.create({
         gap: 8,
     },
     saveText: {color: "#fff", fontWeight: "700", fontSize: 16},
+
     loadingWrap: {flex: 1, justifyContent: "center", alignItems: "center"},
     loadingText: {marginTop: 10, color: "#6b7280"},
+
     icon: {marginRight: 8},
 });

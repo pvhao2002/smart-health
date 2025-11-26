@@ -7,7 +7,7 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
-      redirect('/admin');
+      redirect('/admin/meals');
     } else {
       redirect('/login');
     }

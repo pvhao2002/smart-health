@@ -263,3 +263,32 @@
     font-weight: 600;
     text-align: center;
 }
+
+.info-icon {
+    margin-left: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4a90e2;
+    font-weight: bold;
+    position: relative;
+}
+
+.info-popup {
+    display: none;
+    position: absolute;
+    top: 18px;
+    right: 0;
+    width: 220px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cccccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.info-icon:hover .info-popup {
+    display: block;
+}

@@ -24,7 +24,6 @@ export default function MealTable() {
     const [loading, setLoading] = useState(false);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-
     const [showModal, setShowModal] = useState(false);
     const [editingMeal, setEditingMeal] = useState<Meal | null>(null);
     const [form, setForm] = useState<Meal>({
@@ -42,7 +41,7 @@ export default function MealTable() {
             setMeals(res.data);
             setFiltered(res.data);
         } catch (err) {
-            console.error('Error loading meals:', err);
+            console.error('Lỗi tải danh sách bữa ăn:', err);
         } finally {
             setLoading(false);
         }
@@ -67,7 +66,7 @@ export default function MealTable() {
 
     // Delete
     const handleDelete = async (id: number) => {
-        if (!confirm('Delete this meal?')) return;
+        if (!confirm('Bạn có chắc muốn xóa bữa ăn này?')) return;
         await apiClient.delete(`${API_ENDPOINTS.MEALS.ADMIN}/${id}`);
         await loadMeals();
     };
@@ -98,7 +97,7 @@ export default function MealTable() {
     const handleSubmit = async () => {
         try {
             if (!form.name.trim()) {
-                alert('Meal name is required');
+                alert('Tên bữa ăn không được để trống');
                 return;
             }
             if (editingMeal) {
@@ -109,8 +108,8 @@ export default function MealTable() {
             await loadMeals();
             closeModal();
         } catch (err) {
-            console.error('Error saving meal:', err);
-            alert('Error saving meal');
+            console.error('Lỗi lưu dữ liệu:', err);
+            alert('Không thể lưu bữa ăn');
         }
     };
 
@@ -119,45 +118,45 @@ export default function MealTable() {
             {/* ===== Toolbar ===== */}
             <div className="meal-toolbar">
                 <div className="toolbar-left">
-                    <h2>🍱 Meal Management</h2>
+                    <h2>🍱 Quản Lý Bữa Ăn</h2>
                     <input
                         type="text"
-                        placeholder="Search meal or category..."
+                        placeholder="Tìm theo tên hoặc loại bữa ăn..."
                         value={search}
                         onChange={handleSearch}
                     />
                 </div>
                 <button className="add-btn" onClick={() => openModal()}>
-                    + Add Meal
+                    + Thêm Bữa Ăn
                 </button>
             </div>
 
             {/* ===== Table ===== */}
             {loading ? (
-                <div className="loading">Loading meals...</div>
+                <div className="loading">Đang tải dữ liệu...</div>
             ) : (
                 <div className="meal-table-container">
                     <table className="meal-table">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Meal Name</th>
-                            <th>Image</th>
-                            <th>Category</th>
-                            <th>Goal</th>
-                            <th>Calories</th>
+                            <th>Tên Bữa Ăn</th>
+                            <th>Hình Ảnh</th>
+                            <th>Loại Bữa</th>
+                            <th>Mục Tiêu</th>
+                            <th>Calo</th>
                             <th>Protein</th>
                             <th>Carbs</th>
                             <th>Fat</th>
-                            <th>Description</th>
-                            <th>Actions</th>
+                            <th>Mô Tả</th>
+                            <th>Hành Động</th>
                         </tr>
                         </thead>
                         <tbody>
                         {filtered.length === 0 ? (
                             <tr>
-                                <td colSpan={10} className="no-data text-center">
-                                    No meals found.
+                                <td colSpan={11} className="no-data text-center">
+                                    Không tìm thấy dữ liệu.
                                 </td>
                             </tr>
                         ) : (
@@ -177,19 +176,39 @@ export default function MealTable() {
                                             <span className="no-image">—</span>
                                         )}
                                     </td>
-                                    <td>{m.category}</td>
-                                    <td>{m.goal}</td>
+
+                                    {/* Category */}
+                                    <td>
+                                        {m.category === 'BREAKFAST'
+                                            ? 'Bữa sáng'
+                                            : m.category === 'LUNCH'
+                                                ? 'Bữa trưa'
+                                                : m.category === 'DINNER'
+                                                    ? 'Bữa tối'
+                                                    : 'Ăn nhẹ'}
+                                    </td>
+
+                                    {/* Goal */}
+                                    <td>
+                                        {m.goal === 'LOSE_WEIGHT'
+                                            ? 'Giảm cân'
+                                            : m.goal === 'GAIN_MUSCLE'
+                                                ? 'Tăng cơ'
+                                                : 'Duy trì'}
+                                    </td>
+
                                     <td>{m.calories}</td>
                                     <td>{m.protein ?? '-'}</td>
                                     <td>{m.carbs ?? '-'}</td>
                                     <td>{m.fat ?? '-'}</td>
                                     <td>{m.description?.slice(0, 40) ?? '—'}</td>
+
                                     <td>
                                         <button className="edit-btn" onClick={() => openModal(m)}>
-                                            Edit
+                                            Sửa
                                         </button>
                                         <button className="delete-btn" onClick={() => handleDelete(m.id!)}>
-                                            Delete
+                                            Xóa
                                         </button>
                                     </td>
                                 </tr>
@@ -204,10 +223,10 @@ export default function MealTable() {
             {showModal && (
                 <div className="modal-backdrop" onClick={closeModal}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <h3>{editingMeal ? '✏️ Edit Meal' : '➕ Add New Meal'}</h3>
+                        <h3>{editingMeal ? '✏️ Chỉnh Sửa Bữa Ăn' : '➕ Thêm Bữa Ăn Mới'}</h3>
 
                         <div className="form-group">
-                            <label>Name</label>
+                            <label>Tên bữa ăn</label>
                             <input
                                 value={form.name}
                                 onChange={(e) => setForm({...form, name: e.target.value})}
@@ -215,36 +234,36 @@ export default function MealTable() {
                         </div>
 
                         <div className="form-group">
-                            <label>Category</label>
+                            <label>Loại bữa</label>
                             <select
                                 value={form.category}
                                 onChange={(e) =>
                                     setForm({...form, category: e.target.value as Meal['category']})
                                 }
                             >
-                                <option value="BREAKFAST">Breakfast</option>
-                                <option value="LUNCH">Lunch</option>
-                                <option value="DINNER">Dinner</option>
-                                <option value="SNACK">Snack</option>
+                                <option value="BREAKFAST">Bữa sáng</option>
+                                <option value="LUNCH">Bữa trưa</option>
+                                <option value="DINNER">Bữa tối</option>
+                                <option value="SNACK">Ăn nhẹ</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label>Goal</label>
+                            <label>Mục tiêu</label>
                             <select
                                 value={form.goal}
                                 onChange={(e) =>
                                     setForm({...form, goal: e.target.value as Meal['goal']})
                                 }
                             >
-                                <option value="LOSE_WEIGHT">Lose Weight</option>
-                                <option value="GAIN_MUSCLE">Gain Muscle</option>
-                                <option value="MAINTAIN">Maintain</option>
+                                <option value="LOSE_WEIGHT">Giảm cân</option>
+                                <option value="GAIN_MUSCLE">Tăng cơ</option>
+                                <option value="MAINTAIN">Duy trì</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label>Calories</label>
+                            <label>Calo</label>
                             <input
                                 type="number"
                                 value={form.calories}
@@ -261,6 +280,7 @@ export default function MealTable() {
                                     onChange={(e) => setForm({...form, protein: Number(e.target.value)})}
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label>Carbs (g)</label>
                                 <input
@@ -269,6 +289,7 @@ export default function MealTable() {
                                     onChange={(e) => setForm({...form, carbs: Number(e.target.value)})}
                                 />
                             </div>
+
                             <div className="form-group">
                                 <label>Fat (g)</label>
                                 <input
@@ -280,7 +301,7 @@ export default function MealTable() {
                         </div>
 
                         <div className="form-group">
-                            <label>Description</label>
+                            <label>Mô tả</label>
                             <textarea
                                 value={form.description ?? ''}
                                 onChange={(e) => setForm({...form, description: e.target.value})}
@@ -288,7 +309,7 @@ export default function MealTable() {
                         </div>
 
                         <div className="form-group">
-                            <label>Image URL</label>
+                            <label>URL hình ảnh</label>
                             <input
                                 type="text"
                                 value={form.url ?? ''}
@@ -296,26 +317,23 @@ export default function MealTable() {
                                 placeholder="https://example.com/meal.jpg"
                             />
                             {form.url && (
-                                <img
-                                    src={form.url}
-                                    alt="preview"
-                                    className="meal-preview"
-                                />
+                                <img src={form.url} alt="preview" className="meal-preview"/>
                             )}
                         </div>
 
                         <div className="modal-actions">
                             <button onClick={handleSubmit} className="save-btn">
-                                {editingMeal ? 'Update' : 'Add'}
+                                {editingMeal ? 'Cập nhật' : 'Thêm mới'}
                             </button>
                             <button onClick={closeModal} className="cancel-btn">
-                                Cancel
+                                Hủy
                             </button>
                         </div>
                     </div>
                 </div>
             )}
 
+            {/* Image Preview */}
             {previewImage && (
                 <div className="image-preview-backdrop" onClick={() => setPreviewImage(null)}>
                     <img src={previewImage} alt="Preview" className="image-preview"/>

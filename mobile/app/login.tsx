@@ -1,3 +1,4 @@
+'use client';
 import React, {useState} from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet,
@@ -19,18 +20,23 @@ export default function LoginScreen() {
 
     const handleLogin = async () => {
         if (!email || !password) {
-            Alert.alert('Error', 'Please fill in all fields');
+            Alert.alert('Lỗi', 'Vui lòng nhập đầy đủ email và mật khẩu');
             return;
         }
         try {
             setLoading(true);
             const res = await axios.post(`${APP_CONFIG.BASE_URL}${APP_CONFIG.API.AUTH.LOGIN}`, {email, password});
+
             loginStore(res.data);
-            Alert.alert('Success', 'Welcome back!');
+            Alert.alert('Thành công', 'Chào mừng bạn quay trở lại!');
             router.replace('/(tabs)/profile');
+
         } catch (err: any) {
             console.log(err)
-            Alert.alert('Login failed', err.response?.data?.message || 'Please check your credentials');
+            Alert.alert(
+                'Đăng nhập thất bại',
+                err.response?.data?.message || 'Sai thông tin đăng nhập, vui lòng thử lại'
+            );
         } finally {
             setLoading(false);
         }
@@ -41,15 +47,18 @@ export default function LoginScreen() {
                               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <ScrollView contentContainerStyle={s.container} showsVerticalScrollIndicator={false}>
                 <View style={s.header}>
-                    <Image source={require('@/assets/images/illu.jpg')}
-                           style={s.image} resizeMode="contain"/>
-                    <Text style={s.title}>Welcome Back 👋</Text>
-                    <Text style={s.subtitle}>Your wellness journey starts here</Text>
+                    <Image
+                        source={require('@/assets/images/illu.jpg')}
+                        style={s.image}
+                        resizeMode="contain"
+                    />
+                    <Text style={s.title}>Chào mừng trở lại 👋</Text>
+                    <Text style={s.subtitle}>Hành trình sức khỏe của bạn bắt đầu từ đây</Text>
                 </View>
 
                 <View style={s.form}>
                     <TextInput
-                        placeholder="Email address"
+                        placeholder="Địa chỉ email"
                         style={s.input}
                         keyboardType="email-address"
                         autoCapitalize="none"
@@ -57,8 +66,9 @@ export default function LoginScreen() {
                         onChangeText={setEmail}
                         placeholderTextColor="#94a3b8"
                     />
+
                     <TextInput
-                        placeholder="Password"
+                        placeholder="Mật khẩu"
                         style={s.input}
                         secureTextEntry
                         value={password}
@@ -75,14 +85,14 @@ export default function LoginScreen() {
                             {loading ? (
                                 <ActivityIndicator color="#fff"/>
                             ) : (
-                                <Text style={s.btnText}>Sign In</Text>
+                                <Text style={s.btnText}>Đăng nhập</Text>
                             )}
                         </LinearGradient>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => router.push('/register')}>
                         <Text style={s.link}>
-                            New here? <Text style={s.linkAccent}>Create an account</Text>
+                            Chưa có tài khoản? <Text style={s.linkAccent}>Tạo tài khoản mới</Text>
                         </Text>
                     </TouchableOpacity>
                 </View>

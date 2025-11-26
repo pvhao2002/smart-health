@@ -14,6 +14,25 @@ import {useLocalSearchParams, useRouter} from 'expo-router';
 import {useAuthStore} from '@/store/authStore';
 import {APP_CONFIG} from '@/constants/app-config';
 
+const goalMap: Record<string, string> = {
+    LOSE_WEIGHT: "Giảm cân",
+    MAINTAIN: "Duy trì cân nặng",
+    GAIN_MUSCLE: "Tăng cơ",
+};
+
+const activityMap: Record<string, string> = {
+    SEDENTARY: "Ít vận động",
+    LIGHT: "Vận động nhẹ",
+    MODERATE: "Vận động vừa",
+    ACTIVE: "Vận động nhiều",
+    VERY_ACTIVE: "Rất năng động",
+};
+
+const roleMap: Record<string, string> = {
+    ADMIN: "Quản trị viên",
+    USER: "Người dùng",
+};
+
 export default function ProfileScreen() {
     const router = useRouter();
     const {user, logout} = useAuthStore();
@@ -24,13 +43,13 @@ export default function ProfileScreen() {
     const {refresh} = useLocalSearchParams();
 
     const menuItems = [
-        {icon: 'person-outline', label: 'Edit Profile', action: () => router.push('/profile/update-profile')},
-        {icon: 'lock-closed-outline', label: 'Change Password', action: () => router.push('/profile/change-password')},
-        {icon: 'fitness-outline', label: 'Health Goals', action: () => router.push('/activity')},
-        {icon: 'restaurant-outline', label: 'Meal Preferences', action: () => router.push('/plan')},
-        {icon: 'barbell-outline', label: 'Workout Preferences', action: () => router.push('/plan')},
-        {icon: 'information-circle-outline', label: 'About App', action: () => router.push('/profile/about')},
-        {icon: 'chatbubbles-outline', label: 'Support Center', action: () => router.push('/profile/support')},
+        {icon: 'person-outline', label: 'Chỉnh sửa hồ sơ', action: () => router.push('/profile/update-profile')},
+        {icon: 'lock-closed-outline', label: 'Đổi mật khẩu', action: () => router.push('/profile/change-password')},
+        {icon: 'fitness-outline', label: 'Mục tiêu sức khoẻ', action: () => router.push('/activity')},
+        {icon: 'restaurant-outline', label: 'Tuỳ chọn bữa ăn', action: () => router.push('/plan')},
+        {icon: 'barbell-outline', label: 'Tuỳ chọn tập luyện', action: () => router.push('/plan')},
+        {icon: 'information-circle-outline', label: 'Giới thiệu ứng dụng', action: () => router.push('/profile/about')},
+        {icon: 'chatbubbles-outline', label: 'Trung tâm hỗ trợ', action: () => router.push('/profile/support')},
     ];
 
     useEffect(() => {
@@ -45,7 +64,7 @@ export default function ProfileScreen() {
                 if (!res.ok) throw new Error(json.message);
                 setProfile(json.data ?? json);
             } catch (e: any) {
-                Alert.alert('Error', e.message || 'Failed to load profile');
+                Alert.alert('Lỗi', e.message || 'Không thể tải thông tin hồ sơ');
             } finally {
                 setLoading(false);
                 router.setParams({});
@@ -68,12 +87,11 @@ export default function ProfileScreen() {
         return `${yyyy}-${mm}-${dd} ${hh}:${mi}`;
     };
 
-
     if (loading)
         return (
             <View style={s.loadingWrap}>
                 <ActivityIndicator size="large" color="#3EB489"/>
-                <Text style={s.loadingText}>Loading profile…</Text>
+                <Text style={s.loadingText}>Đang tải hồ sơ…</Text>
             </View>
         );
 
@@ -115,17 +133,18 @@ export default function ProfileScreen() {
                     <Text style={s.statLabel}>TDEE</Text>
                 </View>
             </View>
-            {/* Tip: Understanding BMI, BMR, TDEE */}
+
+            {/* Tip: understanding BMI/BMR/TDEE */}
             <View style={s.tipCard}>
-                <Text style={s.tipTitle}>📘 Understanding Your Health Metrics</Text>
+                <Text style={s.tipTitle}>📘 Hiểu về các chỉ số sức khoẻ</Text>
 
                 <View style={s.tipItem}>
                     <Ionicons name="body-outline" size={20} color="#3EB489"/>
                     <View style={{marginLeft: 10}}>
-                        <Text style={s.tipHeading}>BMI – Body Mass Index</Text>
+                        <Text style={s.tipHeading}>BMI – Chỉ số khối cơ thể</Text>
                         <Text style={s.tipText}>
-                            BMI tells whether your weight is appropriate for your height. It helps identify if you are
-                            underweight, normal, overweight, or obese.
+                            BMI cho biết cân nặng của bạn có phù hợp với chiều cao hay không, giúp nhận biết tình trạng
+                            thiếu cân, bình thường, thừa cân hoặc béo phì.
                         </Text>
                     </View>
                 </View>
@@ -133,10 +152,10 @@ export default function ProfileScreen() {
                 <View style={s.tipItem}>
                     <Ionicons name="flame-outline" size={20} color="#FFB74D"/>
                     <View style={{marginLeft: 10}}>
-                        <Text style={s.tipHeading}>BMR – Basal Metabolic Rate</Text>
+                        <Text style={s.tipHeading}>BMR – Năng lượng trao đổi cơ bản</Text>
                         <Text style={s.tipText}>
-                            BMR is the number of calories your body burns at rest. It reflects how much energy you
-                            need just to maintain basic functions like breathing and circulation.
+                            BMR là lượng calo cơ thể tiêu thụ khi nghỉ ngơi, cần thiết để duy trì các chức năng sống
+                            như hô hấp, tuần hoàn.
                         </Text>
                     </View>
                 </View>
@@ -144,10 +163,10 @@ export default function ProfileScreen() {
                 <View style={s.tipItem}>
                     <Ionicons name="pulse-outline" size={20} color="#6C63FF"/>
                     <View style={{marginLeft: 10}}>
-                        <Text style={s.tipHeading}>TDEE – Total Daily Energy Expenditure</Text>
+                        <Text style={s.tipHeading}>TDEE – Tổng năng lượng tiêu hao trong ngày</Text>
                         <Text style={s.tipText}>
-                            TDEE = BMR × Activity Level. It estimates how many calories you burn daily based on
-                            your lifestyle and activity intensity.
+                            TDEE = BMR × mức độ hoạt động. Đây là lượng calo bạn đốt cháy mỗi ngày dựa trên mức độ vận
+                            động của bạn.
                         </Text>
                     </View>
                 </View>
@@ -155,29 +174,29 @@ export default function ProfileScreen() {
 
             {/* Personal Info */}
             <View style={s.card}>
-                <Text style={s.sectionTitle}>👤 Personal Information</Text>
-                <InfoRow label="Full Name" value={profile?.fullName}/>
-                <InfoRow label="Age" value={profile?.age}/>
-                <InfoRow label="Birth Date" value={profile?.birthDate}/>
-                <InfoRow label="Activity Level" value={profile?.activityLevel} highlight/>
-                <InfoRow label="Goal" value={profile?.goal} highlight/>
+                <Text style={s.sectionTitle}>👤 Thông tin cá nhân</Text>
+                <InfoRow label="Họ và tên" value={profile?.fullName}/>
+                <InfoRow label="Tuổi" value={profile?.age}/>
+                <InfoRow label="Ngày sinh" value={profile?.birthDate}/>
+                <InfoRow label="Mức độ hoạt động" value={activityMap[profile?.activityLevel]} highlight/>
+                <InfoRow label="Mục tiêu" value={goalMap[profile?.goal]} highlight/>
             </View>
 
             {/* Body Measurements */}
             <View style={s.card}>
-                <Text style={s.sectionTitle}>📏 Body Measurements</Text>
-                <InfoRow label="Height (cm)" value={profile?.heightCm}/>
-                <InfoRow label="Weight (kg)" value={profile?.weightKg}/>
-                <InfoRow label="Target Weight" value={profile?.targetWeightKg}/>
+                <Text style={s.sectionTitle}>📏 Chỉ số cơ thể</Text>
+                <InfoRow label="Chiều cao (cm)" value={profile?.heightCm}/>
+                <InfoRow label="Cân nặng (kg)" value={profile?.weightKg}/>
+                <InfoRow label="Cân nặng mục tiêu" value={profile?.targetWeightKg}/>
             </View>
 
             {/* Account Info */}
             <View style={s.card}>
-                <Text style={s.sectionTitle}>🔐 Account Details</Text>
-                <InfoRow label="Role" value={profile?.role}/>
-                <InfoRow label="Status" value={profile?.isActive ? "Active" : "Inactive"}/>
-                <InfoRow label="Created At" value={formatDate(profile?.createdAt)}/>
-                <InfoRow label="Updated At" value={formatDate(profile?.updatedAt)}/>
+                <Text style={s.sectionTitle}>🔐 Thông tin tài khoản</Text>
+                <InfoRow label="Vai trò" value={roleMap[profile?.role]}/>
+                <InfoRow label="Trạng thái" value={profile?.isActive ? "Hoạt động" : "Không hoạt động"}/>
+                <InfoRow label="Ngày tạo" value={formatDate(profile?.createdAt)}/>
+                <InfoRow label="Cập nhật gần nhất" value={formatDate(profile?.updatedAt)}/>
             </View>
 
             {/* Menu */}
@@ -196,7 +215,7 @@ export default function ProfileScreen() {
             {/* Logout */}
             <TouchableOpacity style={s.logoutBtn} onPress={logout}>
                 <Ionicons name="log-out-outline" size={18} color="#fff"/>
-                <Text style={s.logoutText}>Logout</Text>
+                <Text style={s.logoutText}>Đăng xuất</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -314,6 +333,7 @@ const s = StyleSheet.create({
         gap: 6,
     },
     logoutText: {color: '#fff', fontWeight: '700', fontSize: 15},
+
     tipCard: {
         backgroundColor: '#fff',
         padding: 18,

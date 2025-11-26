@@ -1,10 +1,7 @@
 'use client';
 import {usePathname, useRouter} from 'next/navigation';
 import {useEffect, useState} from 'react';
-import {
-    Home, Users, UtensilsCrossed, Dumbbell, CalendarDays,
-    ListChecks
-} from 'lucide-react';
+import {CalendarDays, Dumbbell, ListChecks, Users, UtensilsCrossed} from 'lucide-react';
 import './AdminSidebar.css';
 import PageLoader from './PageLoader';
 

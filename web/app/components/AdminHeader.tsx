@@ -15,9 +15,9 @@ export default function AdminHeader() {
         <header className="smarthealth-header">
             <div className="header-left">
                 <Stethoscope className="header-icon"/>
-                <h2>Smart Health Management System</h2>
+                <h2>Hệ Thống Quản Lý Sức Khỏe Thông Minh</h2>
             </div>
-            <LogOut onClick={handleLogout} className="logout-icon" title="Logout"/>
+            <LogOut onClick={handleLogout} className="logout-icon"/>
         </header>
     );
 }

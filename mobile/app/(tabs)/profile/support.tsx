@@ -21,33 +21,33 @@ export default function SupportScreen() {
 
     const faqs = [
         {
-            q: 'How do I track my daily health metrics?',
-            a: 'Go to the Activity tab → You can monitor calories burned, steps, workout history, and more.',
+            q: 'Làm sao để theo dõi chỉ số sức khỏe hằng ngày?',
+            a: 'Vào tab Hoạt Động → bạn có thể xem lượng calo đốt cháy, số bước đi, lịch sử tập luyện và nhiều hơn.',
         },
         {
-            q: 'Can SmartHealth generate personalized meal plans?',
-            a: 'Yes! Based on your BMI, goals and dietary preferences, SmartHealth recommends daily meal plans.',
+            q: 'SmartHealth có tạo thực đơn cá nhân hoá không?',
+            a: 'Có! Dựa trên BMI, mục tiêu và khẩu phần ăn của bạn, SmartHealth sẽ đề xuất thực đơn mỗi ngày.',
         },
         {
-            q: 'Is my health information secure?',
-            a: 'All your data is encrypted and securely stored following industry best practices.',
+            q: 'Thông tin sức khỏe của tôi có được bảo mật không?',
+            a: 'Tất cả dữ liệu của bạn được mã hóa và lưu trữ an toàn theo tiêu chuẩn bảo mật hiện đại.',
         },
         {
-            q: 'How do I edit my profile?',
-            a: 'Open the Profile tab → Edit Profile to update your goals, weight, height, or activity level.',
+            q: 'Làm sao để chỉnh sửa hồ sơ?',
+            a: 'Mở tab Hồ Sơ → chọn Chỉnh sửa hồ sơ để cập nhật mục tiêu, cân nặng, chiều cao hoặc mức độ hoạt động.',
         },
         {
-            q: 'Can I connect SmartHealth with smartwatches?',
-            a: 'SmartHealth supports Apple Health, Google Fit and other devices via synced data.',
+            q: 'SmartHealth có hỗ trợ kết nối đồng hồ thông minh không?',
+            a: 'SmartHealth hỗ trợ Apple Health, Google Fit và nhiều thiết bị đồng bộ khác.',
         },
     ];
 
     const handleSubmit = () => {
         if (!message.trim()) {
-            Alert.alert('Error', 'Please enter your feedback before submitting.');
+            Alert.alert('Lỗi', 'Vui lòng nhập nội dung trước khi gửi.');
             return;
         }
-        Alert.alert('Thank you 💚', 'Your message has been sent to the SmartHealth support team.');
+        Alert.alert('Cảm ơn bạn 💚', 'Phản hồi của bạn đã được gửi đến đội ngũ SmartHealth.');
         setMessage('');
     };
 
@@ -60,13 +60,13 @@ export default function SupportScreen() {
                 {/* Header */}
                 <View style={s.header}>
                     <Ionicons name="chatbubble-ellipses-outline" size={60} color="#3EB489"/>
-                    <Text style={s.title}>SmartHealth Support</Text>
-                    <Text style={s.subtitle}>We’re here to help you stay healthy 💚</Text>
+                    <Text style={s.title}>Hỗ Trợ SmartHealth</Text>
+                    <Text style={s.subtitle}>Chúng tôi luôn sẵn sàng hỗ trợ bạn 💚</Text>
                 </View>
 
                 {/* Contact Info */}
                 <View style={s.card}>
-                    <Text style={s.sectionTitle}>📞 Contact Us</Text>
+                    <Text style={s.sectionTitle}>📞 Liên hệ</Text>
 
                     <TouchableOpacity
                         style={s.row}
@@ -92,7 +92,7 @@ export default function SupportScreen() {
 
                 {/* FAQ */}
                 <View style={s.card}>
-                    <Text style={s.sectionTitle}>💡 Frequently Asked Questions</Text>
+                    <Text style={s.sectionTitle}>💡 Câu hỏi thường gặp</Text>
 
                     {faqs.map((item, index) => (
                         <View key={index} style={s.faqItem}>
@@ -116,14 +116,14 @@ export default function SupportScreen() {
 
                 {/* Feedback */}
                 <View style={s.card}>
-                    <Text style={s.sectionTitle}>✉️ Send Feedback</Text>
+                    <Text style={s.sectionTitle}>✉️ Gửi phản hồi</Text>
                     <Text style={s.paragraph}>
-                        Have an issue, suggestion, or idea?
-                        Your feedback helps us improve SmartHealth every day!
+                        Bạn gặp vấn đề, có góp ý hoặc ý tưởng mới?
+                        Hãy gửi cho chúng tôi — phản hồi của bạn giúp SmartHealth phát triển tốt hơn!
                     </Text>
 
                     <TextInput
-                        placeholder="Write your message here..."
+                        placeholder="Viết tin nhắn của bạn..."
                         placeholderTextColor="#94a3b8"
                         value={message}
                         onChangeText={setMessage}
@@ -133,14 +133,14 @@ export default function SupportScreen() {
 
                     <TouchableOpacity style={s.btn} onPress={handleSubmit}>
                         <Ionicons name="send-outline" size={18} color="#fff"/>
-                        <Text style={s.btnText}>Submit</Text>
+                        <Text style={s.btnText}>Gửi</Text>
                     </TouchableOpacity>
                 </View>
 
                 {/* Back Button */}
                 <TouchableOpacity style={s.backBtn} onPress={() => router.back()}>
                     <Ionicons name="arrow-back-outline" size={18} color="#3EB489"/>
-                    <Text style={s.backText}>Back</Text>
+                    <Text style={s.backText}>Quay lại</Text>
                 </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -149,6 +149,7 @@ export default function SupportScreen() {
 
 const s = StyleSheet.create({
     container: {padding: 18, paddingBottom: 60},
+
     header: {alignItems: 'center', marginTop: 12, marginBottom: 20},
     title: {fontSize: 22, fontWeight: '800', color: '#3EB489', marginTop: 8},
     subtitle: {color: '#374151', opacity: 0.7, marginTop: 4, fontSize: 14},
@@ -173,6 +174,7 @@ const s = StyleSheet.create({
 
     row: {flexDirection: 'row', alignItems: 'center', marginBottom: 10, gap: 10},
     linkText: {color: '#3EB489', fontSize: 15, fontWeight: '600'},
+
     paragraph: {color: '#374151', marginBottom: 10, lineHeight: 20, fontSize: 14},
 
     faqItem: {

@@ -23,7 +23,6 @@ export default function WorkoutTable() {
     const [editingWorkout, setEditingWorkout] = useState<WorkoutType | null>(null);
     const [form, setForm] = useState<WorkoutType>({
         name: '',
-        caloriesPerMinute: 0,
         level: 'BEGINNER',
         goal: 'LOSE_WEIGHT',
     });
@@ -37,11 +36,12 @@ export default function WorkoutTable() {
             setWorkouts(res.data);
             setFiltered(res.data);
         } catch (e) {
-            console.error('Error loading workouts', e);
+            console.error('Lỗi khi tải danh sách bài tập', e);
         } finally {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         loadWorkouts();
     }, []);
@@ -59,7 +59,7 @@ export default function WorkoutTable() {
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm('Delete this workout type?')) return;
+        if (!confirm('Bạn có chắc muốn xóa bài tập này?')) return;
         await apiClient.delete(`${API_ENDPOINTS.WORKOUTS.ADMIN}/${id}`);
         await loadWorkouts();
     };
@@ -70,7 +70,12 @@ export default function WorkoutTable() {
             setForm(w);
         } else {
             setEditingWorkout(null);
-            setForm({name: '', caloriesPerMinute: 0, level: 'BEGINNER', goal: 'LOSE_WEIGHT'});
+            setForm({
+                name: '',
+                caloriesPerMinute: 0,
+                level: 'BEGINNER',
+                goal: 'LOSE_WEIGHT'
+            });
         }
         setShowModal(true);
     };
@@ -82,56 +87,60 @@ export default function WorkoutTable() {
 
     const handleSubmit = async () => {
         if (!form.name.trim()) {
-            alert('Name is required');
+            alert('Tên bài tập không được để trống');
             return;
         }
+
         if (editingWorkout) {
             await apiClient.patch(`${API_ENDPOINTS.WORKOUTS.ADMIN}/${editingWorkout.id}`, form);
         } else {
             await apiClient.post(API_ENDPOINTS.WORKOUTS.ADMIN, form);
         }
+
         await loadWorkouts();
         closeModal();
     };
 
     return (
         <div className="workout-table-wrapper">
+            {/* ===== Toolbar ===== */}
             <div className="workout-toolbar">
                 <div className="toolbar-left">
-                    <h2>🏋️ Workout Management</h2>
+                    <h2>🏋️ Quản Lý Bài Tập</h2>
                     <input
-                        placeholder="Search workout or level..."
+                        placeholder="Tìm kiếm tên hoặc cấp độ bài tập..."
                         value={search}
                         onChange={handleSearch}
                     />
                 </div>
                 <button className="add-btn" onClick={() => openModal()}>
-                    + Add Workout
+                    + Thêm Bài Tập
                 </button>
             </div>
 
             {loading ? (
-                <div className="loading">Loading workouts...</div>
+                <div className="loading">Đang tải danh sách bài tập...</div>
             ) : (
                 <div className="workout-table-container">
                     <table className="workout-table">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Preview</th>
-                            <th>Calories/min</th>
-                            <th>Level</th>
-                            <th>Goal</th>
-                            <th>Description</th>
-                            <th>Actions</th>
+                            <th>Tên bài tập</th>
+                            <th>Xem trước</th>
+                            <th>Calo/phút</th>
+                            <th>Cấp độ</th>
+                            <th>Mục tiêu</th>
+                            <th>Mô tả</th>
+                            <th>Hành động</th>
                         </tr>
                         </thead>
+
                         <tbody>
                         {filtered.length === 0 ? (
                             <tr>
                                 <td colSpan={8} className="no-data">
-                                    No workouts found
+                                    Không có bài tập nào
                                 </td>
                             </tr>
                         ) : (
@@ -139,6 +148,7 @@ export default function WorkoutTable() {
                                 <tr key={w.id}>
                                     <td>{i + 1}</td>
                                     <td>{w.name}</td>
+
                                     <td>
                                         {w.url ? (
                                             <img
@@ -151,32 +161,47 @@ export default function WorkoutTable() {
                                             <span className="no-image">—</span>
                                         )}
                                     </td>
+
                                     <td>{w.caloriesPerMinute ?? '-'}</td>
-                                    <td>{w.level}</td>
-                                    <td>{w.goal}</td>
+
+                                    {/* Level */}
+                                    <td>
+                                        {w.level === 'BEGINNER'
+                                            ? 'Cơ bản'
+                                            : w.level === 'INTERMEDIATE'
+                                                ? 'Trung bình'
+                                                : 'Nâng cao'}
+                                    </td>
+
+                                    {/* Goal */}
+                                    <td>
+                                        {w.goal === 'LOSE_WEIGHT'
+                                            ? 'Giảm cân'
+                                            : w.goal === 'GAIN_WEIGHT'
+                                                ? 'Tăng cân'
+                                                : 'Duy trì'}
+                                    </td>
+
                                     <td>
                                         {w.description ? (
                                             <div className="desc-popover-wrapper">
-                                                  <span className="desc-short">
+                                                <span className="desc-short">
                                                     {w.description.slice(0, 40)}
-                                                      {w.description.length > 40 && '...'}
-                                                  </span>
+                                                    {w.description.length > 40 && '...'}
+                                                </span>
                                                 <div className="desc-popover">
                                                     {w.description}
                                                 </div>
                                             </div>
-                                        ) : (
-                                            '—'
-                                        )}
+                                        ) : '—'}
                                     </td>
-
 
                                     <td>
                                         <button className="edit-btn" onClick={() => openModal(w)}>
-                                            Edit
+                                            Sửa
                                         </button>
                                         <button className="delete-btn" onClick={() => handleDelete(w.id!)}>
-                                            Delete
+                                            Xóa
                                         </button>
                                     </td>
                                 </tr>
@@ -187,13 +212,14 @@ export default function WorkoutTable() {
                 </div>
             )}
 
+            {/* ===== Modal ===== */}
             {showModal && (
                 <div className="modal-backdrop" onClick={closeModal}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <h3>{editingWorkout ? '✏️ Edit Workout' : '➕ Add Workout'}</h3>
+                        <h3>{editingWorkout ? '✏️ Chỉnh Sửa Bài Tập' : '➕ Thêm Bài Tập Mới'}</h3>
 
                         <div className="form-group">
-                            <label>Name</label>
+                            <label>Tên bài tập</label>
                             <input
                                 value={form.name}
                                 onChange={(e) => setForm({...form, name: e.target.value})}
@@ -201,7 +227,7 @@ export default function WorkoutTable() {
                         </div>
 
                         <div className="form-group">
-                            <label>Calories per minute</label>
+                            <label>Calo</label>
                             <input
                                 type="number"
                                 value={form.caloriesPerMinute ?? ''}
@@ -210,31 +236,31 @@ export default function WorkoutTable() {
                         </div>
 
                         <div className="form-group">
-                            <label>Level</label>
+                            <label>Cấp độ</label>
                             <select
                                 value={form.level}
                                 onChange={(e) => setForm({...form, level: e.target.value as WorkoutType['level']})}
                             >
-                                <option value="BEGINNER">Beginner</option>
-                                <option value="INTERMEDIATE">Intermediate</option>
-                                <option value="ADVANCED">Advanced</option>
+                                <option value="BEGINNER">Cơ bản</option>
+                                <option value="INTERMEDIATE">Trung bình</option>
+                                <option value="ADVANCED">Nâng cao</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label>Goal</label>
+                            <label>Mục tiêu</label>
                             <select
                                 value={form.goal}
                                 onChange={(e) => setForm({...form, goal: e.target.value as WorkoutType['goal']})}
                             >
-                                <option value="LOSE_WEIGHT">Lose Weight</option>
-                                <option value="GAIN_MUSCLE">Gain Muscle</option>
-                                <option value="MAINTAIN">Maintain</option>
+                                <option value="LOSE_WEIGHT">Giảm cân</option>
+                                <option value="GAIN_WEIGHT">Tăng cân</option>
+                                <option value="MAINTAIN">Duy trì</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label>Description</label>
+                            <label>Mô tả</label>
                             <textarea
                                 value={form.description ?? ''}
                                 onChange={(e) => setForm({...form, description: e.target.value})}
@@ -242,7 +268,7 @@ export default function WorkoutTable() {
                         </div>
 
                         <div className="form-group">
-                            <label>YouTube Link</label>
+                            <label>Link YouTube</label>
                             <input
                                 type="text"
                                 value={form.url ?? ''}
@@ -262,16 +288,17 @@ export default function WorkoutTable() {
 
                         <div className="modal-actions">
                             <button onClick={handleSubmit} className="save-btn">
-                                {editingWorkout ? 'Update' : 'Add'}
+                                {editingWorkout ? 'Cập nhật' : 'Thêm mới'}
                             </button>
                             <button onClick={closeModal} className="cancel-btn">
-                                Cancel
+                                Hủy
                             </button>
                         </div>
                     </div>
                 </div>
             )}
 
+            {/* Video preview */}
             {previewImage && (
                 <div className="image-preview-backdrop" onClick={() => setPreviewImage(null)}>
                     <iframe
@@ -286,7 +313,7 @@ export default function WorkoutTable() {
     );
 }
 
-/** Helper to get YouTube video id from embed url */
+/** Helper extract YouTube video ID */
 function extractYouTubeId(url: string): string | null {
     const match = url.match(/embed\/([\w-]{11})/);
     return match ? match[1] : null;

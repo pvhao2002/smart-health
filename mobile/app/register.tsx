@@ -1,3 +1,4 @@
+'use client';
 import React, {useState} from 'react';
 import {
     View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Alert,
@@ -41,8 +42,6 @@ export default function RegisterScreen() {
     });
 
     const [loading, setLoading] = useState(false);
-
-    // iOS date modal state
     const [showDateIOS, setShowDateIOS] = useState(false);
     const [tempDate, setTempDate] = useState<Date>(form.birthDate);
 
@@ -50,7 +49,7 @@ export default function RegisterScreen() {
 
     const handleRegister = async () => {
         if (!form.fullName || !form.email || !form.password) {
-            Alert.alert('Error', 'Please fill in all required fields');
+            Alert.alert('Thiếu thông tin', 'Vui lòng nhập đầy đủ họ tên, email và mật khẩu.');
             return;
         }
         try {
@@ -62,38 +61,43 @@ export default function RegisterScreen() {
                 targetWeightKg: form.targetWeightKg ? parseFloat(form.targetWeightKg) : null,
                 birthDate: form.birthDate.toISOString().split('T')[0],
             };
+
             const res = await axios.post(`${ENV.BASE_URL}${APP_CONFIG.API.AUTH.REGISTER}`, param);
             loginStore(res.data);
-            Alert.alert('Success', 'Account created successfully!');
+            Alert.alert('Thành công', 'Tạo tài khoản thành công!');
             router.replace('/(tabs)/profile');
+
         } catch (err: any) {
             console.log(err);
-            Alert.alert('Registration failed', err?.response?.data?.message || 'Please check your details');
+            Alert.alert(
+                'Đăng ký thất bại',
+                err?.response?.data?.message || 'Vui lòng kiểm tra lại thông tin'
+            );
         } finally {
             setLoading(false);
         }
     };
 
-    // ----- iOS Actionsheets for enum pickers -----
+    // ===== IOS ACTIONSHEET (giới tính, hoạt động, mục tiêu) =====
     const showActionSheet = (title: string, field: 'gender' | 'activityLevel' | 'goal') => {
         const maps: Record<typeof field, { labels: string[], values: EnumVal[] }> = {
             gender: {
-                labels: ['Male', 'Female', 'Other', 'Cancel'],
+                labels: ['Nam', 'Nữ', 'Khác', 'Hủy'],
                 values: ['MALE', 'FEMALE', 'OTHER', 'OTHER']
             },
             activityLevel: {
                 labels: [
-                    'Sedentary (little exercise)',
-                    'Light (1–3 days/week)',
-                    'Moderate (3–5 days/week)',
-                    'Active (6–7 days/week)',
-                    'Very Active (physical job)',
-                    'Cancel'
+                    'Ít vận động',
+                    'Nhẹ (1–3 buổi/tuần)',
+                    'Vừa (3–5 buổi/tuần)',
+                    'Năng động (6–7 buổi/tuần)',
+                    'Rất năng động (công việc tay chân)',
+                    'Hủy'
                 ],
                 values: ['SEDENTARY', 'LIGHT', 'MODERATE', 'ACTIVE', 'VERY_ACTIVE', 'SEDENTARY']
             },
             goal: {
-                labels: ['Lose Weight', 'Gain Muscle', 'Maintain', 'Cancel'],
+                labels: ['Giảm cân', 'Tăng cơ', 'Duy trì', 'Hủy'],
                 values: ['LOSE_WEIGHT', 'GAIN_MUSCLE', 'MAINTAIN', 'MAINTAIN']
             }
         };
@@ -107,7 +111,7 @@ export default function RegisterScreen() {
                 userInterfaceStyle: 'light'
             },
             (btnIndex) => {
-                if (btnIndex === opts.labels.length - 1) return; // cancel
+                if (btnIndex === opts.labels.length - 1) return;
                 handleChange(field, opts.values[btnIndex]);
             }
         );
@@ -115,15 +119,14 @@ export default function RegisterScreen() {
 
     const renderPickerOrSheet = (label: string, field: 'gender' | 'activityLevel' | 'goal') => {
         if (Platform.OS === 'ios') {
-            // iOS: show pressable line that opens ActionSheet
             const displayVal = {
-                gender: {MALE: 'Male', FEMALE: 'Female', OTHER: 'Other'} as any,
+                gender: {MALE: 'Nam', FEMALE: 'Nữ', OTHER: 'Khác'} as any,
                 activityLevel: {
-                    SEDENTARY: 'Sedentary', LIGHT: 'Light', MODERATE: 'Moderate',
-                    ACTIVE: 'Active', VERY_ACTIVE: 'Very Active'
+                    SEDENTARY: 'Ít vận động', LIGHT: 'Nhẹ', MODERATE: 'Vừa',
+                    ACTIVE: 'Năng động', VERY_ACTIVE: 'Rất năng động'
                 } as any,
-                goal: {LOSE_WEIGHT: 'Lose Weight', GAIN_MUSCLE: 'Gain Muscle', MAINTAIN: 'Maintain'} as any
-            }[field][form[field] as EnumVal] || 'Select';
+                goal: {LOSE_WEIGHT: 'Giảm cân', GAIN_MUSCLE: 'Tăng cơ', MAINTAIN: 'Duy trì'} as any
+            }[field][form[field] as EnumVal];
 
             return (
                 <Pressable style={s.input} onPress={() => showActionSheet(label, field)}>
@@ -132,24 +135,24 @@ export default function RegisterScreen() {
             );
         }
 
-        // Android: native Picker
+        // ===== Android native Picker =====
         const itemsMap: Record<typeof field, { label: string, value: EnumVal }[]> = {
             gender: [
-                {label: 'Male', value: 'MALE'},
-                {label: 'Female', value: 'FEMALE'},
-                {label: 'Other', value: 'OTHER'},
+                {label: 'Nam', value: 'MALE'},
+                {label: 'Nữ', value: 'FEMALE'},
+                {label: 'Khác', value: 'OTHER'},
             ],
             activityLevel: [
-                {label: 'Sedentary (little exercise)', value: 'SEDENTARY'},
-                {label: 'Light (1–3 days/week)', value: 'LIGHT'},
-                {label: 'Moderate (3–5 days/week)', value: 'MODERATE'},
-                {label: 'Active (6–7 days/week)', value: 'ACTIVE'},
-                {label: 'Very Active (physical job)', value: 'VERY_ACTIVE'},
+                {label: 'Ít vận động', value: 'SEDENTARY'},
+                {label: 'Nhẹ (1–3 buổi/tuần)', value: 'LIGHT'},
+                {label: 'Vừa (3–5 buổi/tuần)', value: 'MODERATE'},
+                {label: 'Năng động (6–7 buổi/tuần)', value: 'ACTIVE'},
+                {label: 'Rất năng động (công việc tay chân)', value: 'VERY_ACTIVE'},
             ],
             goal: [
-                {label: 'Lose Weight', value: 'LOSE_WEIGHT'},
-                {label: 'Gain Muscle', value: 'GAIN_MUSCLE'},
-                {label: 'Maintain', value: 'MAINTAIN'},
+                {label: 'Giảm cân', value: 'LOSE_WEIGHT'},
+                {label: 'Tăng cơ', value: 'GAIN_MUSCLE'},
+                {label: 'Duy trì', value: 'MAINTAIN'},
             ]
         };
 
@@ -167,13 +170,12 @@ export default function RegisterScreen() {
         );
     };
 
-    // ----- iOS Date modal -----
+    // ===== iOS date modal =====
     const openDatePicker = () => {
         if (Platform.OS === 'ios') {
             setTempDate(form.birthDate);
             setShowDateIOS(true);
         } else {
-            // Android shows dialog directly through DateTimePicker
             setShowDateIOS(true);
         }
     };
@@ -186,20 +188,21 @@ export default function RegisterScreen() {
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
             >
-                <Text style={s.title}>Create Your SmartHealth Account</Text>
 
-                <TextInput style={s.input} placeholder="Full name" placeholderTextColor="#94a3b8"
+                <Text style={s.title}>Tạo tài khoản SmartHealth</Text>
+
+                <TextInput style={s.input} placeholder="Họ và tên" placeholderTextColor="#94a3b8"
                            value={form.fullName} onChangeText={v => handleChange('fullName', v)}/>
 
                 <TextInput style={s.input} placeholder="Email" placeholderTextColor="#94a3b8"
                            keyboardType="email-address" autoCapitalize="none"
                            value={form.email} onChangeText={v => handleChange('email', v)}/>
 
-                <TextInput style={s.input} placeholder="Password" placeholderTextColor="#94a3b8"
+                <TextInput style={s.input} placeholder="Mật khẩu" placeholderTextColor="#94a3b8"
                            secureTextEntry value={form.password} onChangeText={v => handleChange('password', v)}/>
 
                 {/* Gender */}
-                {renderPickerOrSheet('Select gender', 'gender')}
+                {renderPickerOrSheet('Chọn giới tính', 'gender')}
 
                 {/* Birth date */}
                 <Pressable style={s.input} onPress={openDatePicker}>
@@ -208,31 +211,30 @@ export default function RegisterScreen() {
                     </Text>
                 </Pressable>
 
-                {/* Height/Weight/Target */}
-                <TextInput style={s.input} placeholder="Height (cm)" placeholderTextColor="#94a3b8"
+                {/* Height / Weight */}
+                <TextInput style={s.input} placeholder="Chiều cao (cm)" placeholderTextColor="#94a3b8"
                            keyboardType="numeric" value={form.heightCm}
                            onChangeText={v => handleChange('heightCm', v)}/>
-                <TextInput style={s.input} placeholder="Weight (kg)" placeholderTextColor="#94a3b8"
+                <TextInput style={s.input} placeholder="Cân nặng (kg)" placeholderTextColor="#94a3b8"
                            keyboardType="numeric" value={form.weightKg}
                            onChangeText={v => handleChange('weightKg', v)}/>
-                <TextInput style={s.input} placeholder="Target weight (kg)" placeholderTextColor="#94a3b8"
+                <TextInput style={s.input} placeholder="Cân nặng mục tiêu (kg)" placeholderTextColor="#94a3b8"
                            keyboardType="numeric" value={form.targetWeightKg}
                            onChangeText={v => handleChange('targetWeightKg', v)}/>
 
-                {/* Activity level */}
-                {renderPickerOrSheet('Select activity level', 'activityLevel')}
+                {/* Activity */}
+                {renderPickerOrSheet('Mức độ vận động', 'activityLevel')}
 
                 {/* Goal */}
-                {renderPickerOrSheet('Select goal', 'goal')}
+                {renderPickerOrSheet('Mục tiêu tập luyện', 'goal')}
 
                 <TouchableOpacity style={s.btn} onPress={handleRegister} disabled={loading}>
-                    {loading ? <ActivityIndicator color="#fff"/> : <Text style={s.btnText}>Create Account</Text>}
+                    {loading ? <ActivityIndicator color="#fff"/> :
+                        <Text style={s.btnText}>Tạo tài khoản</Text>}
                 </TouchableOpacity>
-
-                <Text style={s.link}>Already have an account? <Text style={s.linkAccent}>Sign in</Text></Text>
             </ScrollView>
 
-            {/* iOS DATE MODAL (no inline overlap) */}
+            {/* ===== iOS DATE PICKER SHEET ===== */}
             {Platform.OS === 'ios' ? (
                 <Modal visible={showDateIOS} transparent animationType="slide"
                        onRequestClose={() => setShowDateIOS(false)}>
@@ -241,16 +243,17 @@ export default function RegisterScreen() {
                             <View style={s.modalBar}/>
                             <View style={s.modalToolbar}>
                                 <TouchableOpacity onPress={() => setShowDateIOS(false)}>
-                                    <Text style={s.toolbarBtn}>Cancel</Text>
+                                    <Text style={s.toolbarBtn}>Hủy</Text>
                                 </TouchableOpacity>
-                                <Text style={s.toolbarTitle}>Select birth date</Text>
+                                <Text style={s.toolbarTitle}>Chọn ngày sinh</Text>
                                 <TouchableOpacity onPress={() => {
                                     handleChange('birthDate', tempDate);
                                     setShowDateIOS(false);
                                 }}>
-                                    <Text style={s.toolbarBtn}>Done</Text>
+                                    <Text style={s.toolbarBtn}>Xong</Text>
                                 </TouchableOpacity>
                             </View>
+
                             <DateTimePicker
                                 value={tempDate}
                                 mode="date"
@@ -263,7 +266,7 @@ export default function RegisterScreen() {
                 </Modal>
             ) : null}
 
-            {/* Android Date dialog (classic) */}
+            {/* ===== Android date picker ===== */}
             {Platform.OS === 'android' && showDateIOS && (
                 <DateTimePicker
                     value={form.birthDate}
@@ -271,7 +274,6 @@ export default function RegisterScreen() {
                     display="default"
                     onChange={(e, d) => {
                         if (d) handleChange('birthDate', d);
-                        // close after choose/cancel
                         setShowDateIOS(false);
                     }}
                 />
@@ -283,11 +285,13 @@ export default function RegisterScreen() {
 const s = StyleSheet.create({
     container: {flexGrow: 1, padding: 28, backgroundColor: '#F9FAFB'},
     title: {fontSize: 24, fontWeight: '800', textAlign: 'center', marginVertical: 20, color: '#1F2937'},
+
     input: {
         height: 50, borderWidth: 1, borderColor: '#e2e8f0', borderRadius: 12,
-        paddingHorizontal: 14, backgroundColor: '#fff', fontSize: 15, color: '#1F2937', marginBottom: 14,
-        justifyContent: 'center'
+        paddingHorizontal: 14, backgroundColor: '#fff', fontSize: 15, color: '#1F2937',
+        marginBottom: 14, justifyContent: 'center'
     },
+
     pickerContainer: {
         borderWidth: 1, borderColor: '#e2e8f0', borderRadius: 12,
         backgroundColor: '#fff', marginBottom: 14,
@@ -295,26 +299,31 @@ const s = StyleSheet.create({
     picker: {height: 50, color: '#1F2937'},
 
     btn: {
-        backgroundColor: '#3EB489', paddingVertical: 14, borderRadius: 30, alignItems: 'center', marginTop: 8,
-        shadowColor: '#3EB489', shadowOpacity: 0.3, shadowOffset: {width: 0, height: 4}, shadowRadius: 6, elevation: 3,
+        backgroundColor: '#3EB489', paddingVertical: 14, borderRadius: 30,
+        alignItems: 'center', marginTop: 8,
+        shadowColor: '#3EB489', shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 4}, shadowRadius: 6, elevation: 3,
     },
     btnText: {color: '#fff', fontWeight: '700', fontSize: 16},
+
     link: {textAlign: 'center', marginTop: 24, fontSize: 14, color: '#1F2937'},
     linkAccent: {color: '#6C63FF', fontWeight: '700'},
 
-    // iOS date modal
     modalBackdrop: {
         flex: 1, backgroundColor: 'rgba(0,0,0,0.25)', justifyContent: 'flex-end'
     },
     modalSheet: {
-        backgroundColor: '#fff', borderTopLeftRadius: 16, borderTopRightRadius: 16, paddingBottom: 24
+        backgroundColor: '#fff', borderTopLeftRadius: 16,
+        borderTopRightRadius: 16, paddingBottom: 24
     },
     modalBar: {
-        width: 50, height: 5, borderRadius: 3, backgroundColor: '#e5e7eb', alignSelf: 'center', marginVertical: 8
+        width: 50, height: 5, borderRadius: 3, backgroundColor: '#e5e7eb',
+        alignSelf: 'center', marginVertical: 8
     },
     modalToolbar: {
         flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-        paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#f1f5f9'
+        paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1,
+        borderBottomColor: '#f1f5f9'
     },
     toolbarBtn: {color: '#3EB489', fontWeight: '700', fontSize: 16},
     toolbarTitle: {color: '#111827', fontWeight: '700', fontSize: 16},

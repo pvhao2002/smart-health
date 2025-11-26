@@ -61,6 +61,7 @@ interface HomeUserDTO {
 export default function SmartHealthHome() {
     const {user} = useAuthStore();
     const token = user?.token;
+
     const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -79,10 +80,9 @@ export default function SmartHealthHome() {
 
     const onRefresh = async () => {
         setRefreshing(true);
-        await loadHomeData();        // gọi lại API home
+        await loadHomeData();
         setRefreshing(false);
     };
-
 
     const loadHomeData = async () => {
         try {
@@ -98,7 +98,6 @@ export default function SmartHealthHome() {
             ];
 
             const [profileRes, homeRes] = await Promise.all(requests);
-
             const [profileJson, homeJson] = await Promise.all([
                 profileRes.json(),
                 homeRes.json()
@@ -117,9 +116,15 @@ export default function SmartHealthHome() {
         }
     };
 
+    // Format ngày
     const formatDay = (dateStr: string) => {
+        const days: any = {
+            Mon: "T2", Tue: "T3", Wed: "T4",
+            Thu: "T5", Fri: "T6", Sat: "T7", Sun: "CN"
+        };
         const d = new Date(dateStr);
-        return d.toLocaleDateString("en-US", {weekday: "short"});
+        const en = d.toLocaleDateString("en-US", {weekday: "short"});
+        return days[en] ?? en;
     };
 
     const formatDate = (dateStr: string) => {
@@ -127,8 +132,8 @@ export default function SmartHealthHome() {
         return d.getDate();
     };
 
-
     const today = new Date();
+    const todayRec = home.todayHealthRecord;
 
     if (loading)
         return (
@@ -136,8 +141,6 @@ export default function SmartHealthHome() {
                 <ActivityIndicator size="large" color="#3EB489"/>
             </View>
         );
-
-    const todayRec = home.todayHealthRecord;
 
     return (
         <ScrollView
@@ -148,18 +151,21 @@ export default function SmartHealthHome() {
                 <RefreshControl
                     refreshing={refreshing}
                     onRefresh={onRefresh}
-                    colors={["#3EB489"]}           // Android
-                    tintColor="#3EB489"            // iOS
+                    colors={["#3EB489"]}
+                    tintColor="#3EB489"
                 />
             }
         >
             {/* HEADER */}
             <View style={s.header}>
                 <View>
-                    <Text style={s.greeting}>Good Morning,</Text>
-                    <Text style={s.username}>{profile?.fullName ?? "User"} 🌿</Text>
-                    <Text style={s.date}>{today.toLocaleDateString()}</Text>
+                    <Text style={s.greeting}>Xin chào,</Text>
+                    <Text style={s.username}>{profile?.fullName ?? "Người dùng"} 🌿</Text>
+                    <Text style={s.date}>
+                        {today.toLocaleDateString("vi-VN")}
+                    </Text>
                 </View>
+
                 <TouchableOpacity style={s.avatarBtn}>
                     <Image
                         source={require("@/assets/images/avatar.jpg")}
@@ -179,7 +185,7 @@ export default function SmartHealthHome() {
                         <Text style={s.ringNumber}>
                             {todayRec?.steps ?? 0}
                         </Text>
-                        <Text style={s.ringLabel}>steps</Text>
+                        <Text style={s.ringLabel}>bước</Text>
                     </View>
                 </View>
             </View>
@@ -189,15 +195,15 @@ export default function SmartHealthHome() {
                 <View style={[s.statCard, {backgroundColor: "#EAFBF6"}]}>
                     <Ionicons name="flame-outline" size={22} color="#3EB489"/>
                     <Text style={s.statValue}>{todayRec?.caloriesBurned ?? 0}</Text>
-                    <Text style={s.statLabel}>Calories</Text>
+                    <Text style={s.statLabel}>Calo</Text>
                 </View>
 
                 <View style={[s.statCard, {backgroundColor: "#EDEAFF"}]}>
                     <Ionicons name="barbell-outline" size={22} color="#6C63FF"/>
                     <Text style={s.statValue}>
-                        {home?.recommendedWorkouts?.length ?? 0}
+                        {home.recommendedWorkouts.length}
                     </Text>
-                    <Text style={s.statLabel}>Workouts</Text>
+                    <Text style={s.statLabel}>Bài tập</Text>
                 </View>
 
                 <View style={[s.statCard, {backgroundColor: "#FFF5E6"}]}>
@@ -205,25 +211,25 @@ export default function SmartHealthHome() {
                     <Text style={s.statValue}>
                         {(todayRec?.sleepHours ?? 0).toFixed(1)}h
                     </Text>
-                    <Text style={s.statLabel}>Sleep</Text>
+                    <Text style={s.statLabel}>Giấc ngủ</Text>
                 </View>
             </View>
 
             {/* DAILY SUMMARY */}
             <View style={s.section}>
-                <Text style={s.sectionTitle}>📊 Daily Summary</Text>
+                <Text style={s.sectionTitle}>📊 Tổng quan hôm nay</Text>
 
                 <View style={s.summaryCard}>
 
                     <View style={s.summaryRow}>
                         <Ionicons name="walk-outline" size={22} color="#3EB489"/>
-                        <Text style={s.summaryLabel}>Steps</Text>
+                        <Text style={s.summaryLabel}>Bước chân</Text>
                         <Text style={s.summaryValue}>{todayRec?.steps ?? 0}</Text>
                     </View>
 
                     <View style={s.summaryRow}>
                         <Ionicons name="map-outline" size={22} color="#6C63FF"/>
-                        <Text style={s.summaryLabel}>Distance</Text>
+                        <Text style={s.summaryLabel}>Quãng đường</Text>
                         <Text style={s.summaryValue}>
                             {(todayRec?.distance ?? 0) + " km"}
                         </Text>
@@ -231,7 +237,7 @@ export default function SmartHealthHome() {
 
                     <View style={s.summaryRow}>
                         <Ionicons name="flame-outline" size={22} color="#FF6F61"/>
-                        <Text style={s.summaryLabel}>Calories</Text>
+                        <Text style={s.summaryLabel}>Calo đã đốt</Text>
                         <Text style={s.summaryValue}>
                             {(todayRec?.caloriesBurned ?? 0) + " kcal"}
                         </Text>
@@ -239,7 +245,7 @@ export default function SmartHealthHome() {
 
                     <View style={s.summaryRow}>
                         <Ionicons name="moon-outline" size={22} color="#6C63FF"/>
-                        <Text style={s.summaryLabel}>Sleep</Text>
+                        <Text style={s.summaryLabel}>Giấc ngủ</Text>
                         <Text style={s.summaryValue}>
                             {(todayRec?.sleepHours ?? 0) + " h"}
                         </Text>
@@ -247,7 +253,7 @@ export default function SmartHealthHome() {
 
                     <View style={s.summaryRow}>
                         <Ionicons name="heart-outline" size={22} color="#EF4444"/>
-                        <Text style={s.summaryLabel}>Heart Rate</Text>
+                        <Text style={s.summaryLabel}>Nhịp tim</Text>
                         <Text style={s.summaryValue}>
                             {(todayRec?.heartRate ?? "-") + " bpm"}
                         </Text>
@@ -255,7 +261,7 @@ export default function SmartHealthHome() {
 
                     <View style={s.summaryRow}>
                         <Ionicons name="barbell-outline" size={22} color="#3EB489"/>
-                        <Text style={s.summaryLabel}>Weight</Text>
+                        <Text style={s.summaryLabel}>Cân nặng</Text>
                         <Text style={s.summaryValue}>
                             {(todayRec?.weight ?? "-") + " kg"}
                         </Text>
@@ -271,9 +277,9 @@ export default function SmartHealthHome() {
                 </View>
             </View>
 
-            {/* RECOMMENDED WORKOUTS (DYNAMIC) */}
+            {/* RECOMMENDED WORKOUTS */}
             <View style={s.section}>
-                <Text style={s.sectionTitle}>🏋️ Recommended Workouts</Text>
+                <Text style={s.sectionTitle}>🏋️ Gợi ý bài tập</Text>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {home.recommendedWorkouts.map((w, idx) => (
@@ -290,10 +296,10 @@ export default function SmartHealthHome() {
 
             {/* TODAY’S MENU */}
             <View style={s.section}>
-                <Text style={s.sectionTitle}>🥗 Today’s Menu</Text>
+                <Text style={s.sectionTitle}>🥗 Thực đơn hôm nay</Text>
 
                 {home.recommendedMeals.length === 0 ? (
-                    <Text style={{color: "#6B7280"}}>No recommended meals yet.</Text>
+                    <Text style={{color: "#6B7280"}}>Chưa có món ăn gợi ý.</Text>
                 ) : (
                     <View style={s.dietCard}>
                         <Image
@@ -311,42 +317,36 @@ export default function SmartHealthHome() {
                 )}
             </View>
 
-            {/* WEEKLY RECORDS */}
+            {/* WEEKLY TREND */}
             <View style={s.section}>
-                <Text style={s.sectionTitle}>📆 Weekly Trend</Text>
+                <Text style={s.sectionTitle}>📆 Xu hướng trong tuần</Text>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {home.weeklyHealthRecords.map((r, idx) => (
                         <View key={idx} style={s.weekBox}>
 
-                            {/* Top Date */}
                             <Text style={s.weekDay}>{formatDay(r.date)}</Text>
                             <Text style={s.weekDate}>{formatDate(r.date)}</Text>
 
-                            {/* Steps */}
                             <View style={s.weekMetricRow}>
                                 <Ionicons name="walk-outline" size={16} color="#3EB489"/>
                                 <Text style={s.weekMetric}>{r.steps ?? 0}</Text>
                             </View>
 
-                            {/* Distance */}
                             <View style={s.weekMetricRow}>
                                 <Ionicons name="map-outline" size={16} color="#6C63FF"/>
                                 <Text style={s.weekMetric}>{r.distance ?? 0} km</Text>
                             </View>
 
-                            {/* Calories */}
                             <View style={s.weekMetricRow}>
                                 <Ionicons name="flame-outline" size={16} color="#FF6F61"/>
                                 <Text style={s.weekMetric}>{r.caloriesBurned ?? 0} kcal</Text>
                             </View>
 
-                            {/* Sleep */}
                             <View style={s.weekMetricRow}>
                                 <Ionicons name="moon-outline" size={16} color="#FFB74D"/>
                                 <Text style={s.weekMetric}>{r.sleepHours ?? 0} h</Text>
                             </View>
-
                         </View>
                     ))}
                 </ScrollView>
@@ -356,7 +356,7 @@ export default function SmartHealthHome() {
             <View style={s.tipBox}>
                 <Ionicons name="heart-outline" size={24} color="#3EB489"/>
                 <Text style={s.tipText}>
-                    💡 “Small progress is still progress. Keep going!”
+                    💡 “Tiến bộ dù nhỏ vẫn là tiến bộ. Cứ tiếp tục nhé!”
                 </Text>
             </View>
         </ScrollView>

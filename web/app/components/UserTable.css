@@ -118,3 +118,82 @@
     font-size: 1rem;
     margin-top: 2rem;
 }
+
+/* Căn đều và cố định độ rộng của các cột */
+.user-table th,
+.user-table td {
+    padding: 12px 10px;
+    text-align: left;
+}
+
+/* Định nghĩa kích thước từng cột */
+.user-table th:nth-child(1),
+.user-table td:nth-child(1) {
+    width: 40px; /* # */
+    text-align: center;
+}
+
+.user-table th:nth-child(2),
+.user-table td:nth-child(2) {
+    width: 150px; /* Họ tên */
+}
+
+.user-table th:nth-child(3),
+.user-table td:nth-child(3) {
+    width: 200px; /* Email */
+}
+
+.user-table th:nth-child(4),
+.user-table td:nth-child(4) {
+    width: 80px; /* Giới tính */
+}
+
+.user-table th:nth-child(5),
+.user-table td:nth-child(5) {
+    width: 60px; /* Tuổi */
+}
+
+.user-table th:nth-child(6),
+.user-table td:nth-child(6) {
+    width: 110px; /* Chiều cao */
+}
+
+.user-table th:nth-child(7),
+.user-table td:nth-child(7) {
+    width: 110px; /* Cân nặng */
+}
+
+.user-table th:nth-child(8),
+.user-table td:nth-child(8) {
+    width: 80px; /* BMI */
+}
+
+.user-table th:nth-child(9),
+.user-table td:nth-child(9) {
+    width: 130px; /* Mục tiêu */
+}
+
+.user-table th:nth-child(10),
+.user-table td:nth-child(10) {
+    width: 150px; /* Mức độ hoạt động */
+}
+
+.user-table th:nth-child(11),
+.user-table td:nth-child(11) {
+    width: 130px; /* Cân nặng mục tiêu */
+}
+
+.user-table th:nth-child(12),
+.user-table td:nth-child(12) {
+    width: 120px; /* Vai trò */
+}
+
+.user-table th:nth-child(13),
+.user-table td:nth-child(13) {
+    width: 120px; /* Trạng thái */
+}
+
+.user-table th:nth-child(14),
+.user-table td:nth-child(14) {
+    width: 100px; /* Ngày tạo */
+}

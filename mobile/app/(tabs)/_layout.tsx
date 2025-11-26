@@ -31,9 +31,8 @@ export default function TabsLayout() {
                         position: 'absolute',
                         left: 16,
                         right: 16,
-                        bottom: Platform.OS === 'ios' ? 20 : 14,
-                        borderRadius: 26,
-                        height: 68,
+                        bottom: 0,
+                        height: 80,
                         backgroundColor: '#FFFFFF',
                         shadowColor: '#000',
                         shadowOpacity: 0.08,
@@ -46,10 +45,11 @@ export default function TabsLayout() {
                 }}
             >
 
+                {/* Trang chủ */}
                 <Tabs.Screen
                     name="index"
                     options={{
-                        title: 'Home',
+                        title: 'Trang chủ',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="home-outline" size={size + 1} color={color}/>
                         ),
@@ -57,10 +57,11 @@ export default function TabsLayout() {
                     listeners={refreshTab('')}
                 />
 
+                {/* Ghi nhận */}
                 <Tabs.Screen
                     name="record"
                     options={{
-                        title: 'Record',
+                        title: 'Ghi nhận',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="create-outline" size={size + 1} color={color}/>
                         ),
@@ -68,6 +69,7 @@ export default function TabsLayout() {
                     listeners={refreshTab('record')}
                 />
 
+                {/* Hoạt động (nút giữa) */}
                 <Tabs.Screen
                     name="activity"
                     options={{
@@ -81,10 +83,11 @@ export default function TabsLayout() {
                     listeners={refreshTab('activity')}
                 />
 
+                {/* Kế hoạch */}
                 <Tabs.Screen
                     name="plan"
                     options={{
-                        title: 'Plan',
+                        title: 'Kế hoạch',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="restaurant-outline" size={size + 1} color={color}/>
                         ),
@@ -92,10 +95,11 @@ export default function TabsLayout() {
                     listeners={refreshTab('plan')}
                 />
 
+                {/* Hồ sơ */}
                 <Tabs.Screen
                     name="profile"
                     options={{
-                        title: 'Profile',
+                        title: 'Hồ sơ',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="person-circle-outline" size={size + 1} color={color}/>
                         ),
@@ -114,13 +118,13 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 35,
-        backgroundColor: '#FFB74D', // orange accent
+        backgroundColor: '#FFB74D', // màu cam nổi bật
         justifyContent: 'center',
         alignItems: 'center',
         shadowColor: '#FFB74D',
         shadowOpacity: 0.4,
         shadowRadius: 8,
         elevation: 6,
-        marginBottom: 26,
+        marginBottom: 6,
     },
 });

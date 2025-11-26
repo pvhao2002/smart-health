@@ -24,15 +24,15 @@ export default function ChangePasswordScreen() {
 
     const handleChangePassword = async () => {
         if (!currentPassword || !newPassword || !confirmPassword) {
-            Alert.alert('⚠️ Missing Info', 'Please fill in all required fields.');
+            Alert.alert('⚠️ Thiếu thông tin', 'Vui lòng điền đầy đủ các trường bắt buộc.');
             return;
         }
         if (newPassword !== confirmPassword) {
-            Alert.alert('❌ Error', 'New passwords do not match.');
+            Alert.alert('❌ Lỗi', 'Mật khẩu mới không khớp.');
             return;
         }
         if (newPassword.length < 8) {
-            Alert.alert('🔐 Weak Password', 'Password must be at least 8 characters long.');
+            Alert.alert('🔐 Mật khẩu yếu', 'Mật khẩu phải có ít nhất 8 ký tự.');
             return;
         }
 
@@ -49,15 +49,15 @@ export default function ChangePasswordScreen() {
 
             const json = await res.json();
             if (!res.ok || json.success === false) {
-                const errMsg = json.error?.message || json.message || 'Password change failed';
+                const errMsg = json.error?.message || json.message || 'Đổi mật khẩu thất bại';
                 throw new Error(errMsg);
             }
 
-            Alert.alert('✅ Password Updated', 'Your password was changed successfully.', [
+            Alert.alert('✅ Đổi mật khẩu thành công', 'Mật khẩu đã được cập nhật.', [
                 {text: 'OK', onPress: () => logout()},
             ]);
         } catch (err: any) {
-            Alert.alert('❌ Error', err.message || 'Failed to change password');
+            Alert.alert('❌ Lỗi', err.message || 'Không thể đổi mật khẩu');
         } finally {
             setLoading(false);
         }
@@ -71,22 +71,22 @@ export default function ChangePasswordScreen() {
                     <Ionicons name="key-outline" size={40} color="#fff"/>
                 </View>
 
-                <Text style={s.title}>Change Password</Text>
+                <Text style={s.title}>Đổi mật khẩu</Text>
                 <Text style={s.subtitle}>
-                    Improve your account security 🔐
+                    Tăng cường bảo mật cho tài khoản của bạn 🔐
                 </Text>
             </View>
 
             {/* Input Card */}
             <View style={s.card}>
-                <Text style={s.sectionTitle}>🔒 Secure Your Account</Text>
+                <Text style={s.sectionTitle}>🔒 Bảo mật tài khoản</Text>
 
                 {/* Current Password */}
                 <View style={s.inputRow}>
                     <Ionicons name="lock-closed-outline" size={20} color="#3EB489" style={s.inputIcon}/>
                     <TextInput
                         style={s.input}
-                        placeholder="Current Password"
+                        placeholder="Mật khẩu hiện tại"
                         placeholderTextColor="#94A3B8"
                         secureTextEntry
                         value={currentPassword}
@@ -99,7 +99,7 @@ export default function ChangePasswordScreen() {
                     <Ionicons name="shield-checkmark-outline" size={20} color="#6C63FF" style={s.inputIcon}/>
                     <TextInput
                         style={s.input}
-                        placeholder="New Password"
+                        placeholder="Mật khẩu mới"
                         placeholderTextColor="#94A3B8"
                         secureTextEntry
                         value={newPassword}
@@ -112,7 +112,7 @@ export default function ChangePasswordScreen() {
                     <Ionicons name="checkmark-done-outline" size={20} color="#FFB74D" style={s.inputIcon}/>
                     <TextInput
                         style={s.input}
-                        placeholder="Confirm New Password"
+                        placeholder="Xác nhận mật khẩu mới"
                         placeholderTextColor="#94A3B8"
                         secureTextEntry
                         value={confirmPassword}
@@ -124,7 +124,7 @@ export default function ChangePasswordScreen() {
                 <View style={s.noteBox}>
                     <Ionicons name="information-circle-outline" size={18} color="#3EB489"/>
                     <Text style={s.noteText}>
-                        Use a strong password with at least 8 characters including letters and numbers.
+                        Hãy tạo mật khẩu mạnh — tối thiểu 8 ký tự, gồm chữ và số để tăng độ an toàn.
                     </Text>
                 </View>
 
@@ -135,7 +135,7 @@ export default function ChangePasswordScreen() {
                     ) : (
                         <>
                             <Ionicons name="refresh-outline" size={20} color="#fff"/>
-                            <Text style={s.saveText}>Update Password</Text>
+                            <Text style={s.saveText}>Cập nhật mật khẩu</Text>
                         </>
                     )}
                 </TouchableOpacity>

@@ -58,9 +58,6 @@ export default function PlanScreen() {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<"workout" | "meal">("workout");
 
-    /* ============================
-       LOAD WORKOUT + MEAL PLAN
-    ============================ */
     const loadPlans = async () => {
         try {
             setLoading(true);
@@ -73,7 +70,7 @@ export default function PlanScreen() {
             setWorkoutPlan(workRes.data ?? []);
             setMealPlan(mealRes.data ?? []);
         } catch (e) {
-            console.error("Load plan error:", e);
+            console.error("Lỗi tải kế hoạch:", e);
         } finally {
             setLoading(false);
         }
@@ -86,15 +83,16 @@ export default function PlanScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>Plans</Text>
+                <Text style={styles.headerTitle}>Kế hoạch</Text>
             </View>
+
             <View style={styles.tabs}>
                 <TouchableOpacity
                     style={[styles.tabItem, activeTab === "workout" && styles.tabActive]}
                     onPress={() => setActiveTab("workout")}
                 >
                     <Text style={[styles.tabText, activeTab === "workout" && styles.tabTextActive]}>
-                        Workout
+                        Tập luyện
                     </Text>
                 </TouchableOpacity>
 
@@ -103,12 +101,11 @@ export default function PlanScreen() {
                     onPress={() => setActiveTab("meal")}
                 >
                     <Text style={[styles.tabText, activeTab === "meal" && styles.tabTextActive]}>
-                        Meal Plan
+                        Thực đơn
                     </Text>
                 </TouchableOpacity>
             </View>
 
-            {/* CONTENT */}
             <View style={{flex: 1}}>
                 {activeTab === "workout" ? (
                     <WorkoutContent data={workoutPlan}/>
@@ -120,12 +117,15 @@ export default function PlanScreen() {
     );
 }
 
+/* ===========================
+   WORKOUT CONTENT
+=========================== */
 function WorkoutContent({data}: { data: any[] }) {
     if (!data || data.length === 0) {
         return (
             <View style={styles.emptyBox}>
                 <Ionicons name="barbell-outline" size={50} color="#9CA3AF"/>
-                <Text style={styles.emptyText}>No workout schedules available.</Text>
+                <Text style={styles.emptyText}>Chưa có kế hoạch tập luyện.</Text>
             </View>
         );
     }
@@ -137,31 +137,29 @@ function WorkoutContent({data}: { data: any[] }) {
             contentContainerStyle={{padding: 16, paddingBottom: 120}}
             renderItem={({item}) => (
                 <View style={styles.workoutCard}>
-                    {/* Header */}
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={styles.workoutTitle}>{item.name}</Text>
                         <Text style={styles.workoutDay}>{item.dayOfWeek}</Text>
                     </View>
 
-                    <Text style={styles.workoutGoal}>Goal: {item.goal}</Text>
+                    <Text style={styles.workoutGoal}>Mục tiêu: {item.goal}</Text>
 
                     {item.isRestDay ? (
-                        <Text style={styles.restDay}>🛌 Rest Day</Text>
+                        <Text style={styles.restDay}>🛌 Ngày nghỉ</Text>
                     ) : (
                         <View style={{marginTop: 10}}>
-                            <Text style={styles.exerciseTitle}>Workout:</Text>
+                            <Text style={styles.exerciseTitle}>Bài tập:</Text>
                             <Text style={styles.exerciseItem}>• {item.workouts?.name}</Text>
 
                             {item.workouts?.caloriesPerMinute && (
-                                <Text style={styles.exerciseItem}>- Calories: {item.workouts.caloriesPerMinute}</Text>
+                                <Text style={styles.exerciseItem}>- Calo: {item.workouts.caloriesPerMinute}</Text>
                             )}
 
                             {item.workouts?.level && (
-                                <Text style={styles.exerciseItem}>- Level: {item.workouts.level}</Text>
+                                <Text style={styles.exerciseItem}>- Mức độ: {item.workouts.level}</Text>
                             )}
 
-                            {/* VIDEO YOUTUBE */}
-                            {item.workouts?.url && (
+                            {item.workouts?.ytbUrl && (
                                 <View style={{marginTop: 12, height: 200, borderRadius: 10, overflow: "hidden"}}>
                                     <WebView
                                         source={{uri: item.workouts.ytbUrl}}
@@ -179,15 +177,15 @@ function WorkoutContent({data}: { data: any[] }) {
     );
 }
 
-/* --------------------------
-    MEAL CONTENT
---------------------------- */
+/* ===========================
+   MEAL CONTENT
+=========================== */
 function MealContent({data}: { data: any[] }) {
     if (!data || data.length === 0) {
         return (
             <View style={styles.emptyBox}>
                 <Ionicons name="restaurant-outline" size={50} color="#9CA3AF"/>
-                <Text style={styles.emptyText}>No meal plans available.</Text>
+                <Text style={styles.emptyText}>Chưa có kế hoạch ăn uống.</Text>
             </View>
         );
     }
@@ -199,26 +197,23 @@ function MealContent({data}: { data: any[] }) {
             contentContainerStyle={{padding: 16, paddingBottom: 120}}
             renderItem={({item}) => (
                 <View style={styles.mealCard}>
-                    {/* Header */}
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={styles.mealTitle}>{item.name}</Text>
                         <Text style={styles.mealDay}>{item.dayOfWeek}</Text>
                     </View>
 
-                    <Text style={styles.mealGoal}>Goal: {item.goal}</Text>
+                    <Text style={styles.mealGoal}>Mục tiêu: {item.goal}</Text>
 
-                    {/* 4 Meals */}
-                    {renderMealRow("Breakfast", item.breakfast)}
-                    {renderMealRow("Lunch", item.lunch)}
-                    {renderMealRow("Dinner", item.dinner)}
-                    {renderMealRow("Snack", item.snack)}
+                    {renderMealRow("Sáng", item.breakfast)}
+                    {renderMealRow("Trưa", item.lunch)}
+                    {renderMealRow("Tối", item.dinner)}
+                    {renderMealRow("Ăn nhẹ", item.snack)}
 
-                    {/* Summary */}
                     <View style={styles.summaryBox}>
                         <Text style={styles.summaryText}>🔥 {item.totalCalories} kcal</Text>
                         <Text style={styles.summaryText}>🥩 {item.totalProtein}g protein</Text>
                         <Text style={styles.summaryText}>🍚 {item.totalCarbs}g carbs</Text>
-                        <Text style={styles.summaryText}>🧈 {item.totalFat}g fat</Text>
+                        <Text style={styles.summaryText}>🧈 {item.totalFat}g chất béo</Text>
                     </View>
                 </View>
             )}
@@ -226,9 +221,7 @@ function MealContent({data}: { data: any[] }) {
     );
 }
 
-/* Render row for 1 meal type */
-
-/* Render row for 1 meal type */
+/* Render 1 row meal */
 function renderMealRow(label: string, meal: any) {
     return (
         <View style={styles.mealRow}>
@@ -236,14 +229,8 @@ function renderMealRow(label: string, meal: any) {
 
             {meal ? (
                 <View style={{flexDirection: "row", marginTop: 6}}>
+                    <Image source={{uri: meal.url}} style={styles.mealImage}/>
 
-                    {/* Image */}
-                    <Image
-                        source={{uri: meal.url}}
-                        style={styles.mealImage}
-                    />
-
-                    {/* Meal Info */}
                     <View style={{flex: 1, marginLeft: 10}}>
                         <Text style={styles.mealName}>{meal.name}</Text>
                         <Text style={styles.mealCalories}>🔥 {meal.calories} kcal</Text>
@@ -251,7 +238,7 @@ function renderMealRow(label: string, meal: any) {
                         <View style={{marginTop: 4}}>
                             <Text style={styles.macroText}>🥩 Protein: {meal.protein} g</Text>
                             <Text style={styles.macroText}>🍚 Carbs: {meal.carbs} g</Text>
-                            <Text style={styles.macroText}>🧈 Fat: {meal.fat} g</Text>
+                            <Text style={styles.macroText}>🧈 Chất béo: {meal.fat} g</Text>
                         </View>
                     </View>
                 </View>
@@ -262,6 +249,9 @@ function renderMealRow(label: string, meal: any) {
     );
 }
 
+/* ===========================
+   STYLES
+=========================== */
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -279,7 +269,6 @@ const styles = StyleSheet.create({
         color: "#111827"
     },
 
-    /* Segmented Tabs */
     tabs: {
         flexDirection: "row",
         backgroundColor: "#E5E7EB",
@@ -299,18 +288,26 @@ const styles = StyleSheet.create({
         fontWeight: "600"
     },
     tabActive: {
-        backgroundColor: "#10B981",   // green
+        backgroundColor: "#10B981",
     },
     tabTextActive: {
         color: "#fff"
     },
 
-    centerBox: {
+    /* EMPTY */
+    emptyBox: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: 50,
     },
-    /*  WORKOUT  */
+    emptyText: {
+        marginTop: 12,
+        fontSize: 16,
+        color: "#9CA3AF",
+    },
+
+    /* WORKOUT */
     workoutCard: {
         backgroundColor: "#fff",
         borderRadius: 12,
@@ -406,18 +403,6 @@ const styles = StyleSheet.create({
         marginTop: 2,
     },
 
-    /* Empty */
-    emptyBox: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 50,
-    },
-    emptyText: {
-        marginTop: 12,
-        fontSize: 16,
-        color: "#9CA3AF",
-    },
     mealImage: {
         width: 70,
         height: 70,

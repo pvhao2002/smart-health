@@ -105,7 +105,7 @@ export default function HealthHistoryScreen() {
 
             setRecords(json.data ?? json);
         } catch (e: any) {
-            Alert.alert("Error", e.message);
+            Alert.alert("Lỗi", e.message);
         } finally {
             setLoadingHealth(false);
             setRefreshingHealth(false);
@@ -126,7 +126,7 @@ export default function HealthHistoryScreen() {
 
             setMealLogs(json.data ?? json);
         } catch (e: any) {
-            Alert.alert("Error", e.message);
+            Alert.alert("Lỗi", e.message);
         } finally {
             setLoadingMeal(false);
             setRefreshingMeal(false);
@@ -142,7 +142,6 @@ export default function HealthHistoryScreen() {
                 headers: {Authorization: `Bearer ${token}`}
             });
             const json = await res.json();
-            // FIX: backend thường trả { data: [...] }
             setMealList(json.data ?? json);
         } catch (e) {
             console.log("fetchMealList error:", e);
@@ -183,11 +182,11 @@ export default function HealthHistoryScreen() {
     };
 
     /** =========================
-     * ADD HEALTH RECORD
+     * THÊM BẢN GHI SỨC KHỎE
      ========================= */
     const handleAddRecord = async () => {
         if (!newRecord.weight)
-            return Alert.alert("⚠️ Missing", "Please enter your weight");
+            return Alert.alert("⚠️ Thiếu thông tin", "Vui lòng nhập cân nặng.");
 
         try {
             const body = {
@@ -216,7 +215,7 @@ export default function HealthHistoryScreen() {
             const json = await res.json();
             if (!res.ok) throw new Error(json.message);
 
-            Alert.alert("✅ Saved!");
+            Alert.alert("✅ Lưu thành công!");
 
             setModalHealth(false);
             setNewRecord({
@@ -233,16 +232,16 @@ export default function HealthHistoryScreen() {
 
             fetchHealthRecords();
         } catch (err: any) {
-            Alert.alert("Error", err.message);
+            Alert.alert("Lỗi", err.message);
         }
     };
 
     /** =========================
-     * ADD MEAL LOG
+     * THÊM NHẬT KÝ BỮA ĂN
      ========================= */
     const handleAddMeal = async () => {
         if (!newMeal.mealId) {
-            return Alert.alert("Missing", "Please choose a meal first.");
+            return Alert.alert("Thiếu thông tin", "Vui lòng chọn món ăn trước.");
         }
 
         try {
@@ -265,7 +264,7 @@ export default function HealthHistoryScreen() {
             const json = await res.json();
             if (!res.ok) throw new Error(json.message);
 
-            Alert.alert("✅ Saved!");
+            Alert.alert("🍽️ Đã lưu!");
 
             setModalMeal(false);
             setNewMeal({
@@ -278,23 +277,25 @@ export default function HealthHistoryScreen() {
 
             fetchMealLogs();
         } catch (err: any) {
-            Alert.alert("Error", err.message);
+            Alert.alert("Lỗi", err.message);
         }
     };
 
     /** =========================
-     * RENDER ITEMS
+     * RENDER MỘT RECORD SỨC KHỎE
      ========================= */
     const renderRecord = ({item}: { item: any }) => (
         <View style={s.card}>
             <View style={s.cardHeader}>
                 <Ionicons name="calendar-outline" size={20} color="#6C63FF"/>
-                <Text style={s.date}>{new Date(item.date).toLocaleDateString("vi-VN")}</Text>
+                <Text style={s.date}>
+                    {new Date(item.date).toLocaleDateString("vi-VN")}
+                </Text>
             </View>
 
             <View style={s.metric}>
                 <Ionicons name="barbell-outline" size={20} color="#3EB489"/>
-                <Text style={s.metricText}>Weight: {item.weight} kg</Text>
+                <Text style={s.metricText}>Cân nặng: {item.weight} kg</Text>
             </View>
 
             <View style={s.metric}>
@@ -304,32 +305,32 @@ export default function HealthHistoryScreen() {
 
             <View style={s.metric}>
                 <Ionicons name="heart-outline" size={20} color="#EF4444"/>
-                <Text style={s.metricText}>Heart Rate: {item.heartRate ?? "—"} bpm</Text>
+                <Text style={s.metricText}>Nhịp tim: {item.heartRate ?? "—"} bpm</Text>
             </View>
 
             <View style={s.metric}>
                 <Ionicons name="moon-outline" size={20} color="#6C63FF"/>
-                <Text style={s.metricText}>Sleep: {item.sleepHours ?? "—"} h</Text>
+                <Text style={s.metricText}>Ngủ: {item.sleepHours ?? "—"} giờ</Text>
             </View>
 
             {item.steps && (
                 <View style={s.metric}>
                     <Ionicons name="walk-outline" size={20} color="#3EB489"/>
-                    <Text style={s.metricText}>Steps: {item.steps}</Text>
+                    <Text style={s.metricText}>Số bước: {item.steps}</Text>
                 </View>
             )}
 
             {item.distance && (
                 <View style={s.metric}>
                     <Ionicons name="footsteps-outline" size={20} color="#6C63FF"/>
-                    <Text style={s.metricText}>Distance: {item.distance} km</Text>
+                    <Text style={s.metricText}>Quãng đường: {item.distance} km</Text>
                 </View>
             )}
 
             {item.caloriesBurned && (
                 <View style={s.metric}>
                     <Ionicons name="flame-outline" size={20} color="#FF6F61"/>
-                    <Text style={s.metricText}>Calories Burned: {item.caloriesBurned}</Text>
+                    <Text style={s.metricText}>Calo đốt: {item.caloriesBurned}</Text>
                 </View>
             )}
 
@@ -337,12 +338,15 @@ export default function HealthHistoryScreen() {
         </View>
     );
 
-    const renderMeal = ({ item }: { item: any }) => (
+    /** =========================
+     * RENDER MỘT NHẬT KÝ BỮA ĂN
+     ========================= */
+    const renderMeal = ({item}: { item: any }) => (
         <View style={s.mealCard}>
-            {/* Header Row */}
+            {/* Header */}
             <View style={s.mealHeader}>
                 <View style={s.mealHeaderLeft}>
-                    <Ionicons name="fast-food-outline" size={20} color="#F59E0B" />
+                    <Ionicons name="fast-food-outline" size={20} color="#F59E0B"/>
                     <Text style={s.mealDate}>
                         {new Date(item.date).toLocaleDateString("vi-VN")}
                     </Text>
@@ -359,33 +363,28 @@ export default function HealthHistoryScreen() {
             {/* Stats */}
             <View style={s.mealStatsRow}>
                 <View style={s.mealStatItem}>
-                    <Ionicons name="list-outline" size={16} color="#6B7280" />
-                    <Text style={s.mealStatText}>Qty: {item.quantity ?? "—"}</Text>
+                    <Ionicons name="list-outline" size={16} color="#6B7280"/>
+                    <Text style={s.mealStatText}>Số lượng: {item.quantity ?? "—"}</Text>
                 </View>
 
                 <View style={s.mealStatItem}>
-                    <Ionicons name="flame-outline" size={16} color="#EF4444" />
+                    <Ionicons name="flame-outline" size={16} color="#EF4444"/>
                     <Text style={s.mealStatText}>
                         {item.totalCalories ?? "—"} kcal
                     </Text>
                 </View>
             </View>
 
-            {/* Note */}
-            {item.note && (
-                <Text style={s.mealNote}>💬 {item.note}</Text>
-            )}
+            {item.note && <Text style={s.mealNote}>💬 {item.note}</Text>}
         </View>
     );
 
-
-    // LẤY tên món đã chọn để hiển thị
+    /** LẤY TÊN MÓN ĐƯỢC CHỌN */
     const selectedMealName = useMemo(() => {
         if (!newMeal.mealId) return "";
-        const found = mealList.find(m => m.id == newMeal.mealId); // MAGIC FIX
+        const found = mealList.find(m => m.id == newMeal.mealId);
         return found?.name ?? "";
     }, [mealList, newMeal.mealId]);
-
 
     return (
         <>
@@ -394,17 +393,17 @@ export default function HealthHistoryScreen() {
                 {/* HEADER */}
                 <View style={s.header}>
                     <Ionicons name="pulse-outline" size={28} color="#3EB489"/>
-                    <Text style={s.headerTitle}>Records</Text>
+                    <Text style={s.headerTitle}>Lịch sử ghi nhận</Text>
                 </View>
 
-                {/* TOP TABS */}
+                {/* TABS */}
                 <View style={s.tabs}>
                     <TouchableOpacity
                         style={[s.tabItem, activeTab === "health" && s.tabActive]}
                         onPress={() => setActiveTab("health")}
                     >
                         <Text style={[s.tabText, activeTab === "health" && s.tabTextActive]}>
-                            Health
+                            Sức khỏe
                         </Text>
                     </TouchableOpacity>
 
@@ -413,12 +412,12 @@ export default function HealthHistoryScreen() {
                         onPress={() => setActiveTab("meal")}
                     >
                         <Text style={[s.tabText, activeTab === "meal" && s.tabTextActive]}>
-                            Meals
+                            Bữa ăn
                         </Text>
                     </TouchableOpacity>
                 </View>
 
-                {/* CONTENT */}
+                {/* NỘI DUNG TAB SỨC KHỎE */}
                 {activeTab === "health" ? (
                     loadingHealth ? (
                         <View style={s.center}>
@@ -442,7 +441,7 @@ export default function HealthHistoryScreen() {
                                     style={{flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 100}}>
                                     <Ionicons name="fitness-outline" size={60} color="#D1D5DB"/>
                                     <Text style={{marginTop: 14, fontSize: 16, color: "#9CA3AF"}}>
-                                        No records yet. Pull to refresh.
+                                        Chưa có dữ liệu. Kéo xuống để tải lại.
                                     </Text>
                                 </View>
                             }
@@ -450,6 +449,7 @@ export default function HealthHistoryScreen() {
                         />
                     )
                 ) : (
+                    /* NỘI DUNG TAB BỮA ĂN */
                     loadingMeal ? (
                         <View style={s.center}>
                             <ActivityIndicator size="large" color="#FF9800"/>
@@ -472,7 +472,7 @@ export default function HealthHistoryScreen() {
                                     style={{flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 100}}>
                                     <Ionicons name="fast-food-outline" size={60} color="#D1D5DB"/>
                                     <Text style={{marginTop: 14, fontSize: 16, color: "#9CA3AF"}}>
-                                        No meal logs yet. Pull to refresh.
+                                        Chưa có dữ liệu. Kéo xuống để tải lại.
                                     </Text>
                                 </View>
                             }
@@ -481,7 +481,7 @@ export default function HealthHistoryScreen() {
                     )
                 )}
 
-                {/* FAB */}
+                {/* NÚT THÊM */}
                 {activeTab === "health" ? (
                     <TouchableOpacity style={s.fabHealth} onPress={() => setModalHealth(true)}>
                         <Ionicons name="add" size={32} color="#fff"/>
@@ -492,7 +492,7 @@ export default function HealthHistoryScreen() {
                     </TouchableOpacity>
                 )}
 
-                {/* MODAL ADD HEALTH */}
+                {/* MODAL THÊM SỨC KHỎE */}
                 <Modal visible={modalHealth} animationType="slide" transparent>
                     <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -500,8 +500,10 @@ export default function HealthHistoryScreen() {
                     >
                         <View style={s.modalOverlay}>
                             <View style={s.modalBox}>
-                                <Text style={s.modalTitle}>Add Daily Record</Text>
 
+                                <Text style={s.modalTitle}>Thêm ghi nhận trong ngày</Text>
+
+                                {/* Chọn ngày */}
                                 <TouchableOpacity style={s.input} onPress={() => setShowDatePicker(true)}>
                                     <Ionicons name="calendar-outline" size={19} color="#6C63FF"/>
                                     <Text style={s.inputText}>
@@ -520,82 +522,88 @@ export default function HealthHistoryScreen() {
                                     />
                                 )}
 
+                                {/* Cân nặng */}
                                 <View style={s.input}>
                                     <Ionicons name="barbell-outline" size={19} color="#3EB489"/>
                                     <TextInput
                                         style={s.inputText}
-                                        placeholder="Weight (kg)"
+                                        placeholder="Cân nặng (kg)"
                                         keyboardType="numeric"
                                         value={newRecord.weight}
-                                        onChangeText={(v) =>
-                                            setNewRecord({...newRecord, weight: v, bmi: calculateBMI(v)})
-                                        }
+                                        onChangeText={(v) => setNewRecord({
+                                            ...newRecord,
+                                            weight: v,
+                                            bmi: calculateBMI(v)
+                                        })}
                                     />
                                 </View>
 
+                                {/* Nhịp tim */}
                                 <View style={s.input}>
                                     <Ionicons name="heart-outline" size={19} color="#EF4444"/>
                                     <TextInput
                                         style={s.inputText}
-                                        placeholder="Heart Rate (bpm)"
+                                        placeholder="Nhịp tim (bpm)"
                                         keyboardType="numeric"
                                         value={newRecord.heartRate}
                                         onChangeText={(v) => setNewRecord({...newRecord, heartRate: v})}
                                     />
                                 </View>
 
+                                {/* Giờ ngủ */}
                                 <View style={s.input}>
                                     <Ionicons name="moon-outline" size={19} color="#6C63FF"/>
                                     <TextInput
                                         style={s.inputText}
-                                        placeholder="Sleep Hours"
+                                        placeholder="Số giờ ngủ"
                                         keyboardType="numeric"
                                         value={newRecord.sleepHours}
                                         onChangeText={(v) => setNewRecord({...newRecord, sleepHours: v})}
                                     />
                                 </View>
 
-                                {/* Steps */}
+                                {/* Bước chân */}
                                 <View style={s.input}>
                                     <Ionicons name="walk-outline" size={19} color="#3EB489"/>
                                     <TextInput
                                         style={s.inputText}
-                                        placeholder="Steps"
+                                        placeholder="Số bước"
                                         keyboardType="numeric"
                                         value={newRecord.steps}
                                         onChangeText={(v) => setNewRecord({...newRecord, steps: v})}
                                     />
                                 </View>
 
-                                {/* Distance */}
+                                {/* Quãng đường */}
                                 <View style={s.input}>
                                     <Ionicons name="footsteps-outline" size={19} color="#6C63FF"/>
                                     <TextInput
                                         style={s.inputText}
-                                        placeholder="Distance (km)"
+                                        placeholder="Quãng đường (km)"
                                         keyboardType="numeric"
                                         value={newRecord.distance}
                                         onChangeText={(v) => setNewRecord({...newRecord, distance: v})}
                                     />
                                 </View>
 
-                                {/* Calories Burned */}
+                                {/* Calo đốt */}
                                 <View style={s.input}>
                                     <Ionicons name="flame-outline" size={19} color="#FF6F61"/>
                                     <TextInput
                                         style={s.inputText}
-                                        placeholder="Calories Burned"
+                                        placeholder="Calo đốt"
                                         keyboardType="numeric"
                                         value={newRecord.caloriesBurned}
                                         onChangeText={(v) => setNewRecord({...newRecord, caloriesBurned: v})}
                                     />
                                 </View>
 
+                                {/* Ghi chú */}
                                 <View style={[s.input, {height: 90}]}>
                                     <Ionicons name="create-outline" size={19} color="#FFB74D"/>
                                     <TextInput
                                         style={[s.inputText, {height: 80, textAlignVertical: "top"}]}
-                                        placeholder="Notes..."
+                                        placeholder="Ghi chú..."
                                         multiline
                                         value={newRecord.note}
                                         onChangeText={(v) => setNewRecord({...newRecord, note: v})}
@@ -604,19 +612,20 @@ export default function HealthHistoryScreen() {
 
                                 <View style={s.modalActions}>
                                     <TouchableOpacity style={s.cancelBtn} onPress={() => setModalHealth(false)}>
-                                        <Text style={s.cancelText}>Cancel</Text>
+                                        <Text style={s.cancelText}>Hủy</Text>
                                     </TouchableOpacity>
 
                                     <TouchableOpacity style={s.saveBtn} onPress={handleAddRecord}>
-                                        <Text style={s.saveText}>Save</Text>
+                                        <Text style={s.saveText}>Lưu</Text>
                                     </TouchableOpacity>
                                 </View>
+
                             </View>
                         </View>
                     </KeyboardAvoidingView>
                 </Modal>
 
-                {/* MODAL ADD MEAL */}
+                {/* MODAL THÊM BỮA ĂN */}
                 <Modal visible={modalMeal} animationType="slide" transparent>
                     <KeyboardAvoidingView
                         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -624,9 +633,10 @@ export default function HealthHistoryScreen() {
                     >
                         <View style={s.modalOverlay}>
                             <View style={s.modalBox}>
-                                <Text style={s.modalTitle}>Add Meal Log</Text>
 
-                                {/* Meal date */}
+                                <Text style={s.modalTitle}>Thêm nhật ký bữa ăn</Text>
+
+                                {/* Ngày ăn */}
                                 <TouchableOpacity style={s.input} onPress={() => setShowMealDatePicker(true)}>
                                     <Ionicons name="calendar-outline" size={19} color="#FF9800"/>
                                     <Text style={s.inputText}>
@@ -640,16 +650,14 @@ export default function HealthHistoryScreen() {
                                         mode="date"
                                         onChange={(e, selected) => {
                                             setShowMealDatePicker(false);
-                                            if (selected) {
-                                                setNewMeal({...newMeal, date: selected});
-                                            }
+                                            if (selected) setNewMeal({...newMeal, date: selected});
                                         }}
                                     />
                                 )}
 
-                                {/* Select Meal */}
+                                {/* Chọn món */}
                                 <View style={s.formGroup}>
-                                    <Text style={s.label}>Select Meal</Text>
+                                    <Text style={s.label}>Chọn món</Text>
 
                                     <TouchableOpacity
                                         style={s.selectBox}
@@ -660,58 +668,45 @@ export default function HealthHistoryScreen() {
                                     >
                                         <View style={s.selectRow}>
                                             <Text style={[s.selectText, !selectedMealName && s.placeholderText]}>
-                                                {selectedMealName || "Choose a meal"}
+                                                {selectedMealName || "Chọn món"}
                                             </Text>
 
-                                            <Ionicons
-                                                name="chevron-down"
-                                                size={20}
-                                                color="#9CA3AF"
-                                                style={{marginLeft: 6}}
-                                            />
+                                            <Ionicons name="chevron-down" size={20} color="#9CA3AF"/>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
 
+                                {/* Số lượng */}
                                 <View style={s.input}>
                                     <Ionicons name="list-outline" size={19} color="#FF9800"/>
                                     <TextInput
                                         style={s.inputText}
-                                        placeholder="Quantity"
+                                        placeholder="Số lượng"
                                         keyboardType="numeric"
                                         value={newMeal.quantity}
                                         onChangeText={(v) => setNewMeal({...newMeal, quantity: v})}
                                     />
                                 </View>
-                                {/* Meal Type */}
+
+                                {/* Loại bữa ăn */}
                                 <View style={s.formGroup}>
-                                    <Text style={s.label}>Meal Type</Text>
+                                    <Text style={s.label}>Loại bữa</Text>
 
                                     <View style={s.chipRow}>
                                         {[
-                                            { key: "BREAKFAST", label: "Breakfast" },
-                                            { key: "LUNCH",     label: "Lunch" },
-                                            { key: "DINNER",    label: "Dinner" },
-                                            { key: "SNACK",     label: "Snack" },
+                                            {key: "BREAKFAST", label: "Sáng"},
+                                            {key: "LUNCH", label: "Trưa"},
+                                            {key: "DINNER", label: "Tối"},
+                                            {key: "SNACK", label: "Ăn nhẹ"},
                                         ].map((type) => {
                                             const isActive = newMeal.mealType === type.key;
                                             return (
                                                 <TouchableOpacity
                                                     key={type.key}
-                                                    style={[
-                                                        s.chip,
-                                                        isActive && s.chipActive,
-                                                    ]}
-                                                    onPress={() =>
-                                                        setNewMeal(prev => ({ ...prev, mealType: type.key }))
-                                                    }
+                                                    style={[s.chip, isActive && s.chipActive]}
+                                                    onPress={() => setNewMeal(prev => ({...prev, mealType: type.key}))}
                                                 >
-                                                    <Text
-                                                        style={[
-                                                            s.chipText,
-                                                            isActive && s.chipTextActive,
-                                                        ]}
-                                                    >
+                                                    <Text style={[s.chipText, isActive && s.chipTextActive]}>
                                                         {type.label}
                                                     </Text>
                                                 </TouchableOpacity>
@@ -720,11 +715,12 @@ export default function HealthHistoryScreen() {
                                     </View>
                                 </View>
 
+                                {/* Ghi chú */}
                                 <View style={[s.input, {height: 90}]}>
                                     <Ionicons name="create-outline" size={19} color="#FFB74D"/>
                                     <TextInput
                                         style={[s.inputText, {height: 80, textAlignVertical: "top"}]}
-                                        placeholder="Notes..."
+                                        placeholder="Ghi chú..."
                                         multiline
                                         value={newMeal.note}
                                         onChangeText={(v) => setNewMeal({...newMeal, note: v})}
@@ -733,34 +729,36 @@ export default function HealthHistoryScreen() {
 
                                 <View style={s.modalActions}>
                                     <TouchableOpacity style={s.cancelBtn} onPress={() => setModalMeal(false)}>
-                                        <Text style={s.cancelText}>Cancel</Text>
+                                        <Text style={s.cancelText}>Hủy</Text>
                                     </TouchableOpacity>
 
                                     <TouchableOpacity style={s.saveBtnMeal} onPress={handleAddMeal}>
-                                        <Text style={s.saveText}>Save</Text>
+                                        <Text style={s.saveText}>Lưu</Text>
                                     </TouchableOpacity>
                                 </View>
+
                             </View>
                         </View>
                     </KeyboardAvoidingView>
                 </Modal>
+
             </View>
 
-            {/* MODAL MEAL PICKER – để NGOÀI container */}
+            {/* MODAL CHỌN MÓN ĂN – đặt ngoài container */}
             <Modal visible={showMealPicker} transparent animationType="fade">
                 <View style={s.pickerOverlay}>
-                    <View style={s.pickerBoxModern}>
+                    <View className="pickerBoxModern" style={s.pickerBoxModern}>
 
                         {/* Header */}
                         <View style={s.pickerHeader}>
-                            <Text style={s.pickerTitle}>Choose a meal</Text>
+                            <Text style={s.pickerTitle}>Chọn món ăn</Text>
 
                             <TouchableOpacity onPress={() => setShowMealPicker(false)}>
                                 <Ionicons name="close" size={24} color="#6B7280"/>
                             </TouchableOpacity>
                         </View>
 
-                        {/* List */}
+                        {/* Danh sách món */}
                         <FlatList
                             data={mealList}
                             keyExtractor={(item) => item.id.toString()}
@@ -984,12 +982,13 @@ const s = StyleSheet.create({
         color: "#fff",
         fontWeight: "700",
     },
+
     mealSelectBox: {
         borderWidth: 1,
         borderColor: "#D1D5DB",
         borderRadius: 10,
         padding: 12,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
     },
 
     pickerOverlay: {
@@ -999,7 +998,7 @@ const s = StyleSheet.create({
         alignItems: "center",
         padding: 20,
         zIndex: 9999,
-        elevation: 9999
+        elevation: 9999,
     },
 
     pickerBox: {
@@ -1007,19 +1006,20 @@ const s = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 14,
         padding: 16,
-        maxHeight: "70%"
+        maxHeight: "70%",
     },
 
     mealItem: {
         padding: 14,
         borderBottomWidth: 1,
-        borderColor: "#eee"
+        borderColor: "#eee",
     },
 
     mealCal: {
         fontSize: 14,
-        color: "#666"
+        color: "#666",
     },
+
     pickerBoxModern: {
         width: "90%",
         backgroundColor: "#ffffff",
@@ -1069,6 +1069,7 @@ const s = StyleSheet.create({
         color: "#6B7280",
         marginTop: 3,
     },
+
     /* ---------- MEAL CARD NEW UI ---------- */
     mealCard: {
         backgroundColor: "#FFFFFF",
@@ -1144,6 +1145,7 @@ const s = StyleSheet.create({
         color: "#6B7280",
         fontSize: 14,
     },
+
     /* ----------- FORM GROUP ----------- */
     formGroup: {
         width: "100%",
@@ -1182,6 +1184,7 @@ const s = StyleSheet.create({
     placeholderText: {
         color: "#9CA3AF",
     },
+
     chipRow: {
         flexDirection: "row",
         flexWrap: "wrap",
@@ -1213,3 +1216,4 @@ const s = StyleSheet.create({
         fontWeight: "600",
     },
 });
+

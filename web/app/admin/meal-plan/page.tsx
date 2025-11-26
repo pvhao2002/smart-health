@@ -31,12 +31,37 @@ const DAYS = [
     'FRIDAY', 'SATURDAY', 'SUNDAY'
 ];
 
+// Map ngày sang tiếng Việt
+const DAY_LABELS: Record<string, string> = {
+    MONDAY: 'Thứ 2',
+    TUESDAY: 'Thứ 3',
+    WEDNESDAY: 'Thứ 4',
+    THURSDAY: 'Thứ 5',
+    FRIDAY: 'Thứ 6',
+    SATURDAY: 'Thứ 7',
+    SUNDAY: 'Chủ nhật',
+};
+
+const GOAL_LABELS: Record<string, string> = {
+    LOSE_WEIGHT: 'Giảm cân',
+    GAIN_WEIGHT: 'Tăng cân',
+    MAINTAIN: 'Duy trì'
+};
+
+const MEAL_LABELS: Record<MealKey, string> = {
+    breakfast: 'Bữa sáng',
+    lunch: 'Bữa trưa',
+    dinner: 'Bữa tối',
+    snack: 'Ăn nhẹ',
+};
+
 export default function MealPlanTable() {
     const [plans, setPlans] = useState<MealPlan[]>([]);
     const [meals, setMeals] = useState<Meal[]>([]);
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [editingPlan, setEditingPlan] = useState<MealPlan | null>(null);
+
     const [form, setForm] = useState<MealPlan>({
         name: '',
         goal: 'LOSE_WEIGHT',
@@ -54,7 +79,7 @@ export default function MealPlanTable() {
             setMeals(mealRes.data);
             setPlans(planRes.data);
         } catch (e) {
-            console.error('Error loading meal plans', e);
+            console.error('Lỗi tải kế hoạch bữa ăn', e);
         } finally {
             setLoading(false);
         }
@@ -89,21 +114,23 @@ export default function MealPlanTable() {
                 dinnerId: form.dinner?.id,
                 snackId: form.snack?.id,
             };
+
             if (editingPlan?.id) {
                 await apiClient.patch(`/admin/plans/meals/${editingPlan.id}`, payload);
             } else {
                 await apiClient.post('/admin/plans/meals', payload);
             }
+
             await loadData();
             closeModal();
         } catch (err) {
-            console.error('Save failed', err);
-            alert('Failed to save meal plan');
+            console.error('Lỗi lưu kế hoạch', err);
+            alert('Không thể lưu kế hoạch bữa ăn');
         }
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm('Delete this meal plan?')) return;
+        if (!confirm('Bạn có chắc muốn xóa kế hoạch này?')) return;
         await apiClient.delete(`/admin/plans/meals/${id}`);
         await loadData();
     };
@@ -111,29 +138,42 @@ export default function MealPlanTable() {
     return (
         <div className="mealplan-wrapper">
             <div className="mealplan-toolbar">
-                <h2>🥗 Weekly Meal Plans</h2>
+                <h2>🥗 Kế Hoạch Bữa Ăn Trong Tuần</h2>
                 <button className="add-btn" onClick={() => openModal()}>
-                    + Add Meal Plan
+                    + Thêm Kế Hoạch
                 </button>
             </div>
 
             {loading ? (
-                <div className="loading">Loading...</div>
+                <div className="loading">Đang tải...</div>
             ) : (
                 <table className="mealplan-table">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Day</th>
-                        <th>Meal Plans</th>
-                        <th>Goal</th>
-                        <th>Total (kcal / P / C / F)</th>
-                        <th>Actions</th>
+                        <th>Ngày</th>
+                        <th>Kế hoạch bữa ăn</th>
+                        <th>Mục tiêu</th>
+                        <th>
+                            Tổng (kcal / P / C / F)
+                            <span className="info-icon">ℹ
+                              <div className="info-popup">
+                                <strong>Giải thích các chỉ số:</strong><br/>
+                                • <b>P</b> = Protein (Chất đạm)<br/>
+                                • <b>C</b> = Carbs (Tinh bột / chất bột đường)<br/>
+                                • <b>F</b> = Fat (Chất béo)
+                              </div>
+                            </span>
+                        </th>
+
+                        <th>Hành động</th>
                     </tr>
                     </thead>
+
                     <tbody>
                     {DAYS.map((day, i) => {
                         const dailyPlans = plans.filter(p => p.dayOfWeek === day);
+
                         const totalCalories = dailyPlans.reduce((sum, p) => sum + (p.totalCalories ?? 0), 0);
                         const totalProtein = dailyPlans.reduce((sum, p) => sum + (p.totalProtein ?? 0), 0);
                         const totalCarbs = dailyPlans.reduce((sum, p) => sum + (p.totalCarbs ?? 0), 0);
@@ -142,35 +182,37 @@ export default function MealPlanTable() {
                         return (
                             <tr key={day}>
                                 <td>{i + 1}</td>
-                                <td>{day}</td>
+                                <td>{DAY_LABELS[day]}</td>
+
                                 <td>
                                     {dailyPlans.length === 0 ? (
-                                        <span className="no-data">— No meal plans —</span>
+                                        <span className="no-data">— Chưa có kế hoạch —</span>
                                     ) : (
                                         <div className="plan-list">
                                             {dailyPlans.map((p) => (
                                                 <div key={p.id} className="plan-item">
                                                     <div className="plan-name">{p.name}</div>
+
                                                     <div className="plan-meals">
                                                         <span>🍳 {p.breakfast?.name ?? '—'}</span> ·
                                                         <span> 🍚 {p.lunch?.name ?? '—'}</span> ·
                                                         <span> 🍝 {p.dinner?.name ?? '—'}</span> ·
                                                         <span> 🍎 {p.snack?.name ?? '—'}</span>
                                                     </div>
+
                                                     <div className="plan-totals">
-                                                        <strong>
-                                                            {Math.round(p.totalCalories ?? 0)} kcal
-                                                        </strong>{' '}
+                                                        <strong>{Math.round(p.totalCalories ?? 0)} kcal</strong>{' '}
                                                         | P:{Math.round(p.totalProtein ?? 0)}g ·
                                                         C:{Math.round(p.totalCarbs ?? 0)}g ·
                                                         F:{Math.round(p.totalFat ?? 0)}g
                                                     </div>
+
                                                     <div className="plan-actions-inline">
-                                                        <button className="edit-btn" onClick={() => openModal(p)}>
-                                                            Edit
+                                                        <button className="edit-btn" onClick={() => openModal(p)}>Sửa
                                                         </button>
-                                                        <button className="delete-btn" onClick={() => handleDelete(p.id!)}>
-                                                            Delete
+                                                        <button className="delete-btn"
+                                                                onClick={() => handleDelete(p.id!)}>
+                                                            Xóa
                                                         </button>
                                                     </div>
                                                 </div>
@@ -178,25 +220,29 @@ export default function MealPlanTable() {
                                         </div>
                                     )}
                                 </td>
+
                                 <td>
                                     {dailyPlans.length > 0
-                                        ? [...new Set(dailyPlans.map(p => p.goal))].join(', ')
+                                        ? [...new Set(dailyPlans.map(p => GOAL_LABELS[p.goal]))].join(', ')
                                         : '—'}
                                 </td>
+
                                 <td>
                                     {dailyPlans.length > 0 ? (
                                         <div className="day-total">
-                                            <strong>{Math.round(totalCalories)} kcal</strong><br />
-                                            P:{Math.round(totalProtein)}g · C:{Math.round(totalCarbs)}g · F:{Math.round(totalFat)}g
+                                            <strong>{Math.round(totalCalories)} kcal</strong><br/>
+                                            P:{Math.round(totalProtein)}g · C:{Math.round(totalCarbs)}g ·
+                                            F:{Math.round(totalFat)}g
                                         </div>
                                     ) : '—'}
                                 </td>
+
                                 <td>
                                     <button
                                         className="add-btn small"
                                         onClick={() => openModal({dayOfWeek: day, name: '', goal: 'LOSE_WEIGHT'})}
                                     >
-                                        + Add
+                                        + Thêm
                                     </button>
                                 </td>
                             </tr>
@@ -206,13 +252,14 @@ export default function MealPlanTable() {
                 </table>
             )}
 
+            {/* Modal */}
             {showModal && (
                 <div className="modal-backdrop" onClick={closeModal}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <h3>{editingPlan?.id ? '✏️ Edit Meal Plan' : '➕ Add Meal Plan'}</h3>
+                        <h3>{editingPlan?.id ? '✏️ Chỉnh Sửa Kế Hoạch' : '➕ Thêm Kế Hoạch'}</h3>
 
                         <div className="form-group">
-                            <label>Name</label>
+                            <label>Tên kế hoạch</label>
                             <input
                                 value={form.name}
                                 onChange={(e) => setForm({...form, name: e.target.value})}
@@ -220,32 +267,33 @@ export default function MealPlanTable() {
                         </div>
 
                         <div className="form-group">
-                            <label>Day of Week</label>
+                            <label>Ngày</label>
                             <select
                                 value={form.dayOfWeek}
                                 onChange={(e) => setForm({...form, dayOfWeek: e.target.value})}
                             >
                                 {DAYS.map((d) => (
-                                    <option key={d} value={d}>{d}</option>
+                                    <option key={d} value={d}>{DAY_LABELS[d]}</option>
                                 ))}
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label>Goal</label>
+                            <label>Mục tiêu</label>
                             <select
                                 value={form.goal}
                                 onChange={(e) => setForm({...form, goal: e.target.value as MealPlan['goal']})}
                             >
-                                <option value="LOSE_WEIGHT">Lose Weight</option>
-                                <option value="GAIN_WEIGHT">Gain Weight</option>
-                                <option value="MAINTAIN">Maintain</option>
+                                <option value="LOSE_WEIGHT">Giảm cân</option>
+                                <option value="GAIN_WEIGHT">Tăng cân</option>
+                                <option value="MAINTAIN">Duy trì</option>
                             </select>
                         </div>
 
+                        {/* Danh sách bữa ăn */}
                         {(['breakfast', 'lunch', 'dinner', 'snack'] as MealKey[]).map((mealType) => (
                             <div className="form-group" key={mealType}>
-                                <label>{mealType.charAt(0).toUpperCase() + mealType.slice(1)}</label>
+                                <label>{MEAL_LABELS[mealType]}</label>
                                 <select
                                     value={(form[mealType] as Meal | undefined)?.id ?? ''}
                                     onChange={(e) => {
@@ -253,11 +301,9 @@ export default function MealPlanTable() {
                                         setForm({...form, [mealType]: m});
                                     }}
                                 >
-                                    <option value="">— Select —</option>
+                                    <option value="">— Chọn —</option>
                                     {meals.map((m) => (
-                                        <option key={m.id} value={m.id}>
-                                            {m.name}
-                                        </option>
+                                        <option key={m.id} value={m.id}>{m.name}</option>
                                     ))}
                                 </select>
                             </div>
@@ -265,9 +311,9 @@ export default function MealPlanTable() {
 
                         <div className="modal-actions">
                             <button onClick={handleSubmit} className="save-btn">
-                                {editingPlan ? 'Update' : 'Add'}
+                                {editingPlan ? 'Cập nhật' : 'Thêm mới'}
                             </button>
-                            <button onClick={closeModal} className="cancel-btn">Cancel</button>
+                            <button type="button" onClick={closeModal} className="cancel-btn">Hủy</button>
                         </div>
                     </div>
                 </div>

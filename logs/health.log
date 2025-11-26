@@ -1,60 +1,30 @@
-2025-11-14T15:32:53.074+07:00  INFO 18844 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 18844 (C:\Users\kira.pham\code\smart-health\backend\target\classes started by Kira.Pham in C:\Users\kira.pham\code\smart-health)
-2025-11-14T15:32:53.091+07:00  INFO 18844 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-11-14T15:32:54.333+07:00  INFO 18844 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-14T15:32:54.450+07:00  INFO 18844 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 107 ms. Found 9 JPA repository interfaces.
-2025-11-14T15:32:56.066+07:00  INFO 18844 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
-2025-11-14T15:32:56.106+07:00  INFO 18844 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-14T15:32:56.107+07:00  INFO 18844 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2025-11-14T15:32:56.308+07:00  INFO 18844 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
-2025-11-14T15:32:56.312+07:00  INFO 18844 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3171 ms
-2025-11-14T15:32:56.858+07:00  INFO 18844 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-14T15:32:57.348+07:00  INFO 18844 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@326706d
-2025-11-14T15:32:57.354+07:00  INFO 18844 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-14T15:32:57.583+07:00  INFO 18844 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-14T15:32:57.766+07:00  INFO 18844 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-11-14T15:32:57.861+07:00  INFO 18844 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-14T15:32:58.472+07:00  INFO 18844 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-14T15:32:58.651+07:00  WARN 18844 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-14T15:33:00.344+07:00  INFO 18844 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-14T15:33:01.053+07:00  INFO 18844 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T15:33:01.942+07:00  INFO 18844 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2025-11-14T15:33:02.836+07:00  INFO 18844 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
-2025-11-14T15:33:03.718+07:00  INFO 18844 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
-2025-11-14T15:33:03.732+07:00  INFO 18844 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 11.103 seconds (process running for 12.077)
-2025-11-14T15:35:12.455+07:00  INFO 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-14T15:35:12.455+07:00  INFO 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-14T15:35:12.457+07:00  INFO 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2025-11-14T15:35:12.614+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:35:12.614+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:35:12.619+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:35:12.619+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:37:58.594+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:37:58.600+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:39:39.909+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:39:39.916+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:39:39.922+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:39:39.929+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:42:25.456+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:42:25.456+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:42:25.459+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:42:25.459+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:43:25.561+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:43:25.562+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:43:25.563+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:43:25.565+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:45:15.202+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:45:15.202+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:45:15.213+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:45:15.213+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:45:17.648+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:45:17.648+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:45:17.711+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:45:17.719+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:45:35.339+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:45:35.339+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:45:35.343+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:45:35.343+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:45:57.869+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/admin/dashboard [GET]: No static resource admin/dashboard.
+2025-11-26T20:13:48.639+07:00  INFO 90410 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 90410 (/Users/kira/Desktop/workspace/SmartHealth/backend/target/classes started by kira in /Users/kira/Desktop/workspace/SmartHealth)
+2025-11-26T20:13:48.650+07:00  INFO 90410 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-11-26T20:13:49.423+07:00  INFO 90410 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-26T20:13:49.486+07:00  INFO 90410 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 9 JPA repository interfaces.
+2025-11-26T20:13:50.121+07:00  INFO 90410 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
+2025-11-26T20:13:50.130+07:00  INFO 90410 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-26T20:13:50.130+07:00  INFO 90410 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-11-26T20:13:50.155+07:00  INFO 90410 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
+2025-11-26T20:13:50.156+07:00  INFO 90410 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1463 ms
+2025-11-26T20:13:50.400+07:00  INFO 90410 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-26T20:13:50.514+07:00  INFO 90410 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@30e2016a
+2025-11-26T20:13:50.515+07:00  INFO 90410 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-26T20:13:50.576+07:00  INFO 90410 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-26T20:13:50.610+07:00  INFO 90410 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-11-26T20:13:50.632+07:00  INFO 90410 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-26T20:13:50.798+07:00  INFO 90410 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-26T20:13:50.865+07:00  WARN 90410 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-26T20:13:51.443+07:00  INFO 90410 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-26T20:13:51.787+07:00  INFO 90410 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26T20:13:52.180+07:00  INFO 90410 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-11-26T20:13:52.568+07:00  INFO 90410 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
+2025-11-26T20:13:52.946+07:00  INFO 90410 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
+2025-11-26T20:13:52.954+07:00  INFO 90410 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 4.671 seconds (process running for 8.595)
+2025-11-26T20:13:53.428+07:00  INFO 90410 --- [health-service] [RMI TCP Connection(2)-127.0.0.1] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-26T20:13:53.429+07:00  INFO 90410 --- [health-service] [RMI TCP Connection(2)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-26T20:13:53.430+07:00  INFO 90410 --- [health-service] [RMI TCP Connection(2)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-11-26T20:17:44.398+07:00 ERROR 90410 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/admin/dashboard [GET]: No static resource admin/dashboard.
 
 org.springframework.web.servlet.resource.NoResourceFoundException: No static resource admin/dashboard.
 	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.14.jar:6.1.14]
@@ -187,7 +157,7 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
 	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
 
-2025-11-14T15:45:57.920+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/admin/dashboard [GET]: No static resource admin/dashboard.
+2025-11-26T20:17:44.441+07:00 ERROR 90410 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/admin/dashboard [GET]: No static resource admin/dashboard.
 
 org.springframework.web.servlet.resource.NoResourceFoundException: No static resource admin/dashboard.
 	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.14.jar:6.1.14]
@@ -320,201 +290,36 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
 	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
 
-2025-11-14T15:46:38.070+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:46:38.073+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:46:38.077+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:46:38.080+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:15.354+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:15.354+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:15.357+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:15.357+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:43.976+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:44.109+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:44.121+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:44.126+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:50.192+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:50.199+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:50.206+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:50.209+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:53.710+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:53.739+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:47:53.774+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:47:53.778+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:48:03.195+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:48:03.195+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:48:03.203+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:48:03.203+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:48:11.108+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:48:11.110+07:00  WARN 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T15:48:11.114+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T15:48:11.114+07:00 ERROR 18844 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:09:28.448+07:00  INFO 18844 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:09:28.451+07:00  INFO 18844 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-14T16:09:28.459+07:00  INFO 18844 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-11-14T16:09:34.442+07:00  INFO 24004 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 24004 (C:\Users\kira.pham\code\smart-health\backend\target\classes started by Kira.Pham in C:\Users\kira.pham\code\smart-health)
-2025-11-14T16:09:34.445+07:00  INFO 24004 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-11-14T16:09:35.760+07:00  INFO 24004 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-14T16:09:35.901+07:00  INFO 24004 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 130 ms. Found 9 JPA repository interfaces.
-2025-11-14T16:09:37.366+07:00  INFO 24004 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
-2025-11-14T16:09:37.385+07:00  INFO 24004 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-14T16:09:37.385+07:00  INFO 24004 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2025-11-14T16:09:37.491+07:00  INFO 24004 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
-2025-11-14T16:09:37.491+07:00  INFO 24004 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2997 ms
-2025-11-14T16:09:37.827+07:00  INFO 24004 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-14T16:09:38.056+07:00  INFO 24004 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@f591271
-2025-11-14T16:09:38.059+07:00  INFO 24004 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-14T16:09:38.145+07:00  INFO 24004 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-14T16:09:38.195+07:00  INFO 24004 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-11-14T16:09:38.236+07:00  INFO 24004 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-14T16:09:38.509+07:00  INFO 24004 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-14T16:09:38.579+07:00  WARN 24004 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-14T16:09:39.562+07:00  INFO 24004 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-14T16:09:39.957+07:00  INFO 24004 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:09:40.482+07:00  INFO 24004 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2025-11-14T16:09:41.086+07:00  INFO 24004 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
-2025-11-14T16:09:41.659+07:00  INFO 24004 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
-2025-11-14T16:09:41.668+07:00  INFO 24004 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 7.708 seconds (process running for 8.544)
-2025-11-14T16:09:52.666+07:00  INFO 24004 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-14T16:09:52.666+07:00  INFO 24004 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-14T16:09:52.671+07:00  INFO 24004 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
-2025-11-14T16:09:53.314+07:00  WARN 24004 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:09:53.379+07:00 ERROR 24004 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:09:53.384+07:00  WARN 24004 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:09:53.389+07:00 ERROR 24004 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:12:52.640+07:00  INFO 24004 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:12:52.641+07:00  INFO 24004 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-14T16:12:52.653+07:00  INFO 24004 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-11-14T16:12:55.945+07:00  INFO 22044 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 22044 (C:\Users\kira.pham\code\smart-health\backend\target\classes started by Kira.Pham in C:\Users\kira.pham\code\smart-health)
-2025-11-14T16:12:55.948+07:00  INFO 22044 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-11-14T16:12:57.009+07:00  INFO 22044 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-14T16:12:57.095+07:00  INFO 22044 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 77 ms. Found 9 JPA repository interfaces.
-2025-11-14T16:12:57.894+07:00  INFO 22044 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
-2025-11-14T16:12:57.908+07:00  INFO 22044 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-14T16:12:57.909+07:00  INFO 22044 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2025-11-14T16:12:58.016+07:00  INFO 22044 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
-2025-11-14T16:12:58.016+07:00  INFO 22044 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2020 ms
-2025-11-14T16:12:58.264+07:00  INFO 22044 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-14T16:12:58.484+07:00  INFO 22044 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6ae6d078
-2025-11-14T16:12:58.487+07:00  INFO 22044 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-14T16:12:58.584+07:00  INFO 22044 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-14T16:12:58.662+07:00  INFO 22044 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-11-14T16:12:58.704+07:00  INFO 22044 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-14T16:12:59.062+07:00  INFO 22044 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-14T16:12:59.158+07:00  WARN 22044 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-14T16:13:00.320+07:00  INFO 22044 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-14T16:13:00.664+07:00  INFO 22044 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:13:01.225+07:00  INFO 22044 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2025-11-14T16:13:01.832+07:00  INFO 22044 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
-2025-11-14T16:13:02.544+07:00  INFO 22044 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
-2025-11-14T16:13:02.554+07:00  INFO 22044 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 7.202 seconds (process running for 8.506)
-2025-11-14T16:13:04.570+07:00  INFO 22044 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-14T16:13:04.570+07:00  INFO 22044 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-14T16:13:04.574+07:00  INFO 22044 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
-2025-11-14T16:13:04.848+07:00  WARN 22044 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:13:04.855+07:00 ERROR 22044 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:14:18.948+07:00  INFO 22044 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:14:18.949+07:00  INFO 22044 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-14T16:14:18.961+07:00  INFO 22044 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-11-14T16:14:39.877+07:00  INFO 200 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 200 (C:\Users\kira.pham\code\smart-health\backend\target\classes started by Kira.Pham in C:\Users\kira.pham\code\smart-health)
-2025-11-14T16:14:39.877+07:00  INFO 200 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-11-14T16:14:40.850+07:00  INFO 200 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-14T16:14:40.927+07:00  INFO 200 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 68 ms. Found 9 JPA repository interfaces.
-2025-11-14T16:14:41.588+07:00  INFO 200 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
-2025-11-14T16:14:41.597+07:00  INFO 200 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-14T16:14:41.597+07:00  INFO 200 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2025-11-14T16:14:41.657+07:00  INFO 200 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
-2025-11-14T16:14:41.658+07:00  INFO 200 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1737 ms
-2025-11-14T16:14:41.856+07:00  INFO 200 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-14T16:14:42.030+07:00  INFO 200 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@749f61a3
-2025-11-14T16:14:42.032+07:00  INFO 200 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-14T16:14:42.113+07:00  INFO 200 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-14T16:14:42.163+07:00  INFO 200 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-11-14T16:14:42.228+07:00  INFO 200 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-14T16:14:42.491+07:00  INFO 200 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-14T16:14:42.564+07:00  WARN 200 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-14T16:14:43.474+07:00  INFO 200 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-14T16:14:43.788+07:00  INFO 200 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:14:44.359+07:00  INFO 200 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2025-11-14T16:14:45.610+07:00  INFO 200 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
-2025-11-14T16:14:46.247+07:00  INFO 200 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
-2025-11-14T16:14:46.265+07:00  INFO 200 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 6.845 seconds (process running for 7.563)
-2025-11-14T16:14:46.434+07:00  INFO 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-14T16:14:46.434+07:00  INFO 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-14T16:14:46.434+07:00  INFO 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
-2025-11-14T16:14:46.600+07:00  WARN 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:14:46.609+07:00 ERROR 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:16:37.326+07:00  WARN 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:16:37.326+07:00  WARN 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:16:37.329+07:00 ERROR 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:16:37.329+07:00 ERROR 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:16:55.450+07:00  WARN 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:16:55.450+07:00  WARN 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:16:55.454+07:00 ERROR 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:16:55.454+07:00 ERROR 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:17:22.257+07:00  WARN 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:17:22.257+07:00 ERROR 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:17:23.658+07:00  WARN 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:17:23.662+07:00 ERROR 200 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:18:55.613+07:00  INFO 200 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:18:55.615+07:00  INFO 200 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-14T16:18:55.624+07:00  INFO 200 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-11-14T16:19:05.826+07:00  INFO 5128 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 5128 (C:\Users\kira.pham\code\smart-health\backend\target\classes started by Kira.Pham in C:\Users\kira.pham\code\smart-health)
-2025-11-14T16:19:05.831+07:00  INFO 5128 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-11-14T16:19:07.611+07:00  INFO 5128 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-14T16:19:07.731+07:00  INFO 5128 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 111 ms. Found 9 JPA repository interfaces.
-2025-11-14T16:19:08.687+07:00  INFO 5128 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
-2025-11-14T16:19:08.703+07:00  INFO 5128 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-14T16:19:08.703+07:00  INFO 5128 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2025-11-14T16:19:08.812+07:00  INFO 5128 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
-2025-11-14T16:19:08.812+07:00  INFO 5128 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2885 ms
-2025-11-14T16:19:09.083+07:00  INFO 5128 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-14T16:19:09.303+07:00  INFO 5128 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@b339a08
-2025-11-14T16:19:09.306+07:00  INFO 5128 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-14T16:19:09.431+07:00  INFO 5128 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-14T16:19:09.507+07:00  INFO 5128 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-11-14T16:19:09.567+07:00  INFO 5128 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-14T16:19:10.036+07:00  INFO 5128 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-14T16:19:10.140+07:00  WARN 5128 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-14T16:19:13.493+07:00  INFO 5128 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-14T16:19:13.855+07:00  INFO 5128 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:19:14.803+07:00  INFO 5128 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2025-11-14T16:19:15.766+07:00  INFO 5128 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
-2025-11-14T16:19:16.651+07:00  INFO 5128 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
-2025-11-14T16:19:16.664+07:00  INFO 5128 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 11.859 seconds (process running for 13.427)
-2025-11-14T16:19:18.778+07:00  INFO 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-14T16:19:18.779+07:00  INFO 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-14T16:19:18.780+07:00  INFO 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2025-11-14T16:19:19.094+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:19:19.102+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:19:43.685+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:19:43.686+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:19:43.690+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:19:43.691+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:19:58.555+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:19:58.569+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:19:58.585+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:19:58.604+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:20:07.657+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:20:07.661+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:20:07.709+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:20:07.709+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:27.272+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:27.273+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:27.299+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:27.304+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:27.800+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:27.816+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:27.948+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:27.950+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:35.111+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:35.113+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:35.116+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:35.116+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:36.707+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:36.707+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:22:36.710+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:22:36.710+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:23:40.716+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/admin/dashboard [GET]: No static resource admin/dashboard.
+2025-11-26T20:22:32.886+07:00  INFO 90410 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26T20:22:32.902+07:00  INFO 90410 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-11-26T20:22:32.914+07:00  INFO 90410 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-11-26T20:22:34.867+07:00  INFO 90845 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 90845 (/Users/kira/Desktop/workspace/SmartHealth/backend/target/classes started by kira in /Users/kira/Desktop/workspace/SmartHealth)
+2025-11-26T20:22:34.868+07:00  INFO 90845 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-11-26T20:22:35.426+07:00  INFO 90845 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-26T20:22:35.463+07:00  INFO 90845 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 33 ms. Found 9 JPA repository interfaces.
+2025-11-26T20:22:36.023+07:00  INFO 90845 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
+2025-11-26T20:22:36.030+07:00  INFO 90845 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-26T20:22:36.030+07:00  INFO 90845 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-11-26T20:22:36.051+07:00  INFO 90845 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
+2025-11-26T20:22:36.051+07:00  INFO 90845 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1157 ms
+2025-11-26T20:22:36.172+07:00  INFO 90845 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-26T20:22:36.287+07:00  INFO 90845 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4ed19b69
+2025-11-26T20:22:36.288+07:00  INFO 90845 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-26T20:22:36.361+07:00  INFO 90845 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-26T20:22:36.393+07:00  INFO 90845 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-11-26T20:22:36.411+07:00  INFO 90845 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-26T20:22:36.557+07:00  INFO 90845 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-26T20:22:36.606+07:00  WARN 90845 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-26T20:22:37.184+07:00  INFO 90845 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-26T20:22:37.387+07:00  INFO 90845 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26T20:22:37.760+07:00  INFO 90845 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-11-26T20:22:38.173+07:00  INFO 90845 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
+2025-11-26T20:22:38.634+07:00  INFO 90845 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
+2025-11-26T20:22:38.642+07:00  INFO 90845 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 4.016 seconds (process running for 4.755)
+2025-11-26T20:22:38.783+07:00  INFO 90845 --- [health-service] [RMI TCP Connection(4)-127.0.0.1] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-26T20:22:38.783+07:00  INFO 90845 --- [health-service] [RMI TCP Connection(4)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-26T20:22:38.786+07:00  INFO 90845 --- [health-service] [RMI TCP Connection(4)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-11-26T20:22:42.324+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/admin/dashboard [GET]: No static resource admin/dashboard.
 
 org.springframework.web.servlet.resource.NoResourceFoundException: No static resource admin/dashboard.
 	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.14.jar:6.1.14]
@@ -647,214 +452,9 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
 	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
 
-2025-11-14T16:26:34.009+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtUtil              : Error parsing JWT token: Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0
-2025-11-14T16:26:34.009+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtRequestFilter     : Invalid JWT token
-2025-11-14T16:26:34.017+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:26:34.019+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:26:58.766+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] com.health.controller.AuthController     : Login failed for email hao@gmail.com: Invalid email or password
-2025-11-14T16:26:58.768+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] c.h.exception.GlobalExceptionHandler     : Unauthorized access attempt on request to uri=/health-service/auth/login: Invalid email or password
-2025-11-14T16:27:12.699+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:27:12.702+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:27:12.706+07:00  WARN 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T16:27:12.708+07:00 ERROR 5128 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T16:34:44.040+07:00  INFO 5128 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:34:44.042+07:00  INFO 5128 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-14T16:34:44.053+07:00  INFO 5128 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-11-14T16:34:51.866+07:00  INFO 20188 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 20188 (C:\Users\kira.pham\code\smart-health\backend\target\classes started by Kira.Pham in C:\Users\kira.pham\code\smart-health)
-2025-11-14T16:34:51.871+07:00  INFO 20188 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-11-14T16:34:52.877+07:00  INFO 20188 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-14T16:34:52.948+07:00  INFO 20188 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 66 ms. Found 9 JPA repository interfaces.
-2025-11-14T16:34:53.715+07:00  INFO 20188 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
-2025-11-14T16:34:53.730+07:00  INFO 20188 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-14T16:34:53.731+07:00  INFO 20188 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2025-11-14T16:34:53.788+07:00  INFO 20188 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
-2025-11-14T16:34:53.788+07:00  INFO 20188 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1797 ms
-2025-11-14T16:34:54.001+07:00  INFO 20188 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-14T16:34:54.152+07:00  INFO 20188 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@72f35a31
-2025-11-14T16:34:54.154+07:00  INFO 20188 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-14T16:34:54.245+07:00  INFO 20188 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-14T16:34:54.303+07:00  INFO 20188 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-11-14T16:34:54.336+07:00  INFO 20188 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-14T16:34:54.614+07:00  INFO 20188 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-14T16:34:54.687+07:00  WARN 20188 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-14T16:34:55.680+07:00  INFO 20188 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-14T16:34:56.033+07:00  INFO 20188 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T16:34:56.559+07:00  INFO 20188 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2025-11-14T16:34:57.142+07:00  INFO 20188 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
-2025-11-14T16:34:57.681+07:00  INFO 20188 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
-2025-11-14T16:34:57.691+07:00  INFO 20188 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 7.016 seconds (process running for 9.493)
-2025-11-14T16:36:13.769+07:00  INFO 20188 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-14T16:36:13.769+07:00  INFO 20188 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-14T16:36:13.772+07:00  INFO 20188 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2025-11-14T17:11:41.177+07:00  INFO 20188 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T17:11:41.179+07:00  INFO 20188 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-14T17:11:41.187+07:00  INFO 20188 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-11-14T17:11:54.725+07:00  INFO 19408 --- [health-service] [main] com.health.SmartHealthApplication        : Starting SmartHealthApplication using Java 22.0.2 with PID 19408 (C:\Users\kira.pham\code\smart-health\backend\target\classes started by Kira.Pham in C:\Users\kira.pham\code\smart-health)
-2025-11-14T17:11:54.731+07:00  INFO 19408 --- [health-service] [main] com.health.SmartHealthApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-11-14T17:11:57.090+07:00  INFO 19408 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-14T17:11:57.246+07:00  INFO 19408 --- [health-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 143 ms. Found 9 JPA repository interfaces.
-2025-11-14T17:11:58.663+07:00  INFO 19408 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 1789 (http)
-2025-11-14T17:11:58.702+07:00  INFO 19408 --- [health-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-11-14T17:11:58.702+07:00  INFO 19408 --- [health-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2025-11-14T17:11:58.839+07:00  INFO 19408 --- [health-service] [main] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring embedded WebApplicationContext
-2025-11-14T17:11:58.840+07:00  INFO 19408 --- [health-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3973 ms
-2025-11-14T17:11:59.209+07:00  INFO 19408 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-14T17:11:59.518+07:00  INFO 19408 --- [health-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6ca33187
-2025-11-14T17:11:59.523+07:00  INFO 19408 --- [health-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-14T17:11:59.731+07:00  INFO 19408 --- [health-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-14T17:11:59.861+07:00  INFO 19408 --- [health-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-11-14T17:11:59.955+07:00  INFO 19408 --- [health-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-14T17:12:00.744+07:00  INFO 19408 --- [health-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-14T17:12:00.942+07:00  WARN 19408 --- [health-service] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-11-14T17:12:03.000+07:00  INFO 19408 --- [health-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-14T17:12:03.619+07:00  INFO 19408 --- [health-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T17:12:05.051+07:00  INFO 19408 --- [health-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2025-11-14T17:12:06.399+07:00  INFO 19408 --- [health-service] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoints beneath base path '/actuator'
-2025-11-14T17:12:07.675+07:00  INFO 19408 --- [health-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 1789 (http) with context path '/health-service'
-2025-11-14T17:12:07.694+07:00  INFO 19408 --- [health-service] [main] com.health.SmartHealthApplication        : Started SmartHealthApplication in 16.04 seconds (process running for 17.963)
-2025-11-14T17:12:45.487+07:00  INFO 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.a.c.c.C.[.[.[/health-service]          : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-14T17:12:45.487+07:00  INFO 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-11-14T17:12:45.487+07:00  INFO 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
-2025-11-14T17:12:45.538+07:00 ERROR 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/auth/login [GET]: Request method 'GET' is not supported
+2025-11-26T20:22:44.804+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/admin/dashboard [GET]: No static resource admin/dashboard.
 
-org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported
-	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.handleNoMatch(RequestMappingInfoHandlerMapping.java:267) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod(AbstractHandlerMethodMapping.java:441) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal(AbstractHandlerMethodMapping.java:382) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:127) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:68) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:507) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.DispatcherServlet.getHandler(DispatcherServlet.java:1284) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1065) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.31.jar:6.0]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.31.jar:6.0]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:479) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:340) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:82) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:128) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230) ~[spring-security-config-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
-
-2025-11-14T17:13:20.012+07:00 ERROR 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-5] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/users/m [GET]: No static resource users/m.
-
-org.springframework.web.servlet.resource.NoResourceFoundException: No static resource users/m.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource admin/dashboard.
 	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.14.jar:6.1.14]
 	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.1.14.jar:6.1.14]
 	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.14.jar:6.1.14]
@@ -985,143 +585,29 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
 	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
 
-2025-11-14T17:24:42.915+07:00  WARN 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T17:24:42.915+07:00  WARN 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] c.h.security.CustomUserDetailsService    : User not found with email: 
-2025-11-14T17:24:42.922+07:00 ERROR 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T17:24:42.922+07:00 ERROR 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-9] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
-2025-11-14T17:28:55.273+07:00 ERROR 19408 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.exception.GlobalExceptionHandler     : Unexpected error occurred on request to /health-service/users/home/my [GET]: No static resource users/home/my.
-
-org.springframework.web.servlet.resource.NoResourceFoundException: No static resource users/home/my.
-	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.31.jar:6.0]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.31.jar:6.0]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:479) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:340) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:82) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:128) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at com.health.security.JwtRequestFilter.doFilterInternal(JwtRequestFilter.java:69) ~[classes/:na]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230) ~[spring-security-config-6.3.4.jar:6.3.4]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.14.jar:6.1.14]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.31.jar:10.1.31]
-	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
-
-2025-11-14T17:39:34.709+07:00  INFO 19408 --- [health-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-11-14T17:39:34.713+07:00  INFO 19408 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-11-14T17:39:34.727+07:00  INFO 19408 --- [health-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-11-26T21:26:47.416+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:26:47.416+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:26:47.443+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-3] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:26:47.443+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-8] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:28:54.827+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:28:54.827+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:28:54.831+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-6] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:28:54.831+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:46:08.597+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtUtil              : Error parsing JWT token: Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0
+2025-11-26T21:46:08.597+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtUtil              : Error parsing JWT token: Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0
+2025-11-26T21:46:08.597+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] com.health.security.JwtUtil              : Error parsing JWT token: Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0
+2025-11-26T21:46:08.598+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtUtil              : Error parsing JWT token: Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0
+2025-11-26T21:46:08.606+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Invalid JWT token
+2025-11-26T21:46:08.606+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Invalid JWT token
+2025-11-26T21:46:08.607+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Invalid JWT token
+2025-11-26T21:46:08.606+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] com.health.security.JwtRequestFilter     : Invalid JWT token
+2025-11-26T21:46:08.619+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:46:08.619+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:46:08.619+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:46:08.621+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] c.h.security.CustomUserDetailsService    : User not found with email: 
+2025-11-26T21:46:08.625+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-1] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:46:08.625+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-7] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:46:08.625+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-4] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:46:08.625+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-10] com.health.security.JwtRequestFilter     : Error setting authentication context: User not found with email: 
+2025-11-26T21:46:27.830+07:00 ERROR 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] com.health.controller.AuthController     : Login failed for email hao@gmail.com: Invalid email or password
+2025-11-26T21:46:27.843+07:00  WARN 90845 --- [health-service] [http-nio-0.0.0.0-1789-exec-2] c.h.exception.GlobalExceptionHandler     : Unauthorized access attempt on request to uri=/health-service/auth/login: Invalid email or password

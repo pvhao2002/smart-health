@@ -16,47 +16,51 @@ export default function AboutScreen() {
                 />
                 <Text style={s.title}>SmartHealth 🌿</Text>
                 <Text style={s.subtitle}>
-                    Track • Improve • Live Healthier
+                    Theo dõi • Cải thiện • Sống khoẻ hơn mỗi ngày
                 </Text>
             </View>
 
             {/* About Section */}
             <View style={s.card}>
-                <Text style={s.sectionTitle}>💡 What is SmartHealth?</Text>
+                <Text style={s.sectionTitle}>💡 SmartHealth là gì?</Text>
                 <Text style={s.paragraph}>
-                    SmartHealth is your all-in-one personal wellness assistant — helping you record workouts,
-                    track steps, log calories, improve your lifestyle, and receive personalized fitness &
-                    nutrition recommendations.
+                    SmartHealth là trợ lý sức khoẻ cá nhân tất cả-trong-một, giúp bạn ghi lại bài tập,
+                    theo dõi bước chân, đếm calo, cải thiện thói quen sống, đồng thời cung cấp các gợi ý
+                    tập luyện & dinh dưỡng phù hợp với mục tiêu của bạn.
                 </Text>
 
                 <View style={s.list}>
-                    <Text style={s.item}>• Log workouts, steps & calories easily</Text>
-                    <Text style={s.item}>• Track daily, weekly & monthly progress</Text>
-                    <Text style={s.item}>• Get personalized workout suggestions</Text>
-                    <Text style={s.item}>• Smart diet plans based on your BMI & goals</Text>
-                    <Text style={s.item}>• Visual analytics for your health journey</Text>
+                    <Text style={s.item}>• Ghi lại bài tập, bước chân và lượng calo đốt cháy</Text>
+                    <Text style={s.item}>• Theo dõi tiến trình hằng ngày, hằng tuần và hằng tháng</Text>
+                    <Text style={s.item}>• Gợi ý bài tập cá nhân hoá</Text>
+                    <Text style={s.item}>• Lập thực đơn thông minh dựa trên BMI và mục tiêu</Text>
+                    <Text style={s.item}>• Biểu đồ trực quan cho hành trình sức khoẻ của bạn</Text>
                 </View>
             </View>
 
             {/* Tech Stack */}
             <View style={s.card}>
-                <Text style={s.sectionTitle}>🧬 Powered By</Text>
+                <Text style={s.sectionTitle}>🧬 Công nghệ được sử dụng</Text>
+
                 <View style={s.stackList}>
                     <View style={s.stackItem}>
                         <Ionicons name="logo-react" size={22} color="#6C63FF"/>
                         <Text style={s.stackText}>React Native (Expo SDK 54)</Text>
                     </View>
+
                     <View style={s.stackItem}>
                         <Ionicons name="leaf-outline" size={22} color="#3EB489"/>
                         <Text style={s.stackText}>Spring Boot API</Text>
                     </View>
+
                     <View style={s.stackItem}>
                         <Ionicons name="server-outline" size={22} color="#FFB74D"/>
-                        <Text style={s.stackText}>MySQL Database</Text>
+                        <Text style={s.stackText}>Cơ sở dữ liệu MySQL</Text>
                     </View>
+
                     <View style={s.stackItem}>
                         <Ionicons name="lock-closed-outline" size={22} color="#6C63FF"/>
-                        <Text style={s.stackText}>JWT Secure Authentication</Text>
+                        <Text style={s.stackText}>Xác thực bảo mật JWT</Text>
                     </View>
                 </View>
             </View>
