@@ -15,20 +15,16 @@ public class NetworkUtils {
             while (interfaces.hasMoreElements()) {
                 NetworkInterface iface = interfaces.nextElement();
 
-                String name = iface.getDisplayName().toLowerCase();
-
-                if (
-                        !iface.isUp() ||
-                                iface.isLoopback() ||
-                                iface.isVirtual() ||
-                                !(name.contains("wi-fi") || name.contains("wlan") || name.contains("wireless"))
-                ) continue;
+                // Bỏ qua loopback, virtual, docker, VM...
+                if (!iface.isUp() || iface.isLoopback() || iface.isVirtual())
+                    continue;
 
                 var addresses = iface.getInetAddresses();
                 while (addresses.hasMoreElements()) {
                     var addr = addresses.nextElement();
 
-                    if (!addr.isLoopbackAddress() && addr.isSiteLocalAddress()) {
+                    // Lấy IPv4
+                    if (addr instanceof java.net.Inet4Address && !addr.isLoopbackAddress()) {
                         return addr.getHostAddress();
                     }
                 }
